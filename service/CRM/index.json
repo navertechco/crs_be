@@ -1,0 +1,572 @@
+{
+    "name": "ECB",
+    "classes": [
+        {
+            "classname": "User",
+            "attributes": {
+                "self.user_id": "",
+                "self.user_type": "",
+                "self.props": ""
+            },
+            "methods": [{
+                "name": "SingIn",
+                "method": "POST",
+                "doc": "Method Documentation",
+                "inputs": [
+                    "username",
+                    "password"
+                ]
+            },
+            {
+                "name": "Register",
+                "method": "POST",
+                "doc": "Method Documentation",
+                "inputs": [
+                    "username",
+                    "password"
+                ]
+            },
+            {
+                "name": "ResetPassword",
+                "method": "POST",
+                "doc": "Method Documentation",
+                "inputs": [
+                    "username"
+                ]
+            },
+            {
+                "name": "ForgotUsername",
+                "method": "POST",
+                "doc": "Method Documentation",
+                "inputs": [
+                    "email"
+                ]
+            },
+            {
+                "name": "ForgotPassword",
+                "method": "POST",
+                "doc": "Method Documentation",
+                "inputs": [
+                    "email"
+                ]
+            },
+            {
+                "name": "Logout",
+                "method": "POST",
+                "doc": "Method Documentation",
+                "inputs": []
+            }
+        ]
+        },
+        {
+            "classname": "Agent",
+            "attributes": {
+                "self.agent_id": "",
+                "self.agent_type": "",
+                "self.props": ""
+            },
+            "methods": [
+                
+                {
+                    "name": "CreateTour",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeleteTour",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "tour_id"
+                    ]
+                },
+                {
+                    "name": "GetTourDetail",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "tour_id"
+                    ]
+                },
+                {
+                    "name": "UpdateTour",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindTour",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "tour_id",
+                        "contact_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetTourList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                },
+                {
+                    "name": "CreatePoll",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeletePoll",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "poll_id"
+                    ]
+                },
+                {
+                    "name": "GetPollDetail",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "poll_id"
+                    ]
+                },
+                {
+                    "name": "UpdatePoll",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindPoll",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "poll_id",
+                        "contact_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetPollList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                }
+            ]
+        },
+        {
+            "classname": "ExpDeveloper",
+            "attributes": {
+                "self.expdev_id": "",
+                "self.expdev_type": "",
+                "self.props": ""
+            },
+            "methods": [
+                {
+                    "name": "CreateSupplier",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeleteSupplier",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "supplier_id"
+                    ]
+                },
+                {
+                    "name": "UpdateSupplier",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindSupplier",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "supplier_id",
+                        "contact_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetSupplierList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                },
+                {
+                    "name": "CreateDestiny",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeleteDestiny",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "destiny_id"
+                    ]
+                },
+                {
+                    "name": "GetDestinyDetail",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "destiny_id"
+                    ]
+                },
+                {
+                    "name": "UpdateDestiny",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindDestiny",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "destiny_id",
+                        "contact_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetDestinyList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                },
+                {
+                    "name": "CreateActivity",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeleteActivity",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "activity_id"
+                    ]
+                },
+                {
+                    "name": "GetActivityDetail",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "activity_id"
+                    ]
+                },
+                {
+                    "name": "UpdateActivity",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindActivity",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "activity_id",
+                        "contact_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetActivityList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                },
+                {
+                    "name": "CreateExperience",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeleteExperience",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "experience_id"
+                    ]
+                },
+                {
+                    "name": "GetExperienceDetail",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "experience_id"
+                    ]
+                },
+                {
+                    "name": "UpdateExperience",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindExperience",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "experience_id",
+                        "contact_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetExperienceList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                },
+                {
+                    "name": "CreateVideo",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeleteVideo",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "video_id"
+                    ]
+                },
+                {
+                    "name": "UpdateVideo",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindVideo",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "video_id",
+                        "contact_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetVideoList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                }
+            ]
+        },
+        {
+            "classname": "TravelExpert",
+            "attributes": {
+                "self.travexp_id": "",
+                "self.travexp_type": "",
+                "self.props": ""
+            },
+            "methods": [
+                {
+                    "name": "CreateUpSelling",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeleteUpSelling",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "upselling_id"
+                    ]
+                },
+                {
+                    "name": "GetUpSellingDetail",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "upselling_id"
+                    ]
+                },
+                {
+                    "name": "UpdateUpSelling",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindUpSelling",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "upselling_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetUpSellingList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                },
+                {
+                    "name": "CreateQuote",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeleteQuote",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "quote_id"
+                    ]
+                },
+                {
+                    "name": "GetQuoteDetail",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "quote_id"
+                    ]
+                },
+                {
+                    "name": "UpdateQuote",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindQuote",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "quote_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetQuoteList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                },
+                {
+                    "name": "CancelTour",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "tour_id"
+                    ]
+                }
+            ]
+        },
+        {
+            "classname": "Admin",
+            "attributes": {
+                "self.admin_id": "",
+                "self.admin_type": "",
+                "self.props": ""
+            },
+            "methods": [
+                {
+                    "name": "CreateUser",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "DeleteUser",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "user_id"
+                    ]
+                },
+                {
+                    "name": "GetUserDetail",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "user_id"
+                    ]
+                },
+                {
+                    "name": "UpdateUser",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "data"
+                    ]
+                },
+                {
+                    "name": "FindUser",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": [
+                        "user_id",
+                        "props"
+                    ]
+                },
+                {
+                    "name": "GetUserList",
+                    "method": "POST",
+                    "doc": "Method Documentation",
+                    "inputs": []
+                }
+            ]
+        }
+    ]
+}

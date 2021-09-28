@@ -5,140 +5,260 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from django.db import models
+from django.db import models 
+from .catalogs import * 
+import json
+import logging   
 
-
-class Answer(models.Model):
-    id_answer = models.AutoField(primary_key=True)
-    answer_text = models.CharField(max_length=128)
-    is_correct = models.BooleanField()
-    id_question_fk = models.ForeignKey('Question', models.CASCADE, db_column='id_question_fk')
-
-    class Meta:
-        managed = False
-        db_table = 'answer'
-    def __str__(self):
-        return str(self.answer_text)
-
-class DetailCatalogue(models.Model):
-    id_master_catalogue_fk = models.ForeignKey('MasterCatalogue', models.CASCADE, db_column='id_master_catalogue_fk')
-    order = models.BigIntegerField()
-    description = models.CharField(max_length=64)
-    id_detail_catalogue = models.AutoField(primary_key=True)
+logger = logging.getLogger(__name__)
+ 
+ 
+ 
+class Activity(models.Model):
+    id_activity = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_media_fk = models.ForeignKey('Media', models.DO_NOTHING, db_column='id_media_fk')
+    activity_type_fk = models.BigIntegerField()
+    id_schedule_fk = models.ForeignKey('Schedule', models.DO_NOTHING, db_column='id_schedule_fk')
 
     class Meta:
         managed = False
-        db_table = 'detail_catalogue'
-    def __str__(self):
-        return str(self.description)
+        db_table = 'activity'
 
-class GameLog(models.Model):
-    id_game_log = models.AutoField(primary_key=True)
-    id_gamer_fk = models.ForeignKey('GamerTournament', models.CASCADE, db_column='id_gamer_fk')
-    id_tournament_fk = models.BigIntegerField()
-    id_question_fk = models.ForeignKey('Question', models.CASCADE, db_column='id_question_fk')
-    id_answer_fk = models.ForeignKey(Answer, models.CASCADE, db_column='id_answer_fk')
-    is_valid = models.BooleanField()
+
+class Budget(models.Model):
+    id_budget = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
 
     class Meta:
         managed = False
-        db_table = 'game_log'
-    def __str__(self):
-        return str(self.id_game_log)
+        db_table = 'budget'
 
-class Gamer(models.Model):
-    identification = models.CharField(primary_key=True, max_length=15)
-    username = models.CharField(max_length=64)
-    surname = models.CharField(max_length=64)
-    lastname = models.CharField(max_length=64)
-    email = models.CharField(max_length=64)
-    phone = models.CharField(max_length=64)
-    credits = models.BigIntegerField()  # This field type is a guess.
-    loginstate = models.BigIntegerField()
-    user_type_fk = models.ForeignKey(DetailCatalogue, models.CASCADE, db_column='user_type_fk')
 
-    class Meta:
-        managed = False
-        db_table = 'gamer'
-    def __str__(self):
-        return str(self.username)
-
-class GamerTournament(models.Model):
-    id_gamer_fk = models.OneToOneField(Gamer, models.CASCADE, db_column='id_gamer_fk', primary_key=True)
-    id_tournament_fk = models.ForeignKey('Tournament', models.CASCADE, db_column='id_tournament_fk')
-
-    class Meta:
-        managed = False
-        db_table = 'gamer_tournament'
-        unique_together = (('id_gamer_fk', 'id_tournament_fk'),)
-    def __str__(self):
-        return str(self.id_gamer_fk)+'-'+str(self.id_gamer_fk)
-
-class MasterCatalogue(models.Model):
-    id_master_catalogue = models.AutoField(primary_key=True)
+class Catalogue(models.Model):
+    id_catalogue = models.AutoField(primary_key=True)
     name = models.CharField(max_length=16)
     description = models.CharField(max_length=64)
 
     class Meta:
         managed = False
-        db_table = 'master_catalogue'
+        db_table = 'catalogue'
+        
     def __str__(self):
-        return str(self.name)
+        return self.name
+    def __int__(self):
+        return self.id_catalogue
 
-class Purchases(models.Model):
-    id_purchase = models.AutoField(primary_key=True)
-    id_gamer_fk = models.ForeignKey(Gamer, models.CASCADE, db_column='id_gamer_fk')
-    purchase_date = models.DateTimeField()
-    num_credits = models.BigIntegerField()
-    payment_type_fk = models.ForeignKey(DetailCatalogue, models.CASCADE, db_column='payment_type_fk')
-
-    class Meta:
-        managed = False
-        db_table = 'purchases'
-    def __str__(self):
-        return str(self.id_purchase)
-
-class Question(models.Model):
-    id_question = models.AutoField(primary_key=True)
-    question_text = models.CharField(max_length=128)
-    id_tournament_subject_fk = models.ForeignKey('TournamentSubject', models.CASCADE, db_column='id_tournament_subject_fk')
-
-    class Meta:
-        managed = False
-        db_table = 'question'
-    def __str__(self):
-        return str(self.question_text)
-
-class Tournament(models.Model):
-    id_tournament = models.AutoField(primary_key=True)
-    id_tournament_subject_fk = models.ForeignKey('TournamentSubject', models.CASCADE, db_column='id_tournament_subject_fk')
-    game_date = models.DateField()
-    game_start = models.DateTimeField()
-    game_end = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'tournament'
-    def __str__(self):
-        return str(self.id_tournament)
-
-class TournamentSubject(models.Model):
-    id_tournament_subject = models.AutoField(primary_key=True)
+class CatalogueDetail(models.Model):
+    id_catalogue_fk = models.ForeignKey(Catalogue, models.DO_NOTHING, db_column='id_catalogue_fk')
+    order = models.BigIntegerField()
     description = models.CharField(max_length=64)
+    id_catalogue_detail = models.AutoField(primary_key=True)
 
     class Meta:
         managed = False
-        db_table = 'tournament_subject'
-    def __str__(self) -> str:
-        return str(self.description)
-
-class Winner(models.Model):
-    id_gamer_fk = models.ForeignKey(Gamer, models.CASCADE, db_column='id_gamer_fk')
-    id_tournament_fk = models.ForeignKey(Tournament, models.CASCADE, db_column='id_tournament_fk')
-    position = models.BigIntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'winner'
+        db_table = 'catalogue_detail'
     def __str__(self):
-        return str(self.id_gamer_fk)
+        return self.description
+    def __int__(self):
+        return self.id_catalogue_detail
+
+class Contact(models.Model):
+    id_contact = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    contact_state_fk = models.BigIntegerField()
+    contact_type_fk = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'contact'
+
+
+class Destiny(models.Model):
+    id_destiny = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_media_fk = models.ForeignKey('Media', models.DO_NOTHING, db_column='id_media_fk')
+    id_schedule_fk = models.ForeignKey('Schedule', models.DO_NOTHING, db_column='id_schedule_fk')
+
+    class Meta:
+        managed = False
+        db_table = 'destiny'
+
+
+class Experience(models.Model):
+    id_experience = models.AutoField(primary_key=True)
+    props = str(models.JSONField(default=dict, blank=True))
+
+    class Meta:
+        managed = False
+        db_table = 'experience'
+    def __str__(self):
+        return str(json.dumps(self.id_experience))
+
+    def clean(self, *args, **kwargs):
+        if self.props is None:
+            self.props = "{}"
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+class ExperienceDetail(models.Model):
+    id_experience_detail = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_destiny_fk = models.ForeignKey(Destiny, models.DO_NOTHING, db_column='id_destiny_fk')
+    id_activity_fk = models.ForeignKey(Activity, models.DO_NOTHING, db_column='id_activity_fk')
+    id_experience_fk = models.ForeignKey(Experience, models.DO_NOTHING, db_column='id_experience_fk')
+    id_schedule_fk = models.ForeignKey('Schedule', models.DO_NOTHING, db_column='id_schedule_fk')
+
+    class Meta:
+        managed = False
+        db_table = 'experience_detail'
+
+
+class Media(models.Model):
+    id_media = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'media'
+
+
+class Opportunity(models.Model):
+    id_opportunity = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_salesman_fk = models.ForeignKey('User', models.DO_NOTHING, db_column='id_salesman_fk')
+    id_contact_fk = models.ForeignKey(Contact, models.DO_NOTHING, db_column='id_contact_fk')
+    id_quote_fk = models.ForeignKey('Quote', models.DO_NOTHING, db_column='id_quote_fk')
+    id_budget_fk = models.ForeignKey(Budget, models.DO_NOTHING, db_column='id_budget_fk')
+    status_type_fk = models.BigIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'opportunity'
+
+
+class Problem(models.Model):
+    id_problem = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_experience = models.ForeignKey(Experience, models.DO_NOTHING, db_column='id_experience')
+
+    class Meta:
+        managed = False
+        db_table = 'problem'
+
+
+class ProblemDetail(models.Model):
+    id_problem_detail = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_problem_fk = models.ForeignKey(Problem, models.DO_NOTHING, db_column='id_problem_fk')
+    problem_type_fk = models.BigIntegerField()
+    is_compensable = models.BooleanField()
+    compensation_type_fk = models.BigIntegerField()
+    compensation_amount = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'problem_detail'
+
+
+class Product(models.Model):
+    id_product = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_supplier_fk = models.ForeignKey('Supplier', models.DO_NOTHING, db_column='id_supplier_fk')
+
+    class Meta:
+        managed = False
+        db_table = 'product'
+
+
+class Promo(models.Model):
+    id_promo = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+
+    class Meta:
+        managed = False
+        db_table = 'promo'
+
+
+class PromoDetail(models.Model):
+    id_promo_detail = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_promo_fk = models.ForeignKey(Promo, models.DO_NOTHING, db_column='id_promo_fk')
+    id_product_fk = models.ForeignKey(Product, models.DO_NOTHING, db_column='id_product_fk', blank=True, null=True)
+    id_service_fk = models.ForeignKey('Service', models.DO_NOTHING, db_column='id_service_fk', blank=True, null=True)
+    discount = models.BigIntegerField()
+    promo_type_fk = models.BigIntegerField()
+    id_experience_fk = models.ForeignKey(Experience, models.DO_NOTHING, db_column='id_experience_fk')
+
+    class Meta:
+        managed = False
+        db_table = 'promo_detail'
+
+
+class Quote(models.Model):
+    id_quote = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    quote_type_fk = models.BigIntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'quote'
+
+
+class QuoteDetail(models.Model):
+    id_quote_detail = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_quote_fk = models.ForeignKey(Quote, models.DO_NOTHING, db_column='id_quote_fk')
+    id_experience_fk = models.ForeignKey(Experience, models.DO_NOTHING, db_column='id_experience_fk')
+
+    class Meta:
+        managed = False
+        db_table = 'quote_detail'
+
+
+class Schedule(models.Model):
+    id_schedule = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    created = models.DateTimeField()
+    updated = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'schedule'
+
+
+class Service(models.Model):
+    id_service = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_supplier_fk = models.ForeignKey('Supplier', models.DO_NOTHING, db_column='id_supplier_fk')
+
+    class Meta:
+        managed = False
+        db_table = 'service'
+
+
+class Supplier(models.Model):
+    id_supplier = models.AutoField(primary_key=True)
+    props = models.JSONField(default=dict, blank=True)
+    id_supplier_type_fk = models.BigIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'supplier'
+
+
+class User(models.Model):
+
+    id_user = models.CharField(primary_key=True, max_length=15)
+    props = models.JSONField(default=dict, blank=True)
+    id_user_type_fk = models.IntegerField( 
+        choices=UserType.choices,
+        default=UserType.Admin,
+    )
+
+    class Meta:
+        managed = False
+        db_table = 'user'
+ 

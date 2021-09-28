@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'codemirror',
     'codemirror2',
+     'prettyjson',
     'pantalla'
 ]
 
@@ -90,7 +91,7 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'TRIVIA',
+        'NAME': 'CRS',
 
         'USER': 'postgres',
 
@@ -102,7 +103,12 @@ DATABASES = {
 
     }
 }
+ 
+# DATABASE_ROUTERS = [
+#     "PostgresRouter", 
+# ]
 
+# POSTGRES_DB_ROUTER = "postgres"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

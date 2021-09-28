@@ -1,18 +1,13 @@
 from django.contrib import admin
 from .models import *
 from django.forms import widgets
-from django.contrib.postgres.fields import JSONField
-from prettyjson import PrettyJSONWidget
-
+from django.contrib.postgres.fields import JSONField 
 
 class MultiDBModelAdmin(admin.ModelAdmin):
     # A handy constant for the name of the alternate database.
-    using = 'postgres'
+    using = 'default'
 
-    formfield_overrides = {
-        JSONField: {'props': PrettyJSONWidget}
-    }
-
+ 
     def save_model(self, request, obj, form, change):
         # Tell Django to save objects to the 'postgres' database.
         obj.save(using=self.using)

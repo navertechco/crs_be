@@ -1,7 +1,7 @@
 from flask import request
-from flask_restplus import Namespace, Resource
+from flask_restx import Namespace, Resource
 from flask import Flask
-# from flask_restplus import Api
+# from flask_restx import Api
 # from .routes import routes
 
 app = Flask(__name__)

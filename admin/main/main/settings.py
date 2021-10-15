@@ -38,9 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_json_widget',
     'codemirror',
     'codemirror2',
-     'prettyjson',
+    'prettyjson',
     'pantalla'
 ]
 
@@ -103,9 +104,9 @@ DATABASES = {
 
     }
 }
- 
+
 # DATABASE_ROUTERS = [
-#     "PostgresRouter", 
+#     "PostgresRouter",
 # ]
 
 # POSTGRES_DB_ROUTER = "postgres"

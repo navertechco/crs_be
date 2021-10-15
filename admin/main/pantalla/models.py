@@ -5,30 +5,15 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from django.db import models 
-from .catalogs import * 
-import json
-import logging   
-
-logger = logging.getLogger(__name__)
- 
- 
- 
-class Activity(models.Model):
-    id_activity = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_media_fk = models.ForeignKey('Media', models.DO_NOTHING, db_column='id_media_fk')
-    activity_type_fk = models.BigIntegerField()
-    id_schedule_fk = models.ForeignKey('Schedule', models.DO_NOTHING, db_column='id_schedule_fk')
-
-    class Meta:
-        managed = False
-        db_table = 'activity'
+from django.db import models
 
 
 class Budget(models.Model):
     id_budget = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
 
     class Meta:
         managed = False
@@ -37,145 +22,172 @@ class Budget(models.Model):
 
 class Catalogue(models.Model):
     id_catalogue = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=16)
     description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
 
     class Meta:
         managed = False
         db_table = 'catalogue'
-        
-    def __str__(self):
-        return self.name
-    def __int__(self):
-        return self.id_catalogue
+
 
 class CatalogueDetail(models.Model):
-    id_catalogue_fk = models.ForeignKey(Catalogue, models.DO_NOTHING, db_column='id_catalogue_fk')
-    order = models.BigIntegerField()
-    description = models.CharField(max_length=64)
     id_catalogue_detail = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_catalogue = models.ForeignKey(Catalogue, models.CASCADE, db_column='id_catalogue')
 
     class Meta:
         managed = False
         db_table = 'catalogue_detail'
-    def __str__(self):
-        return self.description
-    def __int__(self):
-        return self.id_catalogue_detail
-
-class Contact(models.Model):
-    id_contact = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    contact_state_fk = models.BigIntegerField()
-    contact_type_fk = models.BigIntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'contact'
 
 
-class Destiny(models.Model):
-    id_destiny = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_media_fk = models.ForeignKey('Media', models.DO_NOTHING, db_column='id_media_fk')
-    id_schedule_fk = models.ForeignKey('Schedule', models.DO_NOTHING, db_column='id_schedule_fk')
+class Client(models.Model):
+    id_client = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_legal_client_type = models.ForeignKey('LegalClientType', models.CASCADE, db_column='id_legal_client_type')
+    id_client_type = models.ForeignKey('ClientType', models.CASCADE, db_column='id_client_type')
+    id_budget = models.ForeignKey(Budget, models.CASCADE, db_column='id_budget')
 
     class Meta:
         managed = False
-        db_table = 'destiny'
+        db_table = 'client'
 
 
-class Experience(models.Model):
-    id_experience = models.AutoField(primary_key=True)
-    props = str(models.JSONField(default=dict, blank=True))
-
-    class Meta:
-        managed = False
-        db_table = 'experience'
-    def __str__(self):
-        return str(json.dumps(self.id_experience))
-
-    def clean(self, *args, **kwargs):
-        if self.props is None:
-            self.props = "{}"
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
-class ExperienceDetail(models.Model):
-    id_experience_detail = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_destiny_fk = models.ForeignKey(Destiny, models.DO_NOTHING, db_column='id_destiny_fk')
-    id_activity_fk = models.ForeignKey(Activity, models.DO_NOTHING, db_column='id_activity_fk')
-    id_experience_fk = models.ForeignKey(Experience, models.DO_NOTHING, db_column='id_experience_fk')
-    id_schedule_fk = models.ForeignKey('Schedule', models.DO_NOTHING, db_column='id_schedule_fk')
+class ClientType(models.Model):
+    id_client_type = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
 
     class Meta:
         managed = False
-        db_table = 'experience_detail'
+        db_table = 'client_type'
+
+
+class Delimiter(models.Model):
+    id_delimiter = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+
+    class Meta:
+        managed = False
+        db_table = 'delimiter'
+
+
+class Destination(models.Model):
+    id_destination = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+
+    class Meta:
+        managed = False
+        db_table = 'destination'
+
+
+class DestinationService(models.Model):
+    id_destination = models.ForeignKey(Destination, models.CASCADE, db_column='id_destination')
+    id_service = models.ForeignKey('Service', models.CASCADE, db_column='id_service')
+    id_destination_service = models.AutoField(primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'destination_service'
+
+
+class KeyActivity(models.Model):
+    id_key_activity = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+
+    class Meta:
+        managed = False
+        db_table = 'key_activity'
+
+
+class LegalClientType(models.Model):
+    id_legal_client_type = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+
+    class Meta:
+        managed = False
+        db_table = 'legal_client_type'
 
 
 class Media(models.Model):
     id_media = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_media_type = models.ForeignKey('MediaType', models.CASCADE, db_column='id_media_type')
+    id_destination_service = models.ForeignKey(DestinationService, models.CASCADE, db_column='id_destination_service')
 
     class Meta:
         managed = False
         db_table = 'media'
 
 
-class Opportunity(models.Model):
-    id_opportunity = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_salesman_fk = models.ForeignKey('User', models.DO_NOTHING, db_column='id_salesman_fk')
-    id_contact_fk = models.ForeignKey(Contact, models.DO_NOTHING, db_column='id_contact_fk')
-    id_quote_fk = models.ForeignKey('Quote', models.DO_NOTHING, db_column='id_quote_fk')
-    id_budget_fk = models.ForeignKey(Budget, models.DO_NOTHING, db_column='id_budget_fk')
-    status_type_fk = models.BigIntegerField(blank=True, null=True)
+class MediaType(models.Model):
+    id_media_type = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
 
     class Meta:
         managed = False
-        db_table = 'opportunity'
+        db_table = 'media_type'
 
 
-class Problem(models.Model):
-    id_problem = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_experience = models.ForeignKey(Experience, models.DO_NOTHING, db_column='id_experience')
-
-    class Meta:
-        managed = False
-        db_table = 'problem'
-
-
-class ProblemDetail(models.Model):
-    id_problem_detail = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_problem_fk = models.ForeignKey(Problem, models.DO_NOTHING, db_column='id_problem_fk')
-    problem_type_fk = models.BigIntegerField()
-    is_compensable = models.BooleanField()
-    compensation_type_fk = models.BigIntegerField()
-    compensation_amount = models.BigIntegerField()
+class Playlist(models.Model):
+    id_playlist = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_playlist_state = models.ForeignKey('PlaylistState', models.CASCADE, db_column='id_playlist_state')
+    id_destination_service = models.ForeignKey(DestinationService, models.CASCADE, db_column='id_destination_service')
 
     class Meta:
         managed = False
-        db_table = 'problem_detail'
+        db_table = 'playlist'
 
 
-class Product(models.Model):
-    id_product = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_supplier_fk = models.ForeignKey('Supplier', models.DO_NOTHING, db_column='id_supplier_fk')
+class PlaylistState(models.Model):
+    id_playlist_state = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
 
     class Meta:
         managed = False
-        db_table = 'product'
+        db_table = 'playlist_state'
 
 
 class Promo(models.Model):
     id_promo = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
 
     class Meta:
         managed = False
@@ -184,23 +196,39 @@ class Promo(models.Model):
 
 class PromoDetail(models.Model):
     id_promo_detail = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_promo_fk = models.ForeignKey(Promo, models.DO_NOTHING, db_column='id_promo_fk')
-    id_product_fk = models.ForeignKey(Product, models.DO_NOTHING, db_column='id_product_fk', blank=True, null=True)
-    id_service_fk = models.ForeignKey('Service', models.DO_NOTHING, db_column='id_service_fk', blank=True, null=True)
-    discount = models.BigIntegerField()
-    promo_type_fk = models.BigIntegerField()
-    id_experience_fk = models.ForeignKey(Experience, models.DO_NOTHING, db_column='id_experience_fk')
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_promo = models.ForeignKey(Promo, models.CASCADE, db_column='id_promo')
 
     class Meta:
         managed = False
         db_table = 'promo_detail'
 
 
+class Purpouse(models.Model):
+    id_purpouse = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+
+    class Meta:
+        managed = False
+        db_table = 'purpouse'
+
+
 class Quote(models.Model):
     id_quote = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    quote_type_fk = models.BigIntegerField()
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_quote_state = models.ForeignKey('QuoteState', models.CASCADE, db_column='id_quote_state')
+    id_client = models.ForeignKey(Client, models.CASCADE, db_column='id_client')
+    id_agent_user = models.ForeignKey('User', models.CASCADE, db_column='id_agent_user')
+    id_travelexper_user = models.BigIntegerField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
         managed = False
@@ -209,56 +237,127 @@ class Quote(models.Model):
 
 class QuoteDetail(models.Model):
     id_quote_detail = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_quote_fk = models.ForeignKey(Quote, models.DO_NOTHING, db_column='id_quote_fk')
-    id_experience_fk = models.ForeignKey(Experience, models.DO_NOTHING, db_column='id_experience_fk')
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_quote = models.ForeignKey(Quote, models.CASCADE, db_column='id_quote')
+    id_promo = models.ForeignKey(Promo, models.CASCADE, db_column='id_promo')
 
     class Meta:
         managed = False
         db_table = 'quote_detail'
 
 
-class Schedule(models.Model):
-    id_schedule = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    created = models.DateTimeField()
-    updated = models.DateTimeField(blank=True, null=True)
+class QuoteState(models.Model):
+    id_quote_state = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_destination_service = models.ForeignKey(DestinationService, models.CASCADE, db_column='id_destination_service')
 
     class Meta:
         managed = False
-        db_table = 'schedule'
+        db_table = 'quote_state'
 
 
 class Service(models.Model):
     id_service = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_supplier_fk = models.ForeignKey('Supplier', models.DO_NOTHING, db_column='id_supplier_fk')
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_budget = models.ForeignKey(Budget, models.CASCADE, db_column='id_budget')
+    id_service_type = models.ForeignKey('ServiceType', models.CASCADE, db_column='id_service_type')
 
     class Meta:
         managed = False
         db_table = 'service'
 
 
+class ServiceDetail(models.Model):
+    id_service_detail = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_service = models.ForeignKey(Service, models.CASCADE, db_column='id_service')
+    id_delimiter = models.ForeignKey(Delimiter, models.CASCADE, db_column='id_delimiter')
+    id_travle_ritm = models.ForeignKey('TravelRitm', models.CASCADE, db_column='id_travle_ritm')
+    id_purpouse = models.ForeignKey(Purpouse, models.CASCADE, db_column='id_purpouse')
+    id_key_activity = models.ForeignKey(KeyActivity, models.CASCADE, db_column='id_key_activity')
+
+    class Meta:
+        managed = False
+        db_table = 'service_detail'
+
+
+class ServiceSupplier(models.Model):
+    id_service = models.ForeignKey(Service, models.CASCADE, db_column='id_service')
+    id_supplier = models.ForeignKey('Supplier', models.CASCADE, db_column='id_supplier')
+
+    class Meta:
+        managed = False
+        db_table = 'service_supplier'
+
+
+class ServiceType(models.Model):
+    id_service_type = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+
+    class Meta:
+        managed = False
+        db_table = 'service_type'
+
+
 class Supplier(models.Model):
     id_supplier = models.AutoField(primary_key=True)
-    props = models.JSONField(default=dict, blank=True)
-    id_supplier_type_fk = models.BigIntegerField(blank=True, null=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    id_supplier_type = models.ForeignKey('SupplierType', models.CASCADE, db_column='id_supplier_type')
 
     class Meta:
         managed = False
         db_table = 'supplier'
 
 
-class User(models.Model):
+class SupplierType(models.Model):
+    id_supplier_type = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
 
-    id_user = models.CharField(primary_key=True, max_length=15)
-    props = models.JSONField(default=dict, blank=True)
-    id_user_type_fk = models.IntegerField( 
-        choices=UserType.choices,
-        default=UserType.Admin,
-    )
+    class Meta:
+        managed = False
+        db_table = 'supplier_type'
+
+
+class TravelRitm(models.Model):
+    id_travel_ritm = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
+
+    class Meta:
+        managed = False
+        db_table = 'travel_ritm'
+
+
+class User(models.Model):
+    id_user = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    created = models.DateTimeField(editable=False)
+    updated = models.DateTimeField(editable=False)
 
     class Meta:
         managed = False
         db_table = 'user'
- 

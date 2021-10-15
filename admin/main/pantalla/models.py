@@ -51,6 +51,7 @@ class Client(models.Model):
     props = models.TextField(blank=True, null=True)  # This field type is a guess.
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField(editable=False)
+    dni = models.CharField(max_length=32, unique=True)
     id_legal_client_type = models.ForeignKey('LegalClientType', models.CASCADE, db_column='id_legal_client_type')
     id_client_type = models.ForeignKey('ClientType', models.CASCADE, db_column='id_client_type')
     id_budget = models.ForeignKey(Budget, models.CASCADE, db_column='id_budget')

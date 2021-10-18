@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_json_widget',
+    'django_json_widget', 
     'codemirror',
     'codemirror2',
     'prettyjson',

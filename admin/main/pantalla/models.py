@@ -3,61 +3,76 @@
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+#   * Remove `managed = True` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.core.exceptions import ValidationError
+
+
+def validate_decimals(value):
+    try:
+        return round(float(value), 2)
+    except:
+        raise ValidationError(
+            _('%(value)s is not an integer or a float  number'),
+            params={'value': value},
+        )
 
 
 class Budget(models.Model):
     id_budget = models.AutoField(primary_key=True)
     description = models.CharField(max_length=64)
-    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # This field type is a guess.
+    props = models.TextField(blank=True, null=True)
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'budget'
 
 
 class Catalogue(models.Model):
     id_catalogue = models.AutoField(primary_key=True)
     description = models.CharField(max_length=64)
-    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # This field type is a guess.
+    props = models.TextField(blank=True, null=True)
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'catalogue'
 
 
 class CatalogueDetail(models.Model):
     id_catalogue_detail = models.AutoField(primary_key=True)
     description = models.CharField(max_length=64)
-    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # This field type is a guess.
+    props = models.TextField(blank=True, null=True)
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField(editable=False)
-    id_catalogue = models.ForeignKey(Catalogue, models.CASCADE, db_column='id_catalogue')
+    id_catalogue = models.ForeignKey(
+        Catalogue, models.CASCADE, db_column='id_catalogue')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'catalogue_detail'
-
-
+ 
 class Client(models.Model):
     id_client = models.AutoField(primary_key=True)
+    dni = models.CharField(max_length=64, unique=True, null=True, default="")
+    is_owner = models.BooleanField(default=False, null=False)
     description = models.CharField(max_length=64)
     props = models.TextField(blank=True, null=True)  # This field type is a guess.
     created = models.DateTimeField(editable=False)
-    updated = models.DateTimeField(editable=False)
-    dni = models.CharField(max_length=32, unique=True)
+    updated = models.DateTimeField(editable=False) 
     id_legal_client_type = models.ForeignKey('LegalClientType', models.CASCADE, db_column='id_legal_client_type')
     id_client_type = models.ForeignKey('ClientType', models.CASCADE, db_column='id_client_type')
     id_budget = models.ForeignKey(Budget, models.CASCADE, db_column='id_budget')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'client'
 
 
@@ -69,7 +84,7 @@ class ClientType(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'client_type'
 
 
@@ -81,7 +96,7 @@ class Delimiter(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'delimiter'
 
 
@@ -93,7 +108,7 @@ class Destination(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'destination'
 
 
@@ -103,7 +118,7 @@ class DestinationService(models.Model):
     id_destination_service = models.AutoField(primary_key=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'destination_service'
 
 
@@ -115,7 +130,7 @@ class KeyActivity(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'key_activity'
 
 
@@ -127,7 +142,7 @@ class LegalClientType(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'legal_client_type'
 
 
@@ -141,7 +156,7 @@ class Media(models.Model):
     id_destination_service = models.ForeignKey(DestinationService, models.CASCADE, db_column='id_destination_service')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'media'
 
 
@@ -153,7 +168,7 @@ class MediaType(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'media_type'
 
 
@@ -167,7 +182,7 @@ class Playlist(models.Model):
     id_destination_service = models.ForeignKey(DestinationService, models.CASCADE, db_column='id_destination_service')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'playlist'
 
 
@@ -179,7 +194,7 @@ class PlaylistState(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'playlist_state'
 
 
@@ -191,20 +206,21 @@ class Promo(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'promo'
 
 
 class PromoDetail(models.Model):
     id_promo_detail = models.AutoField(primary_key=True)
     description = models.CharField(max_length=64)
+    discount = models.FloatField(max_length=8, null=False, default=0, validators=[validate_decimals])
     props = models.TextField(blank=True, null=True)  # This field type is a guess.
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField(editable=False)
     id_promo = models.ForeignKey(Promo, models.CASCADE, db_column='id_promo')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'promo_detail'
 
 
@@ -216,29 +232,31 @@ class Purpouse(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'purpouse'
 
 
 class Quote(models.Model):
     id_quote = models.AutoField(primary_key=True)
     description = models.CharField(max_length=64)
+    pax = models.IntegerField(max_length=4, null=False, default=1)
     props = models.TextField(blank=True, null=True)  # This field type is a guess.
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField(editable=False)
-    id_quote_state = models.ForeignKey('QuoteState', models.CASCADE, db_column='id_quote_state')
+    id_quote_state = models.ForeignKey('QuoteState', models.CASCADE, db_column='id_quote_state', default=1)
     id_client = models.ForeignKey(Client, models.CASCADE, db_column='id_client')
     id_agent_user = models.ForeignKey('User', models.CASCADE, db_column='id_agent_user')
     id_travelexper_user = models.BigIntegerField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'quote'
 
 
 class QuoteDetail(models.Model):
     id_quote_detail = models.AutoField(primary_key=True)
     description = models.CharField(max_length=64)
+    amount = models.FloatField(max_length=8, null=False, default=0, validators=[validate_decimals])
     props = models.TextField(blank=True, null=True)  # This field type is a guess.
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField(editable=False)
@@ -246,7 +264,7 @@ class QuoteDetail(models.Model):
     id_promo = models.ForeignKey(Promo, models.CASCADE, db_column='id_promo')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'quote_detail'
 
 
@@ -259,7 +277,7 @@ class QuoteState(models.Model):
     id_destination_service = models.ForeignKey(DestinationService, models.CASCADE, db_column='id_destination_service')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'quote_state'
 
 
@@ -273,7 +291,7 @@ class Service(models.Model):
     id_service_type = models.ForeignKey('ServiceType', models.CASCADE, db_column='id_service_type')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'service'
 
 
@@ -290,7 +308,7 @@ class ServiceDetail(models.Model):
     id_key_activity = models.ForeignKey(KeyActivity, models.CASCADE, db_column='id_key_activity')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'service_detail'
 
 
@@ -299,7 +317,7 @@ class ServiceSupplier(models.Model):
     id_supplier = models.ForeignKey('Supplier', models.CASCADE, db_column='id_supplier')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'service_supplier'
 
 
@@ -311,7 +329,7 @@ class ServiceType(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'service_type'
 
 
@@ -324,7 +342,7 @@ class Supplier(models.Model):
     id_supplier_type = models.ForeignKey('SupplierType', models.CASCADE, db_column='id_supplier_type')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'supplier'
 
 
@@ -336,7 +354,7 @@ class SupplierType(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'supplier_type'
 
 
@@ -348,7 +366,7 @@ class TravelRitm(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'travel_ritm'
 
 
@@ -360,5 +378,5 @@ class User(models.Model):
     updated = models.DateTimeField(editable=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'user'

@@ -3,12 +3,22 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..BSForgot import BSForgot
-import logging
+from naver_core import *
 
-def FSForgot(uemail):
+def FSForgot(input):
+    """Método para recuperar contraseña
+
+    Args:
+        input (dict): Diccionario con los datos de entrada.
+        
+    Returns:
+        json: Mensaje de respuesta en formato json.
+    """    
     try:
-        result = BSForgot(uemail)
-        return result
+        password = input.get('password')
+        confirmation = input.get('confirmation')
+        result = BSForgot(password, confirmation)
+        return Ok(result)
 
     except Exception as e:
-        logging.error(e)
+        return ErrorResponse(e) 

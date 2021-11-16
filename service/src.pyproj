@@ -7,11 +7,11 @@
     <ProjectGuid>b86c1ec1-4316-491c-b884-e0f13ca405b4</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <ProjectTypeGuids>{789894c7-04a9-4a11-a6b5-3f4435165112};{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
-    <StartupFile>main.py</StartupFile>
+    <StartupFile>runserver.py</StartupFile>
     <SearchPath>
     </SearchPath>
-    <WorkingDirectory>.</WorkingDirectory>
-    <LaunchProvider>Web launcher</LaunchProvider>
+    <WorkingDirectory>..\</WorkingDirectory>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
     <WebBrowserUrl>http://0.0.0.0</WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
@@ -23,7 +23,12 @@
     <UnitTestPattern>test*.py</UnitTestPattern>
     <UnitTestRootDirectory>.</UnitTestRootDirectory>
     <WebBrowserPort>5001</WebBrowserPort>
-    <InterpreterPath>C:\Users\Jose Cuevas\DEV\CRS\back\service\env\Scripts\python.exe</InterpreterPath>
+    <InterpreterPath>..\service\env\Scripts\python.exe </InterpreterPath>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
+    <InterpreterArguments>
+    </InterpreterArguments>
+    <Environment>FLASK_APP=src/runserver.py</Environment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,7 +39,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="main.py" />
+    <Compile Include="runserver.py" />
     <Compile Include="src\Admin\CreatePoP\BSCreatePoP\__init__.py" />
     <Compile Include="src\Admin\CreatePoP\DSCreatePoP\__init__.py" />
     <Compile Include="src\Admin\CreatePoP\FSCreatePoP\__init__.py" />

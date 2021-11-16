@@ -3,7 +3,7 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
     
-from .System import *
+from .System import System
 from .Admin import Admin
 from .TrvExp import TrvExp
 from .ExpDeveloper import ExpDeveloper

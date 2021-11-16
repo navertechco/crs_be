@@ -4,8 +4,9 @@ from flask import Flask, request
 from flask import render_template, make_response
 import os, json
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE = os.path.join(ROOT_DIR, os.path.abspath('service/assets/html/')) 
-STATIC = os.path.join(ROOT_DIR, os.path.abspath('service/assets/')) 
+TEMPLATE = os.path.join(ROOT_DIR, os.path.abspath('assets/html/')) 
+STATIC = os.path.join(ROOT_DIR, os.path.abspath('assets/')) 
+ENV = os.path.join(ROOT_DIR, os.path.abspath('.env')) 
 app = Flask(__name__, template_folder=TEMPLATE, static_folder=STATIC)
 api = Api(app) 
 from .recoveryform import RecoveryForm
@@ -15,6 +16,14 @@ from naver_web import *
 from naver_config import NaverConfig
 from naver_core import *
 import ast 
+ 
+from dotenv import load_dotenv
+from pathlib import Path
+ 
+
+dotenv_path = Path(ENV)
+load_dotenv(dotenv_path=dotenv_path)
+
 
 
 config = NaverConfig(app)

@@ -23,7 +23,7 @@ def DSConnect	(data):
     """
     try:
         stm = "SELECT 1" 
-        table = "GAMER"
+        table = "USER"
         res = nbd.persistence.getQuery(stm, table)
         return res  
 

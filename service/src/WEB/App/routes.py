@@ -68,6 +68,8 @@ def encrypted(function):
 
  
 #region user
+
+    
 from src.User.Connect import FSConnect
 @api.route('/User/Connect')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
@@ -289,4 +291,33 @@ class AssignTravelExpert(Resource):
         """
         data = request.get_json(force=True)
         return FSAssignTravelExpert(data) 
+#endregion
+
+
+#region Agent
+
+
+from src.Agent.Start import FSStart
+@api.route('/Agent/Start')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class Start(Resource):
+    def head(self):
+        """Método Inicial para conectar un usuario
+        Returns:
+            header: {"state":True/False, "data":salt}
+        """
+        res = FSStart(None)
+        return True, 201, {'token': removeBytePrefix(str(res))}
+    # @encrypted
+    def post(self):
+        """Método para conectar un usuario
+
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        data = request.get_json(force=True)
+        # return FSStart(decryptdata())
+        return FSStart(data)
+    
+
 #endregion

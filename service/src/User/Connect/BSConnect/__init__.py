@@ -8,7 +8,7 @@ from src.User.SignUp import BSSignUp
 from src.User.Reset import BSReset
 from src.System.ValidateUser import BSValidateUser
 from src.System.LogConnection import BSLogConnection
-from src.Gamer.UpdateProfile import BSUpdateProfile
+from src.User.UpdateProfile import BSUpdateProfile
 from naver_core import *
 from src.WEB.App.routes import app
 from naver_config import *

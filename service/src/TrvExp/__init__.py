@@ -22,12 +22,12 @@ from .EditOpportunity import EditOpportunity
 from .CreateOpportunity import CreateOpportunity
 from .ListOpportunityDetail import ListOpportunityDetail
 from .ListAllOpportunity import ListAllOpportunity
-from ..User import User
+
 try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-class TrvExp(User):
+class TrvExp():
     def __init__(self):
         self.ListAllOpportunity = ListAllOpportunity()
         self.ListOpportunityDetail = ListOpportunityDetail()

@@ -43,12 +43,12 @@ from .LogUser import LogUser
 from .ValidateUser import ValidateUser
 from .LogPoll import LogPoll
 from .ValidatePoll import ValidatePoll
-from ..User import User
+
 try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-class System(User):
+class System():
     def __init__(self):
         self.ValidatePoll = ValidatePoll()
         self.LogPoll = LogPoll()

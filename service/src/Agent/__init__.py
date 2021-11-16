@@ -7,12 +7,12 @@ from .CreateContact import CreateContact
 from .ListContactDetail import ListContactDetail
 from .ListAllContact import ListAllContact
 from .JoinPoll import JoinPoll
-from ..User import User
+
 try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-class Agent(User):
+class Agent():
     def __init__(self):
         self.JoinPoll = JoinPoll()
         self.ListAllContact = ListAllContact()

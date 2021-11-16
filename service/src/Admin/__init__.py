@@ -11,12 +11,12 @@ from .DeleteReport import DeleteReport
 from .DeletePoll import DeletePoll
 from .DeleteTour import DeleteTour
 from .DeleteSupplier import DeleteSupplier
-from ..User import User
+
 try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-class Admin(User):
+class Admin():
     def __init__(self):
         self.DeleteSupplier = DeleteSupplier()
         self.DeleteTour = DeleteTour()

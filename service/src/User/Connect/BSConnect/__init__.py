@@ -3,16 +3,14 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 # from ..DSConnect import DSConnect
-from src.User.SignIn import BSSignIn
-from src.User.SignUp import BSSignUp
-from src.User.Reset import BSReset
-from src.System.ValidateUser import BSValidateUser
-from src.System.LogConnection import BSLogConnection
-from src.User.UpdateProfile import BSUpdateProfile
-from naver_core import *
-from src.WEB.App.routes import app
+ 
+from naver_core import * 
 from naver_config import *
-config = NaverConfig(app)
+from src.WEB.App.routes import * 
+from src.System import ValidateUser, LogConnection 
+from ... import SignUp, SignIn, UpdateProfile, Reset
+config = NaverConfig(app) 
+ 
 
 def BSConnect(input):
     """
@@ -29,22 +27,22 @@ def BSConnect(input):
     """
     try:
         if input is None:
-            res = BSLogConnection(config)
+            res = LogConnection.BSLogConnection(config)
             return res        
         state = getValue(input, 'state')
         if state == "signup":
-            result = BSSignUp(input)
+            result = SignUp().BSSignUp(input)
             return result
         if state == "forgot":
-            result = BSReset(input)
+            result =  Reset().BSReset(input)
             return result
-        validuser = BSValidateUser(input)
+        validuser = ValidateUser.BSValidateUser(input)
         if validuser:
             if state == "signin":
-                result = BSSignIn(input)
+                result =  SignIn().BSSignIn(input)
                 return result
             if state == "update":
-                result = BSUpdateProfile(input)
+                result =  UpdateProfile().BSUpdateProfile(input)
                 return result
 
         raise Exception((605, 'Error de Login'))

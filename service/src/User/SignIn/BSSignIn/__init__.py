@@ -24,12 +24,12 @@ def BSSignIn(input):
     """
     try:
         username = getValue(input, 'username') 
-        gamer = DSSignIn(username)
+        user = DSSignIn(username)
         valid = BSValidatePassword(input)[0]['valid']
-        if len(gamer) > 0: 
-            dbstate = gamer[0]['state']
+        if len(user) > 0: 
+            dbstate = user[0]['state']
             if valid and dbstate == 6: 
-                res = ProfileDto(gamer[0]).__dict__()
+                res = ProfileDto(user[0]).__dict__()
                 return res
             raise Exception((601, 'Error de Login'))
         raise Exception((602, 'User is not exist'))

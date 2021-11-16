@@ -14,22 +14,21 @@ nbd = NaverDB(app,config)
 
 def DSValidatePassword(username, password):
     try:
-        pwd = ""
-        stm = """
-        SELECT * FROM GAMER WHERE USERNAME = \'{0}\'
+        pp = ""
+        stm = """ SELECT * FROM public.USER WHERE USERNAME = \'{0}\'
         
         """.format(username)
-        table = "GAMER"
+        table = "USER"
         user = nbd.persistence.getQuery(stm, table)
         if len(user) > 0:
-            pwd = user[0]['password']
+            pp = str(user[0]['password']).strip()
         else:
             raise Exception("No Existe usuario")    
         
         stm = """ SELECT CAST(DIGEST(\'{0}\','SHA256') AS BPCHAR) = \'{1}\' as VALID
                 
-        """.format(password, pwd) 
-        table = "GAMER"
+        """.format(password, pp) 
+        table = "USER"
         res = nbd.persistence.getQuery(stm, table)
         return res  
 

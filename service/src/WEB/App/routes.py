@@ -4,9 +4,9 @@ from flask import Flask, request
 from flask import render_template, make_response
 import os, json
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE = os.path.join(ROOT_DIR, os.path.abspath('assets/html/')) 
-STATIC = os.path.join(ROOT_DIR, os.path.abspath('assets/')) 
-ENV = os.path.join(ROOT_DIR, os.path.abspath('.env')) 
+TEMPLATE = os.path.join(ROOT_DIR, os.path.abspath('service/assets/html/')) 
+STATIC = os.path.join(ROOT_DIR, os.path.abspath('service/assets/')) 
+ENV = os.path.join(ROOT_DIR, os.path.abspath('service/.env')) 
 app = Flask(__name__, template_folder=TEMPLATE, static_folder=STATIC)
 api = Api(app) 
 from .recoveryform import RecoveryForm

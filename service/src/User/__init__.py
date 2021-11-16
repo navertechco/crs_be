@@ -4,6 +4,7 @@ from .Forgot import Forgot
 from .SignUp import SignUp
 from .SignIn import SignIn
 from .Connect import Connect
+from .Reset import Reset
 try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
@@ -15,4 +16,5 @@ class User():
         self.SignUp = SignUp() 
         self.Forgot = Forgot()
         self.Logout = Logout() 
+        self.Reset = Reset() 
         self.attributes={'id_user': None , 'id_user_type': None , 'props': None }

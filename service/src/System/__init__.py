@@ -42,7 +42,8 @@ from .ValidateOpportunity import ValidateOpportunity
 from .LogUser import LogUser
 from .ValidateUser import ValidateUser
 from .LogPoll import LogPoll
-from .ValidatePoll import ValidatePoll
+from .ValidatePoll import ValidatePoll 
+from .LogConnection import LogConnection
 
 try:
     __import__('pkg_resources').declare_namespace(__name__)
@@ -82,7 +83,7 @@ class System():
         self.LogService = LogService()
         self.ValidateProduct = ValidateProduct()
         self.LogProduct = LogProduct()
-        self.ValidateProblem = ValidateProblem()
+        self.ValidateProblem = ValidateProblem() 
         self.LogProblem = LogProblem()
         self.SendSms = SendSms()
         self.LogSms = LogSms()

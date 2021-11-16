@@ -4,8 +4,7 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSSignUp import DSSignUp
 from naver_core import *
-from src.System.ValidateUser import BSValidateUser
-from src.System.SendEmail import BSSendEmail
+from src.System import ValidateUser, SendEmail  
 
 
 def BSSignUp(input):
@@ -23,18 +22,19 @@ def BSSignUp(input):
         int: last_id
     """
     try:
-        validuser = BSValidateUser(input)
+        validuser = ValidateUser.BSValidateUser(input)
         data = input.get('data')
         if not validuser:
             res = DSSignUp(data)
             if isinstance(res, dict):
                 if len(res) > 0:
                     session = res.get('session')
-                    email = BSSendEmail(input, "confirmation")
+                    session.commit()
+                    email = SendEmail.BSSendEmail(input, "confirmation")
                     if email:
-                        session.commit()
+                        
                         return "Se te envió un correo para confirmar!!"
-                    session.rollback()
+                   
             raise Exception(610, "Error de datos de registro")
 
         raise Exception(604, 'Username is already exist')

@@ -3,12 +3,21 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..BSSendEmail import BSSendEmail
-import logging
+from naver_core import *
 
-def FSSendEmail(udata):
+def FSSendEmail(data, type='naver'):
+    """Método para enviar email.
+
+    Args:
+        data (dict): Diccionario com los datos del email.
+        type (str, optional): Tipo de servicio a ser utilizado. Defaults to 'naver'.
+
+    Returns:
+        json: Retorna el status de envio del email.
+    """    
     try:
-        result = BSSendEmail(udata)
-        return result
+        result = BSSendEmail(data, type)
+        return Ok(result)
 
     except Exception as e:
-        logging.error(e)
+        return ErrorResponse(e) 

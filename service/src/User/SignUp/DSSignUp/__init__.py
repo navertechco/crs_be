@@ -13,7 +13,7 @@ config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
-def DSSignUp	(data):
+def DSSignUp(data):
     """Método para crear un nuevo Reporte.
 
     Args:
@@ -26,9 +26,9 @@ def DSSignUp	(data):
         user = UserDto(data)
         stm = """
         INSERT INTO public.user
-        (identification, username, surname, lastname, email, phone, state, user_type_fk, credits, created, updated, "password")
-        VALUES('{}', '{}', '{}', '{}', '{}', '{}', 0, 1, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '{}')
-        ON CONFLICT (email) DO NOTHING
+        (identification, username, surname, lastname, email, phone, state,  created, updated, "password")
+        VALUES('{}', '{}', '{}', '{}', '{}', '{}',  0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '{}')
+    
         """.format(user.identification, user.username, user.surname, user.lastname, user.email, user.phone, user.password)
         table = "USER"
         res = nbd.persistence.setWrite(stm, table)

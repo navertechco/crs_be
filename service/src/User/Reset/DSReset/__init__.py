@@ -14,8 +14,8 @@ nbd = NaverDB(app,config)
 
 def DSReset(email):
     try:
-        stm = "SELECT * from gamer where email = '"+email+"'"
-        table = "GAMER"
+        stm = "SELECT * from public.USER where email = '"+email+"'"
+        table = "USER"
         res = nbd.persistence.getQuery(stm, table)
         return res  
 

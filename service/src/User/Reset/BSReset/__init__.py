@@ -3,7 +3,7 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSReset import DSReset
-from src.System.SendEmail import BSSendEmail
+from src.System import SendEmail
 from naver_core import *
 
 
@@ -14,7 +14,8 @@ def BSReset(input):
             result = DSReset(email)
             if isinstance(result, list):
                 if len(result) > 0:
-                    return BSSendEmail(input, "forgot")
+                    res = SendEmail.BSSendEmail(input, "forgot")
+                    return res
         raise Exception(608, 'Error de Email')
     except Exception as e:
         raise e

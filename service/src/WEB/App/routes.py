@@ -77,7 +77,20 @@ def encrypted(function):
 
  
 #region user
+from src.User.Confirm import FSConfirm
+@api.route('/User/Confirm')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class Confirm(Resource):
+    def get(self):
+        """Método para Confirmar un usuario
 
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        parser = reqparse.RequestParser()
+        parser.add_argument('confirmation')
+        data = parser.parse_args()
+        return FSConfirm(data)
     
 from src.User.Connect import FSConnect
 @api.route('/User/Connect')

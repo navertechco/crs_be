@@ -16,9 +16,7 @@ def FSConnect(input):
     try:
  
         result = BSConnect(input)
-        if isinstance(result, dict):
-            return Ok(result)
-        return result
+        return Ok(result)
 
             
         

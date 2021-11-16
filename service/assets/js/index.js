@@ -1,9 +1,9 @@
 $(".validate").on("click", function () {
-  var {isValid, message} = valid() 
-  if (!isValid) {
+  var { valid, message } = validate()
+  if (!valid) {
     Swal.fire({
       title: 'Error!',
-      text:  message,
+      text: message,
       icon: 'error',
       showCancelButton: true,
       showConfirmButton: false,
@@ -28,23 +28,23 @@ $(".validate").on("click", function () {
   }
 });
 
-function valid() {
+function validate() {
   var message = ""
   var valid = true
-  var validators =[
-     [$("#password").val(),"la contraseña no es valida"],
-     [!password.length < 8,"la contraseña debe tener un minimo de 8 digitos"],
-     [/[A-Z]/.test(password),"la contraseña debe tener una Mayuscula"],
-     [/[a-z]/.test(password),"la contraseña debe tener una minuscula"],
-     [/\d/.test(password),"la contraseña debe tener una especial"],
-     [/\W/.test(password),"la contraseña debe tener una especial"],
-     [!password == "","la contraseña está vacia"],
-     [$("#password").val() == $("#confirm").val(),"las contraseñas no coinciden"],
+  var password = $("#password").val()
+  var validators = [
+    [!/\W/.test(password), "la contraseña debe tener una letra especial"],
+    [!/[0-9]/.test(password), "la contraseña debe tener un número"],
+    [!/[A-Z]/.test(password), "la contraseña debe tener una Mayuscula"],
+    [!/[a-z]/.test(password), "la contraseña debe tener una minuscula"],
+    [password.length < 8, "la contraseña debe tener un mínimo de 8 dígitos"],
+    [password != $("#confirm").val(), "las contraseñas no coinciden"],
+    [password == "", "la contraseña está vacia"]
   ]
 
-  validators.map((validator)=>{
-    if (!validator[0]) {
-      valid = false
+  validators.map((validator) => {
+    if (validator[0]) {
+      valid = !validator[0]
       message = validator[1]
     }
 

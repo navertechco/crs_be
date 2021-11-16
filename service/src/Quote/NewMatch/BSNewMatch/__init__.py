@@ -2,7 +2,7 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from ..DSEditDemographics import DSEditDemographics
+from ..DSNewMatch import DSNewMatch
 # from src.User.SignIn import BSSignIn
 # from src.User.SignUp import BSSignUp
 # from src.User.Reset import BSReset
@@ -10,7 +10,7 @@ from ..DSEditDemographics import DSEditDemographics
 from naver_core import *
 
 
-def BSEditDemographics(input):
+def BSNewMatch(input):
     """Método que confirma registro de usuario
 
     Args:
@@ -24,10 +24,10 @@ def BSEditDemographics(input):
     """
     try:
         confirmation= input.get('confirmation')
-        result =  DSEditDemographics(confirmation)
+        result =  DSNewMatch(confirmation)
         if len(result) > 0:
             result['session'].commit()
             return True
-        raise Exception((605, 'Error de EditDemographicsación'))
+        raise Exception((605, 'Error de NewMatchación'))
     except Exception as e:
         raise e

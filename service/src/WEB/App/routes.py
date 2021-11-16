@@ -187,18 +187,18 @@ class Logout(Resource):
 
 #region Client
 
-from src.Client.EditDemographics import FSEditDemographics
-@api.route('/Client/EditDemographics')
+from src.Client.Edit import FSEdit
+@api.route('/Client/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class EditDemographics(Resource):
+class Edit(Resource):
     def post(self):
-        """Método para salir de session
+        """Método para Editar un cliente
 
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSEditDemographics(data) 
+        return FSEdit(data) 
 #endregion
 
 #region Quote

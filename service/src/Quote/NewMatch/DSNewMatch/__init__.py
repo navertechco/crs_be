@@ -12,7 +12,7 @@ from src.WEB.App.routes import app
 config = NaverConfig(app)
 nbd = NaverDB(app,config)
 
-def DSEditDemographics(confirmation):
+def DSNewMatch(confirmation):
     """Método de confirmación de usuario
 
     Args:

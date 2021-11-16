@@ -6,16 +6,15 @@ from ..BSConnect import BSConnect
 from naver_core import *
 
 def FSConnect(input):
-    """Método para crear un nuevo Reporte.
+    """Método para Conectarse.
     Args:
-        input (dict): Diccionario con los datos del Reporte.
+        input (dict): Diccionario con los datos de conexion.
 
     Returns:
         json: Resultado del API.
     """
     try:
-        input["data"]["password"] = "jcuevas123!"
-        input["data"]["state"] = "signin"
+ 
         result = BSConnect(input)
         if isinstance(result, dict):
             return Ok(result)

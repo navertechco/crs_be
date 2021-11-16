@@ -7,7 +7,7 @@ from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
 from src.WEB.App.routes import app
-from src.Dto import *
+from src.Dto import UserDto
 
 config = NaverConfig(app)
 nbd = NaverDB(app, config)
@@ -23,13 +23,14 @@ def DSSignUp	(data):
         res: Resultado de la operación.
     """
     try:
-        user = GamerDto(data)
+        user = UserDto(data)
         stm = """
-        INSERT INTO public.gamer
+        INSERT INTO public.user
         (identification, username, surname, lastname, email, phone, state, user_type_fk, credits, created, updated, "password")
-        VALUES('{}', '{}', '{}', '{}', '{}', '{}', 0, 1, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '{}');
+        VALUES('{}', '{}', '{}', '{}', '{}', '{}', 0, 1, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '{}')
+        ON CONFLICT (email) DO NOTHING
         """.format(user.identification, user.username, user.surname, user.lastname, user.email, user.phone, user.password)
-        table = "GAMER"
+        table = "USER"
         res = nbd.persistence.setWrite(stm, table)
         return res
 

@@ -3,12 +3,20 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..BSValidateUser import BSValidateUser
-import logging
+from naver_core import *
 
-def FSValidateUser(udata):
+def FSValidateUser	(data):
+    """Método para crear un nuevo Reporte.
+
+    Args:
+        data (dict): Diccionario con los datos del Reporte.
+
+    Returns:
+        json: Resultado del API.
+    """
     try:
-        result = BSValidateUser(udata)
-        return result
+        result = BSValidateUser(data)
+        return Ok(result)
 
     except Exception as e:
-        logging.error(e)
+        return ErrorResponse(e) 

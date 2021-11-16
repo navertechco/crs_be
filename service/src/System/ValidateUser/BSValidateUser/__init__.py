@@ -3,12 +3,28 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSValidateUser import DSValidateUser
-import logging
+from naver_core import *
 
-def BSValidateUser(udata):
+
+def BSValidateUser(input):
+    """Método para validar usuário en banco de dados.
+
+    Args:
+        input (dict):  datos de entrada del usuario
+
+    Raises:
+        e: error de conexión a base de datos
+
+    Returns:
+        boolean: True si el usuario existe en la base de datos, False si no existe
+    """
     try:
-        result = DSValidateUser(udata)
-        return result
-
+       
+        username= getValue(input, 'username')
+        result = DSValidateUser(username)
+        if isinstance(result, list):
+            if len(result) > 0:
+                return True
+        return False
     except Exception as e:
-        logging.error(e)
+        raise e

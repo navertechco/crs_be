@@ -2,7 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+*/.vs/*
+.vscode
+*/.suo
 # C extensions
 *.so
 Scripts
@@ -132,3 +134,6 @@ dmypy.json
 bin
 lib*
 share
+/.vscode
+**/obj
+**/.vs

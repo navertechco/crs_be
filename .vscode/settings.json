@@ -1,14 +1,5 @@
 {
     "python.linting.flake8Enabled": false,
     "python.linting.enabled": true,
-    "python.linting.banditEnabled": true,
-    "cSpell.words": [
-        "pantalla",
-        "psycopg",
-        "purpouse",
-        "Purpouse",
-        "ritm",
-        "Ritm",
-        "travle"
-    ]
+    "python.linting.banditEnabled": true, 
 }

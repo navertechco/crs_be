@@ -4,7 +4,7 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSEdit import DSEdit 
 from naver_core import *
-from src.Agent import CreateContact, EditContact
+from src.BUSINESS.Agent import CreateContact, EditContact
 
 def BSEdit(input):
     """Método que se encarga de ejecutar el comando edit.

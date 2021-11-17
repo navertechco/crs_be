@@ -5,6 +5,8 @@ from .SignUp import SignUp
 from .SignIn import SignIn
 from .Connect import Connect
 from .Reset import Reset
+from .UpdateProfile import UpdateProfile
+
 try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:

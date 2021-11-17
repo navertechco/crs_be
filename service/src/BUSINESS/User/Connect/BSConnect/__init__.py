@@ -6,10 +6,22 @@ except ImportError:
 
 from naver_core import *
 from naver_config import *
-from src.WEB.App.routes import *
-from src.System import ValidateUser, LogConnection
-from src.User import SignUp, SignIn, UpdateProfile, Reset
+from src.WEB.App.routes import app
+from src.BUSINESS.System import ValidateUser, LogConnection
+from ... import SignUp, SignIn, UpdateProfile, Reset
 config = NaverConfig(app)
+
+
+class BS():
+    def __init__(self):
+        self.ValidateUser = ValidateUser()
+        self.LogConnection = LogConnection() 
+        self.SignUp = SignUp.SignUp()
+        self.SignIn = SignIn.SignIn()
+        self.UpdateProfile = UpdateProfile.UpdateProfile()
+        self.Reset = Reset.Reset()
+
+        # super().__init__()
 
 
 def BSConnect(input):
@@ -26,23 +38,24 @@ def BSConnect(input):
         boolean: True si el usuario se ha conectado correctamente, False en caso contrario o si el usuario no existe en la base de datos o si la contraseña es incorrecta
     """
     try:
+        bs = BS()
         if input is None:
-            res = LogConnection.BSLogConnection(config)
+            res = bs.LogConnection.BSLogConnection(config)
             return res
         state = getValue(input, 'state')
         if state == "signup":
-            result = SignUp.BSSignUp(input)
+            result = bs.SignUp.BSSignUp(input)
             return result
         if state == "forgot":
-            result = Reset.BSReset(input)
+            result = bs.Reset.BSReset(input)
             return result
-        validuser = ValidateUser.BSValidateUser(input)
+        validuser = bs.ValidateUser.BSValidateUser(input)
         if validuser:
             if state == "signin":
-                result = SignIn().BSSignIn(input)
+                result = bs.SignIn.BSSignIn(input)
                 return result
             if state == "update":
-                result = UpdateProfile().BSUpdateProfile(input)
+                result = bs.UpdateProfile.BSUpdateProfile(input)
                 return result
 
         raise Exception((605, 'Error de Login'))

@@ -2,7 +2,7 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from src.Dto import ClientDto
+from src.BUSINESS.Dto import ClientDto
 from src.WEB.App.routes import app
 from naver_db import NaverDB
 from naver_config import NaverConfig

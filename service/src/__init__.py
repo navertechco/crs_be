@@ -3,18 +3,17 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
     
-from .System import System
-from .Admin import Admin
-from .TrvExp import TrvExp
-from .ExpDeveloper import ExpDeveloper
-from .Agent import Agent
-from .User import User
+from .BUSINESS import *
 from .WEB import *
+from .NET import *
 class CRS():
     def __init__(self):
         self.User = User()
         self.Agent = Agent()
+        self.Client = Client()
+        self.File = File()
         self.ExpDeveloper = ExpDeveloper()
+        self.Quote = Quote()
         self.TrvExp = TrvExp()
         self.Admin = Admin()
         self.System = System()

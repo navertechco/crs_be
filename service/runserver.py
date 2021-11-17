@@ -1,5 +1,5 @@
 from os import environ
-from src.WEB import app 
+from src.WEB.App.routes import app 
 
 
 if __name__ == '__main__': 

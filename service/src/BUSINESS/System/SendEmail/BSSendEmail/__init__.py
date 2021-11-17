@@ -75,9 +75,8 @@ def EmailSender(data, type):
     """
     try:
         import codecs
-        ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-        TEMPLATE = os.path.join(ROOT_DIR, os.path.abspath(
-            'service/assets/html/'+type.get('template')+'.html'))
+        from src.WEB.App.routes import TEMPLATE_FOLDER 
+        TEMPLATE = os.path.join(TEMPLATE_FOLDER, type.get('template')+'.html')
         f = codecs.open(TEMPLATE, 'r')
         body = f.read()
         body = body.replace('SERVER', type.get('server'))

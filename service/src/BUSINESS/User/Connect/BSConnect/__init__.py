@@ -19,9 +19,7 @@ class BS():
         self.SignUp = SignUp.SignUp()
         self.SignIn = SignIn.SignIn()
         self.UpdateProfile = UpdateProfile.UpdateProfile()
-        self.Reset = Reset.Reset()
-
-        # super().__init__()
+        self.Reset = Reset.Reset() 
 
 
 def BSConnect(input):
@@ -38,24 +36,24 @@ def BSConnect(input):
         boolean: True si el usuario se ha conectado correctamente, False en caso contrario o si el usuario no existe en la base de datos o si la contraseña es incorrecta
     """
     try:
-        bs = BS()
+        self = BS()
         if input is None:
-            res = bs.LogConnection.BSLogConnection(config)
+            res = self.LogConnection.BSLogConnection(config)
             return res
         state = getValue(input, 'state')
         if state == "signup":
-            result = bs.SignUp.BSSignUp(input)
+            result = self.SignUp.BSSignUp(input)
             return result
         if state == "forgot":
-            result = bs.Reset.BSReset(input)
+            result = self.Reset.BSReset(input)
             return result
-        validuser = bs.ValidateUser.BSValidateUser(input)
+        validuser = self.ValidateUser.BSValidateUser(input)
         if validuser:
             if state == "signin":
-                result = bs.SignIn.BSSignIn(input)
+                result = self.SignIn.BSSignIn(input)
                 return result
             if state == "update":
-                result = bs.UpdateProfile.BSUpdateProfile(input)
+                result = self.UpdateProfile.BSUpdateProfile(input)
                 return result
 
         raise Exception((605, 'Error de Login'))

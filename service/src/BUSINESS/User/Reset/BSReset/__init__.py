@@ -5,8 +5,8 @@ except ImportError:
 from ..DSReset import DSReset
 from src.BUSINESS.System import SendEmail
 from naver_core import *
-
-
+ 
+ 
 def BSReset(input):
     try:
         email= getValue(input, 'email')
@@ -14,7 +14,7 @@ def BSReset(input):
             result = DSReset(email)
             if isinstance(result, list):
                 if len(result) > 0:
-                    res = SendEmail.BSSendEmail(input, "forgot")
+                    res = SendEmail().BSSendEmail(input, "forgot")
                     return res
         raise Exception(608, 'Error de Email')
     except Exception as e:

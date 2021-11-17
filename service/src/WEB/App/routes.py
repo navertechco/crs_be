@@ -17,10 +17,10 @@ WEB_DIR = os.path.dirname(APP_DIR)
 SRC_DIR = os.path.dirname(WEB_DIR)
 ROOT_DIR = os.path.dirname(SRC_DIR)
 STATIC = os.path.join(WEB_DIR, ('static/')) 
-TEMPLATE = os.path.join(STATIC, ('templates/')) 
+TEMPLATE_FOLDER = os.path.join(STATIC, ('templates/')) 
 ENV_PATH = os.path.join(ROOT_DIR, ('.env'))
 
-app = Flask(__name__, template_folder=TEMPLATE, static_folder=STATIC)
+app = Flask(__name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC)
 api = Api(app) 
  
 dotenv_path = Path(ENV_PATH)

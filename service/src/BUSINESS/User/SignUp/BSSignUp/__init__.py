@@ -22,7 +22,7 @@ def BSSignUp(input):
         int: last_id
     """
     try:
-        validuser = ValidateUser.BSValidateUser(input)
+        validuser = ValidateUser().BSValidateUser(input)
         data = input.get('data')
         if not validuser:
             res = DSSignUp(data)
@@ -30,13 +30,13 @@ def BSSignUp(input):
                 if len(res) > 0:
                     session = res.get('session')
                     session.commit()
-                    email = SendEmail.BSSendEmail(input, "confirmation")
+                    email = SendEmail().BSSendEmail(input, "confirmation")
                     if email:
                         
                         return "Se te envió un correo para confirmar!!"
                    
             raise Exception(610, "Error de datos de registro")
 
-        raise Exception(604, 'Username is already exist')
+        raise Exception(604, "Username is already exist")
     except Exception as e:
         raise e

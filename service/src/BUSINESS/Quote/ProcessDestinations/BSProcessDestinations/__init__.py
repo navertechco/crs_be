@@ -2,7 +2,7 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from ..DSProccessQuote import DSProccessQuote
+from ..DSProcessDestinations import DSProcessDestinations
 # from src.BUSINESS.User.SignIn import BSSignIn
 # from src.BUSINESS.User.SignUp import BSSignUp
 # from src.BUSINESS.User.Reset import BSReset
@@ -10,7 +10,7 @@ from ..DSProccessQuote import DSProccessQuote
 from naver_core import *
 
 
-def BSProccessQuote(input):
+def BSProcessDestinations(input):
     """Método que confirma registro de usuario
 
     Args:
@@ -24,10 +24,10 @@ def BSProccessQuote(input):
     """
     try:
         confirmation= input.get('confirmation')
-        result =  DSProccessQuote(confirmation)
+        result =  DSProcessDestinations(confirmation)
         if len(result) > 0:
             result['session'].commit()
             return True
-        raise Exception((605, 'Error de ProccessQuoteación'))
+        raise Exception((605, 'Error de ProcessDestinationsación'))
     except Exception as e:
         raise e

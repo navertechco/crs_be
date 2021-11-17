@@ -2,12 +2,12 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from ..DSEdit import DSEdit
+from ..DSClientEdit import DSClientEdit
 from naver_core import *
-from src.BUSINESS.Agent import CreateContact, EditContact
+from src.BUSINESS.Agent import CreateContact, ClientEditContact
 
 
-def BSEdit(input):
+def BSClientEdit(input):
     """Método que se encarga de ejecutar el comando edit.
 
     Args:
@@ -25,7 +25,7 @@ def BSEdit(input):
         if state == 'new':
             return CreateContact().BSCreateContact(input)
         if state == 'update':
-            return EditContact().BSEditContact(input)
+            return ClientEditContact().BSClientEditContact(input)
 
         raise Exception((605, 'Error de Edición'))
     except Exception as e:

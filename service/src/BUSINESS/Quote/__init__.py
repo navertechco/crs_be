@@ -5,6 +5,8 @@ except ImportError:
 
 from .NewMatch import *
 from .NewQuote import *
-from .ProccessQuote import *
+from .ProcessQuote import *
 from .PromoteQuote import *
 from .UpdateQuote import *
+from .ProcessDestinations import *
+from .QuoteEdit import *

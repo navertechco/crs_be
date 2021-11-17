@@ -169,19 +169,30 @@ class Logout(Resource):
         return FSLogout(data) 
 #endregion
 #region Client
-from src.BUSINESS.Client.Edit import FSEdit
+from src.BUSINESS.Client.ClientEdit import FSClientEdit
 @api.route('/Client/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class Edit(Resource):
+class ClientEdit(Resource):
     def post(self):
         """Método para Editar un cliente
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSEdit(data) 
+        return FSClientEdit(data) 
 #endregion
 #region Quote
+from src.BUSINESS.Quote.QuoteEdit import FSQuoteEdit
+@api.route('/Quote/Edit')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class QuoteEdit(Resource):
+    def post(self):
+        """Método para Editar un Presupuesto
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        data = request.get_json(force=True)
+        return FSQuoteEdit(data) 
 from src.BUSINESS.Quote.NewQuote import FSNewQuote
 @api.route('/Quote/NewQuote')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})

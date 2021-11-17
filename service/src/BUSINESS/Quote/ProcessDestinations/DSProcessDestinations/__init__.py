@@ -12,7 +12,7 @@ from src.WEB.App.routes import app
 config = NaverConfig(app)
 nbd = NaverDB(app,config)
 
-def DSEdit(confirmation):
+def DSProcessDestinations(confirmation):
     """Método de confirmación de usuario
 
     Args:

@@ -1,34 +1,32 @@
-
-from flask_restx import Api, Resource, reqparse, fields
-from flask import Flask, request 
-from flask import render_template, make_response
-import os, json
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE = os.path.join(ROOT_DIR, os.path.abspath('service/assets/html/')) 
-STATIC = os.path.join(ROOT_DIR, os.path.abspath('service/assets/')) 
-ENV = os.path.join(ROOT_DIR, os.path.abspath('service/.env')) 
-app = Flask(__name__, template_folder=TEMPLATE, static_folder=STATIC)
-api = Api(app) 
-from .recoveryform import RecoveryForm
+import os
+import ast
+from flask_restx import Api, Resource, reqparse, fields 
+from flask import Flask, request,render_template, make_response
 from flask_sqlalchemy import SQLAlchemy 
 from flask_cors import CORS
 from naver_web import *
 from naver_config import NaverConfig
 from naver_core import *
-import ast 
- 
 from dotenv import load_dotenv
 from pathlib import Path
+from .recoveryform import RecoveryForm
+
+ROUTES_PATH = os.path.abspath(__file__)
+APP_DIR = os.path.dirname(ROUTES_PATH)
+WEB_DIR = os.path.dirname(APP_DIR)
+SRC_DIR = os.path.dirname(WEB_DIR)
+ROOT_DIR = os.path.dirname(SRC_DIR)
+STATIC = os.path.join(WEB_DIR, ('static/')) 
+TEMPLATE = os.path.join(STATIC, ('templates/')) 
+ENV_PATH = os.path.join(ROOT_DIR, ('.env'))
+
+app = Flask(__name__, template_folder=TEMPLATE, static_folder=STATIC)
+api = Api(app) 
  
-
-dotenv_path = Path(ENV)
+dotenv_path = Path(ENV_PATH)
 load_dotenv(dotenv_path=dotenv_path)
-
-
-
 config = NaverConfig(app)
 pksalt = config.core.myVariables["PKSALT"]
-
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 db = SQLAlchemy()
 resource_fields = api.model('Resource', {
@@ -37,7 +35,6 @@ resource_fields = api.model('Resource', {
 
 def removeBytePrefix(value):
     """Method to remove the byte prefix from the response
-
     Args:
         value (value): value to be decorated
         
@@ -58,7 +55,6 @@ def decryptdata():
 
 def encrypted(function):
     """Method decorator to encrypt the response
-
     Args:
         function (function): Function to be decorated
     Returns:
@@ -70,11 +66,7 @@ def encrypted(function):
         res = f(data)
         res['data']=str(encrypt(str(res['data']), pksalt))
         return res
-
     return wrapper
-
-
-
  
 #region user
 from src.User.Confirm import FSConfirm
@@ -83,7 +75,6 @@ from src.User.Confirm import FSConfirm
 class Confirm(Resource):
     def get(self):
         """Método para Confirmar un usuario
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -106,7 +97,6 @@ class Connect(Resource):
     # @encrypted
     def post(self):
         """Método para conectar un usuario
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -119,7 +109,6 @@ from src.User.SignIn import FSSignIn
 class SignIn(Resource):
     def post(self):
         """Método para logonear un usuario
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -131,7 +120,6 @@ from src.User.SignUp import FSSignUp
 class SignUp(Resource):
     def post(self):
         """Método para registrar un usuario
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -143,7 +131,6 @@ from src.User.Forgot import FSForgot
 class Forgot(Resource):
     def post(self):
         """Método para recuperar contraseña Backend
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -158,7 +145,6 @@ class Forgot(Resource):
         return make_response(render_template('success.html'),200,headers) 
     def get(self):
         """Método para recuperar contraseña Frontend
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -176,40 +162,32 @@ from src.User.Logout import FSLogout
 class Logout(Resource):
     def post(self):
         """Método para salir de session
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
         return FSLogout(data) 
 #endregion
-
-
 #region Client
-
 from src.Client.Edit import FSEdit
 @api.route('/Client/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class Edit(Resource):
     def post(self):
         """Método para Editar un cliente
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
         return FSEdit(data) 
 #endregion
-
 #region Quote
-
 from src.Quote.NewQuote import FSNewQuote
 @api.route('/Quote/NewQuote')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class NewQuote(Resource):
     def post(self):
         """Método para salir de session
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -222,20 +200,17 @@ from src.Quote.ProccessQuote import FSProccessQuote
 class ProccessQuote(Resource):
     def post(self):
         """Método para salir de session
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
         return FSProccessQuote(data) 
-
 from src.Quote.PromoteQuote import FSPromoteQuote
 @api.route('/Quote/PromoteQuote')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class PromoteQuote(Resource):
     def post(self):
         """Método para salir de session
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -248,37 +223,30 @@ from src.Quote.UpdateQuote import FSUpdateQuote
 class UpdateQuote(Resource):
     def post(self):
         """Método para salir de session
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
         return FSUpdateQuote(data) 
 #endregion
-
 #region File
-
 from src.File.MakeEmail import FSMakeEmail
 @api.route('/Email/MakeEmail')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class MakeEmail(Resource):
     def post(self):
         """Método para salir de session
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
         return FSMakeEmail(data) 
-
-
 from src.File.MakePdf import FSMakePdf
 @api.route('/Email/MakePdf')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class MakePdf(Resource):
     def post(self):
         """Método para salir de session
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -291,34 +259,26 @@ from src.File.MakePlaylist import FSMakePlaylist
 class MakePlaylist(Resource):
     def post(self):
         """Método para salir de session
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
         return FSMakePlaylist(data) 
 #endregion
-
 #region TrvExp
-
 from src.TrvExp.AssignTravelExpert import FSAssignTravelExpert
 @api.route('/TrvExp/AssignTravelExpert')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class AssignTravelExpert(Resource):
     def post(self):
         """Método para salir de session
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
         return FSAssignTravelExpert(data) 
 #endregion
-
-
 #region Agent
-
-
 from src.Agent.Start import FSStart
 @api.route('/Agent/Start')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
@@ -333,7 +293,6 @@ class Start(Resource):
     # @encrypted
     def post(self):
         """Método para conectar un usuario
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
@@ -341,5 +300,4 @@ class Start(Resource):
         # return FSStart(decryptdata())
         return FSStart(data)
     
-
 #endregion

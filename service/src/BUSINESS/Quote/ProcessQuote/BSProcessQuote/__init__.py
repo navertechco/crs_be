@@ -30,16 +30,26 @@ def BSProcessQuote(id, input):
         data = input.get('data')
         if data.get('match') is not None:
             match = data.get('match')
-            res = NewMatch().BSNewMatch(id, match)
-            if res and data.get('destinations') is not None:
-                res = ProcessDestinations().BSProcessDestinations(id, input)
-                if res:
-                    res = ProcessDays().BSProcessDays(id, input)
-                    if res:
-                        res = DSProcessQuote(id)
-                    return res
-                raise Exception(605, "Error de Procesamiento de días")
-            raise Exception(605, "Error de Procesamiento de destinos")
-        raise Exception((605, 'Error de match de cotización'))
+            match = NewMatch().BSNewMatch(id, match)
+            if len(match) > 0 and data.get('destinations') is not None:
+                destinations = ProcessDestinations().BSProcessDestinations(id, input)
+                if len(destinations) > 0:
+                    days = ProcessDays().BSProcessDays(id, input)
+                    if len(days) > 0:
+                        processed = DSProcessQuote(id)
+                        if len(processed) > 0:
+                            days["session"].commit()
+                            match["session"].commit()
+                            destinations["session"].commit()
+                            processed["session"].commit() 
+                            return True
+                        days["session"].rollback()
+                        match["session"].rollback()
+                        destinations["session"].rollback()
+                        processed["session"].rollback() 
+                    raise Exception(605, "Error de Procesamiento de días")
+                raise Exception(605, "Error de Procesamiento de destinos")
+            raise Exception((605, 'Error de match de cotización'))
+        raise Exception((605, 'No tiene match la cotización'))
     except Exception as e:
         raise e

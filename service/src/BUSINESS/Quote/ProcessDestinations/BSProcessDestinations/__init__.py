@@ -22,10 +22,7 @@ def BSProcessDestinations(id, input):
     """ 
     try:
         
-        result =  DSProcessDestinations(id, input)
-        if len(result) > 0:
-            result['session'].commit()
-            return True
-        raise Exception((605, 'Error de ProcessDestinationsación'))
+        res =  DSProcessDestinations(id, input)
+        return res
     except Exception as e:
         raise e

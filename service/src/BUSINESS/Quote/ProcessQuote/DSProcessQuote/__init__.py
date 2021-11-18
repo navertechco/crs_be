@@ -12,27 +12,25 @@ from src.WEB.App.routes import app
 config = NaverConfig(app)
 nbd = NaverDB(app,config)
 
-def DSProcessQuote(confirmation):
-    """Método de confirmación de usuario
+def DSProcessQuote(id):
+    """Método para validar si existe una cotización
 
     Args:
-        confirmation (str): Código UUID enviado por correo electrónico para confirmar cuenta de usuario.
+        id (int): id de la cotización
 
     Raises:
-        e: Error de conexión a base de datos.
+        e: Error de conexión a la base de datos
 
     Returns:
-        dict: Diccionario con información de confirmación de usuario.
-    """    
+        res: Resultado de la consulta
+    """       
     try:
-        stm = """   UPDATE GAMER
-                    SET STATE = 2
-                    WHERE CONFIRMATION = \'{}\'
-                    AND STATE = 1
-                    ;""".format(confirmation)
-
-        table = "GAMER"
-        res = nbd.persistence.setWrite(stm, table)
+        table = "QUOTE"
+        stm = " SELECT * FROM "
+        stm += table 
+        stm += " WHERE id_quote = \'{}\'".format(id)
+        stm += " AND id_quote_state >= 1"
+        res = nbd.persistence.getQuery(stm, table)
         return res  
 
     except Exception as e:

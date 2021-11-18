@@ -3,10 +3,8 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSUpdateQuote import DSUpdateQuote
-# from src.BUSINESS.User.SignIn import BSSignIn
-# from src.BUSINESS.User.SignUp import BSSignUp
-# from src.BUSINESS.User.Reset import BSReset
-# from src.BUSINESS.System.ValidateUser import BSValidateUser
+from ...PromoteQuote import PromoteQuote
+from ...CancelQuote import CancelQuote
 from naver_core import *
 
 
@@ -23,11 +21,26 @@ def BSUpdateQuote(input):
         boolean: True si el usuario se confirma, False si no
     """
     try:
-        confirmation= input.get('confirmation')
-        result =  DSUpdateQuote(confirmation)
-        if len(result) > 0:
-            result['session'].commit()
-            return True
-        raise Exception((605, 'Error de UpdateQuoteación'))
+        state = input.get('state')
+        if state == 'update':
+            result = DSUpdateQuote(input)
+            if len(result) > 0:
+                result['session'].commit()
+                return True
+            raise Exception((605, 'Error de Actualización de Cotización'))
+        if state == 'cancel':
+            id = getValue(input, 'id')
+            result = CancelQuote().DSCancelQuote(id)
+            if len(result) > 0:
+                result['session'].commit()
+                return True
+            raise Exception((605, 'Error de Cancelado de Cotización'))
+        if state == 'promote':
+            id = getValue(input, 'id')
+            result = PromoteQuote().DSPromoteQuote(id)
+            if len(result) > 0:
+                result['session'].commit()
+                return True
+            raise Exception((605, 'Error de Promoción de Cotización'))
     except Exception as e:
         raise e

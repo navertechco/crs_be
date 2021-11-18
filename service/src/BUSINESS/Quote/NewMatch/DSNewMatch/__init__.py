@@ -1,4 +1,4 @@
-try: 
+try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
@@ -6,34 +6,34 @@ except ImportError:
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.WEB.App.routes import app 
+from src.WEB.App.routes import app
 
 
 config = NaverConfig(app)
-nbd = NaverDB(app,config)
+nbd = NaverDB(app, config)
 
-def DSNewMatch(confirmation):
-    """Método de confirmación de usuario
+
+def DSNewMatch(id, match):
+    """Método para procesar match de cotización
 
     Args:
-        confirmation (str): Código UUID enviado por correo electrónico para confirmar cuenta de usuario.
+        id (int): Identificador de la Cotización
+        match (list): Lista de Match
 
     Raises:
-        e: Error de conexión a base de datos.
+        e: Exception
 
     Returns:
-        dict: Diccionario con información de confirmación de usuario.
-    """    
+        res: Resultado de la Cotización
+    """
     try:
-        stm = """   UPDATE GAMER
-                    SET STATE = 2
-                    WHERE CONFIRMATION = \'{}\'
-                    AND STATE = 1
-                    ;""".format(confirmation)
-
-        table = "GAMER"
+        table = "QUOTE"
+        stm = " UPDATE " + table
+        stm += " SET match=\'{}\'".format(match)
+        where = " WHERE id_quote = \'{}\'".format(id)
+        stm += " " + where
         res = nbd.persistence.setWrite(stm, table)
-        return res  
+        return res
 
     except Exception as e:
         raise e

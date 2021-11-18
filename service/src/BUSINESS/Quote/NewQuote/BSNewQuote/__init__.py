@@ -28,7 +28,8 @@ def BSNewQuote(input):
         res =  DSNewQuote(input)
         if len(res) > 0:
             res['session'].commit()
-            return True
+            id = res['cursor'].fetchall()[0]['id_quote']
+            return id
         raise Exception((605, 'Error de NewQuoteación'))
     except Exception as e:
         raise e

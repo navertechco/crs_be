@@ -23,13 +23,13 @@ def BSQuoteEdit(input):
         state = getValue(input, 'state')
 
         if state == 'new':
-            res = DSQuoteEdit(input)
-            if len(res) > 0:
-                res = NewQuote().BSNewQuote(input)
-                if res:
-                    res = ProcessQuote().BSProcessQuote(input)
-                    if res:
-                        return True
+            valid = DSQuoteEdit(input)
+            if valid:
+                id_quote = NewQuote().BSNewQuote(input)
+                if id_quote is not None:
+                    done = ProcessQuote().BSProcessQuote(id_quote, input)
+                    if done:
+                        return done
                     raise Exception('Error al procesar la cotización')
                 raise Exception('Error al crear la cotización')
             raise Exception('Ya tiene una cotización activa')

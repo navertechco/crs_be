@@ -17,7 +17,9 @@ if ! [ -d $destination ]; then
 fi
 
 shopt -s globstar
-rename.ul -f "s/$originname/$destination/g" $destination/**/* 
+shopt -s globstar
+shopt -s globstar
+rename "s/$originname/$destination/g" $destination/**/* 
 # find $destination -type d -name "__pycache__" -exec rm -rf {} \;
 find $destination -type f -exec sed -i "s/$originname/$destination/g" {} \;
 

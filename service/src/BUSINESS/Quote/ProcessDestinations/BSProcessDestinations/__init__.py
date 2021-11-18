@@ -2,29 +2,27 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from ..DSProcessDestinations import DSProcessDestinations
-# from src.BUSINESS.User.SignIn import BSSignIn
-# from src.BUSINESS.User.SignUp import BSSignUp
-# from src.BUSINESS.User.Reset import BSReset
-# from src.BUSINESS.System.ValidateUser import BSValidateUser
+from ..DSProcessDestinations import DSProcessDestinations 
 from naver_core import *
 
 
-def BSProcessDestinations(input):
-    """Método que confirma registro de usuario
+def BSProcessDestinations(id, input):
+    """Método para procesar detsinos
 
     Args:
-        input (dict): usuario de entrada
+        id (int): Identificador del proceso
+        input (dict): Diccionario con los datos del proceso
 
     Raises:
-        Exception:  Error de validación de usuario
+        Exception: Cuando no se puede procesar el proceso
+        e: Cuando no se puede procesar el proceso
 
     Returns:
-        boolean: True si el usuario se confirma, False si no
-    """
+        bool: True si el proceso fue exitoso, False si no
+    """ 
     try:
-        confirmation= input.get('confirmation')
-        result =  DSProcessDestinations(confirmation)
+        
+        result =  DSProcessDestinations(id, input)
         if len(result) > 0:
             result['session'].commit()
             return True

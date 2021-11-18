@@ -2,31 +2,28 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from ..DSNewMatch import DSNewMatch
-# from src.BUSINESS.User.SignIn import BSSignIn
-# from src.BUSINESS.User.SignUp import BSSignUp
-# from src.BUSINESS.User.Reset import BSReset
-# from src.BUSINESS.System.ValidateUser import BSValidateUser
+from ..DSNewMatch import DSNewMatch 
 from naver_core import *
 
 
-def BSNewMatch(input):
-    """Método que confirma registro de usuario
+def BSNewMatch(id, match):
+    """Método para procesar match de cotización
 
     Args:
-        input (dict): usuario de entrada
+        id (int): Identificador de la Cotización
+        match (list): Lista de Match
 
     Raises:
-        Exception:  Error de validación de usuario
+        Exception: Error de conexión con el servicio de Naver
+        e: Error de procesamiento de la Cotización
 
     Returns:
-        boolean: True si el usuario se confirma, False si no
+        bool: True si la Cotización fue procesada correctamente, False en caso contrario
     """
-    try:
-        confirmation= input.get('confirmation')
-        result =  DSNewMatch(confirmation)
-        if len(result) > 0:
-            result['session'].commit()
+    try: 
+        res =  DSNewMatch(id, match)
+        if len(res) > 0:
+            res['session'].commit()
             return True
         raise Exception((605, 'Error de NewMatchación'))
     except Exception as e:

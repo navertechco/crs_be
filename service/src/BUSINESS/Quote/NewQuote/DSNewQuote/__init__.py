@@ -28,7 +28,7 @@ def DSNewQuote(input):
     try:
         data = input.get('data')
         quote = QuoteDto(data)
-        table = "GAMER"
+        table = "QUOTE"
         res = nbd.persistence.insertDto(quote, table)
         return res
 

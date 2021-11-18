@@ -11,22 +11,23 @@ from naver_core import *
 
 
 def BSNewQuote(input):
-    """Método que confirma registro de usuario
+    """Método para crear una nueva cotización
 
     Args:
-        input (dict): usuario de entrada
-
+        input (dict): Contiene los datos de la cotización
+        
     Raises:
-        Exception:  Error de validación de usuario
+        Exception: Cuando no se creó la cotización
+        e: Cuando no se creó la cotización
 
     Returns:
-        boolean: True si el usuario se confirma, False si no
-    """
+        bool: True si se creó la cotización, False si no se creó
+    """    
     try:
-        confirmation= input.get('confirmation')
-        result =  DSNewQuote(confirmation)
-        if len(result) > 0:
-            result['session'].commit()
+ 
+        res =  DSNewQuote(input)
+        if len(res) > 0:
+            res['session'].commit()
             return True
         raise Exception((605, 'Error de NewQuoteación'))
     except Exception as e:

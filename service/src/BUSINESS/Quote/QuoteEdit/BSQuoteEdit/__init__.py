@@ -4,7 +4,7 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSQuoteEdit import DSQuoteEdit
 from naver_core import *
-from ... import NewQuote, NewMatch, ProcessQuote, PromoteQuote, UpdateQuote, ProcessDestinations
+from ... import NewQuote, ProcessQuote, UpdateQuote
 
 
 def BSQuoteEdit(input):

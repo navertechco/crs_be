@@ -205,17 +205,17 @@ class NewQuote(Resource):
         data = request.get_json(force=True)
         return FSNewQuote(data) 
     
-from src.BUSINESS.Quote.ProccessQuote import FSProccessQuote
-@api.route('/Quote/ProccessQuote')
+from src.BUSINESS.Quote.ProcessQuote import FSProcessQuote
+@api.route('/Quote/ProcessQuote')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class ProccessQuote(Resource):
+class ProcessQuote(Resource):
     def post(self):
         """Método para salir de session
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSProccessQuote(data) 
+        return FSProcessQuote(data) 
 from src.BUSINESS.Quote.PromoteQuote import FSPromoteQuote
 @api.route('/Quote/PromoteQuote')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})

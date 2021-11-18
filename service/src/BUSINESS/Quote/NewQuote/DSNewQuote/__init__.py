@@ -1,39 +1,36 @@
-try: 
+try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 
+from src.BUSINESS.Dto import QuoteDto
+from src.WEB.App.routes import app
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.WEB.App.routes import app 
-
 
 config = NaverConfig(app)
-nbd = NaverDB(app,config)
+nbd = NaverDB(app, config)
 
-def DSNewQuote(confirmation):
-    """Método de confirmación de usuario
+
+def DSNewQuote(input):
+    """Método para crear una cotización en la base de datos.
 
     Args:
-        confirmation (str): Código UUID enviado por correo electrónico para confirmar cuenta de usuario.
+        input (dict): Diccionario con los datos de la cotización.
 
     Raises:
-        e: Error de conexión a base de datos.
+        e: Error de conexión con la base de datos.
 
     Returns:
-        dict: Diccionario con información de confirmación de usuario.
-    """    
+        res: Resultado de la operación.
+    """
     try:
-        stm = """   UPDATE GAMER
-                    SET STATE = 2
-                    WHERE CONFIRMATION = \'{}\'
-                    AND STATE = 1
-                    ;""".format(confirmation)
-
+        data = input.get('data')
+        quote = QuoteDto(data)
         table = "GAMER"
-        res = nbd.persistence.setWrite(stm, table)
-        return res  
+        res = nbd.persistence.insertDto(quote, table)
+        return res
 
     except Exception as e:
         raise e

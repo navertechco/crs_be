@@ -4,7 +4,7 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSClientEdit import DSClientEdit
 from naver_core import *
-from src.BUSINESS.Agent import CreateContact, ClientEditContact
+from src.BUSINESS.Agent import CreateContact, EditContact
 
 
 def BSClientEdit(input):
@@ -25,7 +25,7 @@ def BSClientEdit(input):
         if state == 'new':
             return CreateContact().BSCreateContact(input)
         if state == 'update':
-            return ClientEditContact().BSClientEditContact(input)
+            return EditContact().BSEditContact(input)
 
         raise Exception((605, 'Error de Edición'))
     except Exception as e:

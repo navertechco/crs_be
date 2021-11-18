@@ -6,3 +6,4 @@ except ImportError:
 from .user import UserDto
 from .profile import ProfileDto
 from .client import ClientDto
+from .quote import QuoteDto

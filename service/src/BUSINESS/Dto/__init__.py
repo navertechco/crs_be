@@ -8,3 +8,4 @@ from .profile import ProfileDto
 from .client import ClientDto
 from .quote import QuoteDto
 from .destination import DestinationDto, DestinationListDto
+from .service import ServiceDto, ServiceListDto

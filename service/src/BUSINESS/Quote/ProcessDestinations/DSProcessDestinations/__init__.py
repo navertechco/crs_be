@@ -19,11 +19,11 @@ def DSProcessDestinations(id, input):
 
     try:
         destinations = {'destinations': getValue(input, 'destinations')}
-        jsondata = ast.literal_eval(jsonConvert(str(destinations).replace("'", '"')))
+        jsondata = (ast.literal_eval(jsonConvert(str(destinations).replace("'", '"'))))
         destinationList = DestinationListDto(jsondata, id).__list__()
         table = "QUOTE"
         stm = " UPDATE " + table
-        stm += " SET destinations='{}'".format(json.dumps(jsondata))
+        stm += " SET destinations='{}'".format(str(json.dumps(jsondata)))
         stm += ", id_quote_state=4"
         where = " WHERE id_quote = \'{}\'".format(id)
         stm += " " + where

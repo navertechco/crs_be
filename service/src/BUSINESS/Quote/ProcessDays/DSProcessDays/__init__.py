@@ -3,15 +3,16 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 
+from src.BUSINESS.Dto import ServiceListDto
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.WEB.App.routes import app 
-
+from src.WEB.App.routes import app
+import ast
+import json
 
 config = NaverConfig(app)
-nbd = NaverDB(app,config)
-
+nbd = NaverDB(app, config)
 def DSProcessDays(id, input):
     """Método para procesar días de cotización
 
@@ -33,9 +34,20 @@ def DSProcessDays(id, input):
         stm += where
         quote_days = nbd.persistence.getQuery(stm, table)
         if len(quote_days) > 0: 
-            raise Exception("Quote days already processed")         
-            res = nbd.persistence.setWrite(stm, table)
-            return res  
+            serviceList = ServiceListDto(quote_days, id).__list__()
+            table = "QUOTE_DAY"
+            stm = " UPDATE " + table
+            stm += " SET services='{}'".format(str(json.dumps({'services': serviceList})))
+            where = " WHERE id_quote = \'{}\'".format(id)
+            stm += " " + where
+            quote_day = nbd.persistence.setWrite(stm, table)
+            if len(quote_day) > 0:
+                quote_day['session'].commit()
+                table= "QUOTE_DAY_DETAILS"
+                stm = nbd.persistence.prepareListDtoToInsert(
+                    serviceList, table)
+                res = nbd.persistence.setWrite(stm, table)
+                return res  
 
     except Exception as e:
         raise e

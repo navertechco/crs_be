@@ -16,11 +16,10 @@ class ServiceDto():
 
 
 class ServiceListDto():
-    def __init__(self, data, id):
+    def __init__(self, data):
         self.service_list = []
-        for d in data['services']:
+        for d in data:
             serviceDto = ServiceDto(d) 
-            serviceDto.id_quote_day = id
             self.service_list.append(serviceDto)
 
     def __dict__(self):

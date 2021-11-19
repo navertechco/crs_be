@@ -28,8 +28,11 @@ def BSNewQuote(input):
         res =  DSNewQuote(input)
         if len(res) > 0:
             res['session'].commit()
-            id = res['cursor'].fetchall()[0]['id_quote']
-            return id
+            new_quotes = res['cursor'].fetchall()
+            if len(new_quotes) > 0:
+                id = new_quotes[0]['id_quote']
+                return id
+            raise Exception('No se creó la cotización, pruebe los datos ingresados')
         raise Exception((605, 'Error de NewQuoteación'))
     except Exception as e:
         raise e

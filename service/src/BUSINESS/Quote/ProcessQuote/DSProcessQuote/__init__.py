@@ -28,10 +28,10 @@ def DSProcessQuote(id):
         table = "QUOTE"
         stm = " UPDATE "
         stm += table 
-        stm += " SET QUOTE_STATE = 2 "
+        stm += " SET ID_QUOTE_STATE = 2 "
         stm += " WHERE id_quote = \'{}\'".format(id)
         stm += " AND id_quote_state >= 1"
-        res = nbd.persistence.getQuery(stm, table)
+        res = nbd.persistence.setWrite(stm, table)
         return res  
 
     except Exception as e:

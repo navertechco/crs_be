@@ -1,4 +1,4 @@
-try: 
+try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
@@ -13,6 +13,8 @@ import json
 
 config = NaverConfig(app)
 nbd = NaverDB(app, config)
+
+
 def DSProcessDays(id, input):
     """Método para procesar días de cotización
 
@@ -25,29 +27,24 @@ def DSProcessDays(id, input):
 
     Returns:
         res: Resultado de la operación
-    """  
+    """
     try:
         table = "QUOTE_DAY"
-        stm = "SELECT *"
-        stm += "FROM {} ".format(table)
-        where  = " WHERE ID_QUOTE = \'{}\'".format(id)
+        stm = """
+                SELECT QD.ID_QUOTE_DAY,S.* FROM SERVICE S 
+                JOIN QUOTE_DAY QD 
+                ON QD.ID_DESTINATION = S.ID_DESTINATION 
+        """
+        where = " WHERE QD.ID_QUOTE = \'{}\'".format(id)
         stm += where
-        quote_days = nbd.persistence.getQuery(stm, table)
-        if len(quote_days) > 0: 
-            serviceList = ServiceListDto(quote_days, id).__list__()
-            table = "QUOTE_DAY"
-            stm = " UPDATE " + table
-            stm += " SET services='{}'".format(str(json.dumps({'services': serviceList})))
-            where = " WHERE id_quote = \'{}\'".format(id)
-            stm += " " + where
-            quote_day = nbd.persistence.setWrite(stm, table)
-            if len(quote_day) > 0:
-                quote_day['session'].commit()
-                table= "QUOTE_DAY_DETAILS"
-                stm = nbd.persistence.prepareListDtoToInsert(
-                    serviceList, table)
-                res = nbd.persistence.setWrite(stm, table)
-                return res  
+        quote_day_services = nbd.persistence.getQuery(stm, table)
+        if len(quote_day_services) > 0:
+            serviceList = ServiceListDto(quote_day_services).__list__()
+            table = "QUOTE_DAY_DETAIL"
+            stm = nbd.persistence.prepareListDtoToInsert(
+                serviceList, table)
+            res = nbd.persistence.setWrite(stm, table)
+            return res
 
     except Exception as e:
         raise e

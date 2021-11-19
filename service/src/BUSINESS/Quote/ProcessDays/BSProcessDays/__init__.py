@@ -2,32 +2,24 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from ..DSProcessDays import DSProcessDays
-# from src.BUSINESS.User.SignIn import BSSignIn
-# from src.BUSINESS.User.SignUp import BSSignUp
-# from src.BUSINESS.User.Reset import BSReset
-# from src.BUSINESS.System.ValidateUser import BSValidateUser
+from ..DSProcessDays import DSProcessDays 
 from naver_core import *
 
 
-def BSProcessDays(input):
-    """Método que confirma registro de usuario
+def BSProcessDays(id, input):
+    """Método para procesar días de cotización	
 
     Args:
-        input (dict): usuario de entrada
-
+        id (int): Identificador de la Cotización
+        input (dict): Diccionario con los datos de la Cotización
     Raises:
-        Exception:  Error de validación de usuario
+        e: Cuando no se puede procesar la Cotización
 
     Returns:
-        boolean: True si el usuario se confirma, False si no
+        res: Resultado de la operación
     """
-    try:
-        confirmation= input.get('confirmation')
-        result =  DSProcessDays(confirmation)
-        if len(result) > 0:
-            result['session'].commit()
-            return True
-        raise Exception((605, 'Error de ProcessDaysación'))
+    try: 
+        res =  DSProcessDays(id, input)
+        return res
     except Exception as e:
         raise e

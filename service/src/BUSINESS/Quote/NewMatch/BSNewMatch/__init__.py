@@ -2,29 +2,26 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from ..DSNewMatch import DSNewMatch 
+from ..DSNewMatch import DSNewMatch
 from naver_core import *
 
 
-def BSNewMatch(id, match):
-    """Método para procesar match de cotización
+def BSNewMatch(id, input):
+    """Mètodo de Procesamiento de Match de Cotización
 
     Args:
         id (int): Identificador de la Cotización
-        match (list): Lista de Match
+        input (dict): Diccionario con los datos de la Cotización
 
     Raises:
-        Exception: Error de conexión con el servicio de Naver
-        e: Error de procesamiento de la Cotización
+        e: Cuando no se puede procesar la Cotización
 
     Returns:
-        bool: True si la Cotización fue procesada correctamente, False en caso contrario
+        res: Resultado de la Cotización
     """
-    try: 
-        res =  DSNewMatch(id, match)
-        if len(res) > 0:
-            res['session'].commit()
-            return True
-        raise Exception((605, 'Error de NewMatchación'))
+    try:
+        match = getValue(input, 'match')
+        res = DSNewMatch(id, match)
+        return res
     except Exception as e:
         raise e

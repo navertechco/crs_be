@@ -30,6 +30,7 @@ def DSNewMatch(id, match):
         table = "QUOTE"
         stm = " UPDATE " + table
         stm += " SET match=\'{}\'".format(match)
+        stm += ", id_quote_state=3"
         where = " WHERE id_quote = \'{}\'".format(id)
         stm += " " + where
         res = nbd.persistence.setWrite(stm, table)

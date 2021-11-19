@@ -8,7 +8,8 @@ from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
 from src.WEB.App.routes import app
-
+import ast
+import json
 
 config = NaverConfig(app)
 nbd = NaverDB(app, config)
@@ -17,12 +18,22 @@ nbd = NaverDB(app, config)
 def DSProcessDestinations(id, input):
 
     try:
-        destinations = getValue(input, 'destinations')
-        destinationList = DestinationListDto(destinations, id).__list__()
-        table = "QUOTE_DAY"       
-        stm = nbd.persistence.prepareListDtoToInsert(
-            destinationList, table)        
+        destinations = {'destinations': getValue(input, 'destinations')}
+        jsondata = ast.literal_eval(jsonConvert(str(destinations).replace("'", '"')))
+        destinationList = DestinationListDto(jsondata, id).__list__()
+        table = "QUOTE"
+        stm = " UPDATE " + table
+        stm += " SET destinations='{}'".format(json.dumps(jsondata))
+        stm += ", id_quote_state=4"
+        where = " WHERE id_quote = \'{}\'".format(id)
+        stm += " " + where
         res = nbd.persistence.setWrite(stm, table)
-        return res
+        if len(res) > 0:
+            res['session'].commit()
+            table = "QUOTE_DAY"
+            stm = nbd.persistence.prepareListDtoToInsert(
+                destinationList, table)
+            res = nbd.persistence.setWrite(stm, table)
+            return res
     except Exception as e:
         raise e

@@ -12,28 +12,30 @@ from src.WEB.App.routes import app
 config = NaverConfig(app)
 nbd = NaverDB(app,config)
 
-def DSProcessDays(confirmation):
-    """Método de confirmación de usuario
+def DSProcessDays(id, input):
+    """Método para procesar días de cotización
 
     Args:
-        confirmation (str): Código UUID enviado por correo electrónico para confirmar cuenta de usuario.
+        id (int): Identificador de la Cotización
+        input (dict): Diccionario con los datos de la Cotización
 
     Raises:
-        e: Error de conexión a base de datos.
+        e: Cuando no se puede procesar la Cotización
 
     Returns:
-        dict: Diccionario con información de confirmación de usuario.
-    """    
+        res: Resultado de la operación
+    """  
     try:
-        stm = """   UPDATE GAMER
-                    SET STATE = 2
-                    WHERE CONFIRMATION = \'{}\'
-                    AND STATE = 1
-                    ;""".format(confirmation)
-
-        table = "GAMER"
-        res = nbd.persistence.setWrite(stm, table)
-        return res  
+        table = "QUOTE_DAY"
+        stm = "SELECT *"
+        stm += "FROM {} ".format(table)
+        where  = " WHERE ID_QUOTE = \'{}\'".format(id)
+        stm += where
+        quote_days = nbd.persistence.getQuery(stm, table)
+        if len(quote_days) > 0: 
+            raise Exception("Quote days already processed")         
+            res = nbd.persistence.setWrite(stm, table)
+            return res  
 
     except Exception as e:
         raise e

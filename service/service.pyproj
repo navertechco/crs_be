@@ -665,11 +665,12 @@
     <Compile Include="src\BUSINESS\User\__init__.py" />
     <Compile Include="src\BUSINESS\__init__.py" />
     <Compile Include="src\Core.py" />
-    <Compile Include="src\NET\__init__.py" />
-    <Compile Include="src\WEB\App\recoveryform.py" />
-    <Compile Include="src\WEB\App\routes.py" />
-    <Compile Include="src\WEB\App\__init__.py" />
-    <Compile Include="src\WEB\__init__.py" />
+    <Compile Include="src\INFRA\NET\__init__.py" />
+    <Compile Include="src\INFRA\WEB\App\recoveryform.py" />
+    <Compile Include="src\INFRA\WEB\App\routes.py" />
+    <Compile Include="src\INFRA\WEB\App\__init__.py" />
+    <Compile Include="src\INFRA\WEB\__init__.py" />
+    <Compile Include="src\INFRA\__init__.py" />
     <Compile Include="src\__init__.py" />
   </ItemGroup>
   <ItemGroup>
@@ -1305,20 +1306,21 @@
     <Content Include="src\BUSINESS\__pycache__\__init__.cpython-310.pyc" />
     <Content Include="src\clone.sh" />
     <Content Include="src\index.json" />
+    <Content Include="src\INFRA\NET\__pycache__\__init__.cpython-310.pyc" />
+    <Content Include="src\INFRA\WEB\App\__pycache__\recoveryform.cpython-310.pyc" />
+    <Content Include="src\INFRA\WEB\App\__pycache__\routes.cpython-310.pyc" />
+    <Content Include="src\INFRA\WEB\App\__pycache__\__init__.cpython-310.pyc" />
+    <Content Include="src\INFRA\WEB\static\js\index.js" />
+    <Content Include="src\INFRA\WEB\static\templates\buycredits.html" />
+    <Content Include="src\INFRA\WEB\static\templates\confirmation.html" />
+    <Content Include="src\INFRA\WEB\static\templates\forgot.html" />
+    <Content Include="src\INFRA\WEB\static\templates\recovery.html" />
+    <Content Include="src\INFRA\WEB\static\templates\success.html" />
+    <Content Include="src\INFRA\WEB\static\templates\_formhelpers.html" />
+    <Content Include="src\INFRA\WEB\__pycache__\__init__.cpython-310.pyc" />
+    <Content Include="src\INFRA\__pycache__\__init__.cpython-310.pyc" />
     <Content Include="src\insomnia.har" />
-    <Content Include="src\NET\__pycache__\__init__.cpython-310.pyc" />
-    <Content Include="src\NET\__pycache__\__init__.cpython-39.pyc" />
-    <Content Include="src\WEB\App\__pycache__\recoveryform.cpython-310.pyc" />
-    <Content Include="src\WEB\App\__pycache__\routes.cpython-310.pyc" />
-    <Content Include="src\WEB\App\__pycache__\__init__.cpython-310.pyc" />
-    <Content Include="src\WEB\static\js\index.js" />
-    <Content Include="src\WEB\static\templates\buycredits.html" />
-    <Content Include="src\WEB\static\templates\confirmation.html" />
-    <Content Include="src\WEB\static\templates\forgot.html" />
-    <Content Include="src\WEB\static\templates\recovery.html" />
-    <Content Include="src\WEB\static\templates\success.html" />
-    <Content Include="src\WEB\static\templates\_formhelpers.html" />
-    <Content Include="src\WEB\__pycache__\__init__.cpython-310.pyc" />
+    <Content Include="src\__pycache__\__init__.cpython-310.pyc" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
@@ -2583,15 +2585,18 @@
     <Folder Include="src\BUSINESS\User\UpdateProfile\__pycache__\" />
     <Folder Include="src\BUSINESS\User\__pycache__\" />
     <Folder Include="src\BUSINESS\__pycache__\" />
-    <Folder Include="src\NET\" />
-    <Folder Include="src\NET\__pycache__\" />
-    <Folder Include="src\WEB\" />
-    <Folder Include="src\WEB\App\" />
-    <Folder Include="src\WEB\App\__pycache__\" />
-    <Folder Include="src\WEB\static\" />
-    <Folder Include="src\WEB\static\js\" />
-    <Folder Include="src\WEB\static\templates\" />
-    <Folder Include="src\WEB\__pycache__\" />
+    <Folder Include="src\INFRA\" />
+    <Folder Include="src\INFRA\NET\" />
+    <Folder Include="src\INFRA\NET\__pycache__\" />
+    <Folder Include="src\INFRA\WEB\" />
+    <Folder Include="src\INFRA\WEB\App\" />
+    <Folder Include="src\INFRA\WEB\App\__pycache__\" />
+    <Folder Include="src\INFRA\WEB\static\" />
+    <Folder Include="src\INFRA\WEB\static\js\" />
+    <Folder Include="src\INFRA\WEB\static\templates\" />
+    <Folder Include="src\INFRA\WEB\__pycache__\" />
+    <Folder Include="src\INFRA\__pycache__\" />
+    <Folder Include="src\__pycache__\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 

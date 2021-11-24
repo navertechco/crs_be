@@ -5,7 +5,7 @@ except ImportError:
 from ..DSSendEmail import DSSendEmail
 from naver_core import *
 import os
-from src.NET import Net
+from src.INFRA.NET import Net
 
 
 emailtype = dict({
@@ -75,7 +75,7 @@ def EmailSender(data, type):
     """
     try:
         import codecs
-        from src.WEB.App.routes import TEMPLATE_FOLDER 
+        from src.INFRA.WEB.App.routes import TEMPLATE_FOLDER 
         TEMPLATE = os.path.join(TEMPLATE_FOLDER, type.get('template')+'.html')
         f = codecs.open(TEMPLATE, 'r')
         body = f.read()

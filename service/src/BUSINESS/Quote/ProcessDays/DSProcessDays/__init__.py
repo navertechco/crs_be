@@ -7,7 +7,7 @@ from src.BUSINESS.Dto import ServiceListDto
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.WEB.App.routes import app
+from src.INFRA.WEB.App.routes import app
 import ast
 import json
 

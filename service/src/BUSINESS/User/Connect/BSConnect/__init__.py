@@ -6,7 +6,7 @@ except ImportError:
 
 from naver_core import *
 from naver_config import *
-from src.WEB.App.routes import app
+from src.INFRA.WEB.App.routes import app
 from src.BUSINESS.System import ValidateUser, LogConnection
 from ... import SignUp, SignIn, UpdateProfile, Reset
 config = NaverConfig(app)

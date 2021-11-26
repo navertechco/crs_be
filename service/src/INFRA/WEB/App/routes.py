@@ -182,10 +182,13 @@ class PlayTour(Resource):
 
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
-        """        
-        data = json.dumps(FSPlayTour(slug)) 
-        hash = binascii.hexlify(data.encode('utf-8'))
+        """ 
         headers = {'Content-Type': 'text/html'} 
+        res = FSPlayTour(slug)     
+        if res is None:
+            return make_response(render_template('empty.html'),200,headers)  
+        data = json.dumps(res) 
+        hash = binascii.hexlify(data.encode('utf-8'))
         return make_response(render_template('playlist.html',  data=hash),200,headers) 
     
 from src.BUSINESS.Client.ClientEdit import FSClientEdit

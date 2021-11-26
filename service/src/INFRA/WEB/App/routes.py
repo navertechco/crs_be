@@ -171,6 +171,8 @@ class Logout(Resource):
 #endregion
 #region Client
 from src.BUSINESS.Client.PlayTour import FSPlayTour
+import binascii
+ 
 @api.route('/Client/PlayTour/<slug>')
 @api.param('slug', 'video playlist')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
@@ -181,7 +183,11 @@ class PlayTour(Resource):
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """        
-        return FSPlayTour(slug) 
+        data = json.dumps(FSPlayTour(slug)) 
+        hash = binascii.hexlify(data.encode('utf-8'))
+        headers = {'Content-Type': 'text/html'} 
+        return make_response(render_template('playlist.html',  data=hash),200,headers) 
+    
 from src.BUSINESS.Client.ClientEdit import FSClientEdit
 @api.route('/Client/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
@@ -206,6 +212,7 @@ class QuoteEdit(Resource):
         """
         data = request.get_json(force=True)
         return FSQuoteEdit(data) 
+    
 from src.BUSINESS.Quote.NewQuote import FSNewQuote
 @api.route('/Quote/NewQuote')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})

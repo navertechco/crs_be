@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="//vjs.zencdn.net/6.2.8/video-js.css" rel="stylesheet">
+  <link href="//plugins.omaraslam.com/css/video-wall/video-wall.css" rel="stylesheet">
+
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <script src="//code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+    crossorigin="anonymous"></script>
+
+  <script src="//vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+  <script src="//vjs.zencdn.net/6.2.8/video.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+  <script src="//plugins.omaraslam.com/js/video-wall/video-wall.js"></script>
+
+</head>
+
+<body>
+  <video  id="my-video" data={{data}} style="width: 100%; height: 100%;"></video >
+</body>
+<script>
+  var binascii = (function () {
+
+    var hexlify = function (str) {
+      var result = '';
+      var padding = '00';
+      for (var i = 0, l = str.length; i < l; i++) {
+        var digit = str.charCodeAt(i).toString(16);
+        var padded = (padding + digit).slice(-2);
+        result += padded;
+      }
+      return result;
+    };
+
+    var unhexlify = function (str) {
+      var result = '';
+      for (var i = 0, l = str.length; i < l; i += 2) {
+        result += String.fromCharCode(parseInt(str.substr(i, 2), 16));
+      }
+      return result;
+    };
+
+
+    return {
+      b2a_hex: hexlify,
+      hexlify: hexlify,
+
+      a2b_hex: unhexlify,
+      unhexlify: unhexlify
+    };
+
+  })();
+  var encrypted = $('#my-video').attr('data').replace("b'", "")
+  var decrypted = binascii.unhexlify(encrypted).replace(/\0/g, '')
+  var json = JSON.parse(decrypted)['videos']
+  $('#my-video').idowsVideowall({
+    wallType: 'carousel',
+    videos: json
+  });
+</script>
+
+</html>

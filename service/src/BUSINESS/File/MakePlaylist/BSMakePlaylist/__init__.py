@@ -28,6 +28,6 @@ def BSMakePlaylist(input):
         if len(result) > 0:
             result['session'].commit()
             return True
-        raise Exception((605, 'Error de MakePlaylistación'))
+        raise Exception(605, 'Error de MakePlaylistación')
     except Exception as e:
         raise e

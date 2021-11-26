@@ -33,6 +33,6 @@ def BSNewQuote(input):
                 id = new_quotes[0]['id_quote']
                 return id
             raise Exception('No se creó la cotización, pruebe los datos ingresados')
-        raise Exception((605, 'Error de NewQuoteación'))
+        raise Exception(605, 'Error de NewQuoteación')
     except Exception as e:
         raise e

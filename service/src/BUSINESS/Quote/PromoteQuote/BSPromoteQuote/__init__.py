@@ -28,6 +28,6 @@ def BSPromoteQuote(input):
         if len(result) > 0:
             result['session'].commit()
             return True
-        raise Exception((605, 'Error de PromoteQuoteación'))
+        raise Exception(605, 'Error de PromoteQuoteación')
     except Exception as e:
         raise e

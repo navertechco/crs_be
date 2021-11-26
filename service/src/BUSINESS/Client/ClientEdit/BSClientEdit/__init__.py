@@ -27,6 +27,6 @@ def BSClientEdit(input):
         if state == 'update':
             return EditContact().BSEditContact(input)
 
-        raise Exception((605, 'Error de Edición'))
+        raise Exception(605, 'Error de Edición')
     except Exception as e:
         raise e

@@ -28,6 +28,6 @@ def BSConfirm(input):
         if len(result) > 0:
             result['session'].commit()
             return True
-        raise Exception((605, 'Error de Confirmación'))
+        raise Exception(605, 'Error de Confirmación')
     except Exception as e:
         raise e

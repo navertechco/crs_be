@@ -28,6 +28,6 @@ def BSMakeEmail(input):
         if len(result) > 0:
             result['session'].commit()
             return True
-        raise Exception((605, 'Error de MakeEmailación'))
+        raise Exception(605, 'Error de MakeEmailación')
     except Exception as e:
         raise e

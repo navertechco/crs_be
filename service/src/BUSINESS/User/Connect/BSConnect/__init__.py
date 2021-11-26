@@ -56,6 +56,6 @@ def BSConnect(input):
                 result = self.UpdateProfile.BSUpdateProfile(input)
                 return result
 
-        raise Exception((605, 'Error de Login'))
+        raise Exception(605, 'Error de Login')
     except Exception as e:
         raise e

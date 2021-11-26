@@ -11,7 +11,7 @@ def BSEditContact(input):
             res.get('session').commit()
             return True
             
-        raise Exception((605, 'Error de Edición'))
+        raise Exception(605, 'Error de Edición')
 
     except Exception as e:
         raise e

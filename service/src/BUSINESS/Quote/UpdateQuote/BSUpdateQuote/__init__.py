@@ -27,20 +27,20 @@ def BSUpdateQuote(input):
             if len(result) > 0:
                 result['session'].commit()
                 return True
-            raise Exception((605, 'Error de Actualización de Cotización'))
+            raise Exception(605, 'Error de Actualización de Cotización')
         if state == 'cancel':
             id = getValue(input, 'id')
             result = CancelQuote().DSCancelQuote(id)
             if len(result) > 0:
                 result['session'].commit()
                 return True
-            raise Exception((605, 'Error de Cancelado de Cotización'))
+            raise Exception(605, 'Error de Cancelado de Cotización')
         if state == 'promote':
             id = getValue(input, 'id')
             result = PromoteQuote().DSPromoteQuote(id)
             if len(result) > 0:
                 result['session'].commit()
                 return True
-            raise Exception((605, 'Error de Promoción de Cotización'))
+            raise Exception(605, 'Error de Promoción de Cotización')
     except Exception as e:
         raise e

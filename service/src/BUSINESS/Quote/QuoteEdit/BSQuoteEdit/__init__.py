@@ -37,6 +37,6 @@ def BSQuoteEdit(input):
         if state == 'update':
             return UpdateQuote().BSUpdateQuote(input)
 
-        raise Exception((605, 'Error de Edición'))
+        raise Exception(605, 'Error de Edición')
     except Exception as e:
         raise e

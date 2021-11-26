@@ -170,6 +170,18 @@ class Logout(Resource):
         return FSLogout(data) 
 #endregion
 #region Client
+from src.BUSINESS.Client.PlayTour import FSPlayTour
+@api.route('/Client/PlayTour/<slug>')
+@api.param('slug', 'video playlist')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class PlayTour(Resource):
+    def get(self, slug):
+        """Método para reproducir un tour
+
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """        
+        return FSPlayTour(slug) 
 from src.BUSINESS.Client.ClientEdit import FSClientEdit
 @api.route('/Client/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os.path
 from pathlib import Path
-
+ 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_json_widget', 
+    'django_json_widget',
     'codemirror',
     'codemirror2',
     'prettyjson',
-    'pantalla'
+    'src.models',
+    # 'src.pantalla',
+    
 ]
 
 MIDDLEWARE = [
@@ -63,6 +65,7 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
+
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -101,6 +104,10 @@ DATABASES = {
         'HOST': '172.16.0.129',
 
         'PORT': '5432',
+
+        'OPTIONS': {
+            'options': '-c search_path=masters,catalogues,django,entities,relatios,details'
+        }
 
     }
 }

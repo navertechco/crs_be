@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class PantallaConfig(AppConfig):
-    name = 'pantalla'
+    name = 'src.pantalla'

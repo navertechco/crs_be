@@ -9,10 +9,10 @@ from django.db import models
 
 
 class AgeFriendlyRange(models.Model):
-    age_friendly_range_id = models.AutoField(primary_key=True)
+    age_friendly_range_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -20,10 +20,10 @@ class AgeFriendlyRange(models.Model):
 
 
 class Agent(models.Model):
-    agent_id = models.AutoField(primary_key=True)
+    agent_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     user = models.ForeignKey('User', models.DO_NOTHING)
 
     class Meta:
@@ -101,10 +101,10 @@ class AuthUserUserPermissions(models.Model):
 
 
 class Budget(models.Model):
-    budget_id = models.AutoField(primary_key=True)
+    budget_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -112,10 +112,10 @@ class Budget(models.Model):
 
 
 class City(models.Model):
-    city_id = models.AutoField(primary_key=True)
+    city_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -123,17 +123,17 @@ class City(models.Model):
 
 
 class Client(models.Model):
-    client_id = models.AutoField(primary_key=True)
+    client_id = models.BigIntegerField(primary_key=True)
     name_contact = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
-    legal_client_type_id = models.BigIntegerField() 
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
+    legal_client_type_id = models.BigIntegerField()
     client_type_id = models.BigIntegerField()
     dni = models.CharField(unique=True, max_length=32)
     is_owner = models.BooleanField()
     name_contact_2 = models.CharField(max_length=64, blank=True, null=True)
     email = models.CharField(unique=True, max_length=64)
-    origin_id = models.CharField(max_length=64)
+    origin_id = models.CharField(max_length=-1)
     phone = models.CharField(unique=True, max_length=64)
     address = models.CharField(max_length=64)
 
@@ -143,11 +143,11 @@ class Client(models.Model):
 
 
 class ClientType(models.Model):
-    client_type_id = models.AutoField(primary_key=True)
+    client_type_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
     props = models.TextField(blank=True, null=True)  # This field type is a guess.
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -155,10 +155,10 @@ class ClientType(models.Model):
 
 
 class CountryDestination(models.Model):
-    country_destination_id = models.AutoField(primary_key=True)
+    country_destination_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -166,10 +166,10 @@ class CountryDestination(models.Model):
 
 
 class Day(models.Model):
-    day_id = models.AutoField(primary_key=True)
+    day_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64, blank=True, null=True)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     key_activity_id = models.BigIntegerField()
     included_option_id = models.BigIntegerField()
     destination_id = models.BigIntegerField()
@@ -182,10 +182,10 @@ class Day(models.Model):
 
 
 class Delimiter(models.Model):
-    delimiter_id = models.AutoField(primary_key=True)
+    delimiter_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -193,10 +193,10 @@ class Delimiter(models.Model):
 
 
 class Destination(models.Model):
-    destination_id = models.AutoField(primary_key=True)
+    destination_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -249,10 +249,10 @@ class DjangoSession(models.Model):
 
 
 class IncludedOption(models.Model):
-    included_option_id = models.AutoField(primary_key=True)
+    included_option_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -260,9 +260,9 @@ class IncludedOption(models.Model):
 
 
 class Itinerary(models.Model):
-    itinerary_id = models.AutoField(primary_key=True)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    itinerary_id = models.BigIntegerField(primary_key=True)
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     pax = models.IntegerField()
     agent_id = models.BigIntegerField(blank=True, null=True)
     travel_expert_id = models.BigIntegerField(blank=True, null=True)
@@ -287,8 +287,8 @@ class Itinerary(models.Model):
 
 
 class ItineraryDay(models.Model):
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     itinerary_day_id = models.BigIntegerField()
     promo_id = models.BigIntegerField()
     service_id = models.BigIntegerField()
@@ -300,10 +300,10 @@ class ItineraryDay(models.Model):
 
 
 class ItineraryState(models.Model):
-    itinerary_state_id = models.AutoField(primary_key=True)
+    itinerary_state_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -311,10 +311,10 @@ class ItineraryState(models.Model):
 
 
 class KeyActivity(models.Model):
-    key_activity_id = models.AutoField(primary_key=True)
+    key_activity_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -322,10 +322,10 @@ class KeyActivity(models.Model):
 
 
 class LegalClientType(models.Model):
-    legal_client_type_id = models.AutoField(primary_key=True)
+    legal_client_type_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -333,10 +333,10 @@ class LegalClientType(models.Model):
 
 
 class Media(models.Model):
-    media_id = models.AutoField(primary_key=True)
+    media_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     media_type_id = models.BigIntegerField()
 
     class Meta:
@@ -345,10 +345,10 @@ class Media(models.Model):
 
 
 class MediaType(models.Model):
-    media_type_id = models.AutoField(primary_key=True)
+    media_type_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -356,10 +356,10 @@ class MediaType(models.Model):
 
 
 class Origin(models.Model):
-    origin_id = models.CharField(primary_key=True, max_length=64)
-    name = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    origin_id = models.CharField(primary_key=True, max_length=-1)
+    name = models.CharField(max_length=-1)
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -367,10 +367,10 @@ class Origin(models.Model):
 
 
 class PaymentType(models.Model):
-    payment_type_id = models.AutoField(primary_key=True)
+    payment_type_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -378,12 +378,12 @@ class PaymentType(models.Model):
 
 
 class Playlist(models.Model):
-    playlist_id = models.AutoField(primary_key=True)
+    playlist_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     playlist = models.TextField(blank=True, null=True)  # This field type is a guess.
-    playlist_slug = models.CharField(max_length=64)
+    playlist_slug = models.CharField(max_length=-1)
 
     class Meta:
         managed = False
@@ -391,10 +391,10 @@ class Playlist(models.Model):
 
 
 class Promo(models.Model):
-    promo_id = models.AutoField(primary_key=True)
+    promo_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     discount = models.FloatField(blank=True, null=True)
 
     class Meta:
@@ -403,10 +403,10 @@ class Promo(models.Model):
 
 
 class Purpose(models.Model):
-    purpose_id = models.AutoField(primary_key=True)
+    purpose_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -414,9 +414,9 @@ class Purpose(models.Model):
 
 
 class Service(models.Model):
-    service_id = models.AutoField(primary_key=True)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    service_id = models.BigIntegerField(primary_key=True)
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     destination_id = models.BigIntegerField()
     supplier_id = models.BigIntegerField()
     key_activity_id = models.BigIntegerField()
@@ -455,7 +455,7 @@ class ServiceCruise(models.Model):
     fleet = models.TextField(blank=True, null=True)  # This field type is a guess.
     operator_name = models.CharField(max_length=32, blank=True, null=True)
     owner_name = models.CharField(max_length=32, blank=True, null=True)
-    ship_name = models.CharField(max_length=64)
+    ship_name = models.CharField(max_length=-1)
     aet = models.FloatField(blank=True, null=True)
     cost = models.FloatField(blank=True, null=True)
     pax_daily_rate = models.FloatField(blank=True, null=True)
@@ -472,10 +472,10 @@ class ServiceCruise(models.Model):
     constraints = models.TextField(blank=True, null=True)  # This field type is a guess.
     guides = models.TextField(blank=True, null=True)  # This field type is a guess.
     itinerary = models.TextField(blank=True, null=True)  # This field type is a guess.
-    web_page = models.CharField(max_length=64, blank=True, null=True)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
-    id = models.AutoField(primary_key=True)
+    web_page = models.CharField(max_length=-1, blank=True, null=True)
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
+    id = models.BigIntegerField(primary_key=True)
     service_id = models.BigIntegerField()
 
     class Meta:
@@ -493,12 +493,12 @@ class ServiceHotel(models.Model):
     group_from = models.BigIntegerField(blank=True, null=True)
     group_rate = models.BigIntegerField(blank=True, null=True)
     guide_transport = models.FloatField(blank=True, null=True)
-    hotel_name = models.CharField(max_length=64, blank=True, null=True)
+    hotel_name = models.CharField(max_length=-1, blank=True, null=True)
     infant_friendly = models.BooleanField(blank=True, null=True)
     key_activity_type_fk = models.BigIntegerField(blank=True, null=True)
     max_capacity = models.BigIntegerField(blank=True, null=True)
     midweek_rate = models.FloatField(blank=True, null=True)
-    observations = models.CharField(max_length=64, blank=True, null=True)
+    observations = models.CharField(max_length=-1, blank=True, null=True)
     outside_window = models.BooleanField(blank=True, null=True)
     pet_friendly = models.BooleanField(blank=True, null=True)
     purpouse_fk = models.BigIntegerField(blank=True, null=True)
@@ -506,8 +506,8 @@ class ServiceHotel(models.Model):
     ro_house = models.BooleanField(blank=True, null=True)
     romantic_package = models.TextField(blank=True, null=True)  # This field type is a guess.
     romantic_rate = models.FloatField(blank=True, null=True)
-    room_category = models.CharField(max_length=64, blank=True, null=True)
-    room_description = models.CharField(max_length=64, blank=True, null=True)
+    room_category = models.CharField(max_length=-1, blank=True, null=True)
+    room_description = models.CharField(max_length=-1, blank=True, null=True)
     selling_price = models.FloatField(blank=True, null=True)
     supplier_fk = models.BigIntegerField(blank=True, null=True)
     tax1_iva = models.FloatField(blank=True, null=True)
@@ -517,9 +517,9 @@ class ServiceHotel(models.Model):
     terrace_patio = models.BooleanField(blank=True, null=True)
     tub_jacuzzi = models.BooleanField(blank=True, null=True)
     weekend_rate = models.FloatField(blank=True, null=True)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
-    id = models.AutoField(primary_key=True)
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
+    id = models.BigIntegerField(primary_key=True)
     service_id = models.BigIntegerField()
 
     class Meta:
@@ -528,10 +528,10 @@ class ServiceHotel(models.Model):
 
 
 class ServiceType(models.Model):
-    service_type_id = models.AutoField(primary_key=True)
+    service_type_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -539,10 +539,10 @@ class ServiceType(models.Model):
 
 
 class Supplier(models.Model):
-    supplier_id = models.AutoField(primary_key=True)
+    supplier_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64, blank=True, null=True)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     supplier_type_id = models.BigIntegerField()
     supplier_rule_id = models.BigIntegerField()
     props = models.TextField(blank=True, null=True)  # This field type is a guess.
@@ -571,10 +571,10 @@ class Supplier(models.Model):
 
 
 class SupplierRule(models.Model):
-    supplier_rule_id = models.AutoField(primary_key=True)
+    supplier_rule_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -582,10 +582,10 @@ class SupplierRule(models.Model):
 
 
 class SupplierType(models.Model):
-    supplier_type_id = models.AutoField(primary_key=True)
+    supplier_type_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -593,12 +593,12 @@ class SupplierType(models.Model):
 
 
 class Transport(models.Model):
-    transport_id = models.AutoField(primary_key=True)
+    transport_id = models.BigIntegerField(primary_key=True)
     transport_range_id = models.BigIntegerField()
     transport_service_id = models.BigIntegerField()
     rate = models.FloatField()
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -606,10 +606,10 @@ class Transport(models.Model):
 
 
 class TransportRange(models.Model):
-    transport_range_id = models.AutoField(primary_key=True)
+    transport_range_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=128)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -617,10 +617,10 @@ class TransportRange(models.Model):
 
 
 class TransportService(models.Model):
-    transport_service_id = models.AutoField(primary_key=True)
+    transport_service_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=128)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
 
     class Meta:
         managed = False
@@ -628,10 +628,10 @@ class TransportService(models.Model):
 
 
 class TravelExpert(models.Model):
-    travel_expert_id = models.AutoField(primary_key=True)
+    travel_expert_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -640,10 +640,10 @@ class TravelExpert(models.Model):
 
 
 class TravelRitm(models.Model):
-    travel_ritm_id = models.AutoField(primary_key=True)
+    travel_ritm_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     capacity = models.BigIntegerField()
 
     class Meta:
@@ -652,19 +652,19 @@ class TravelRitm(models.Model):
 
 
 class User(models.Model):
-    user_id = models.AutoField(primary_key=True)
+    user_id = models.BigIntegerField(primary_key=True)
     description = models.CharField(max_length=64, blank=True, null=True)
-    # created = models.DateTimeField()
-    # updated = models.DateTimeField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField()
     surname = models.CharField(max_length=16, blank=True, null=True)
     lastname = models.CharField(max_length=16, blank=True, null=True)
     username = models.CharField(unique=True, max_length=16, blank=True, null=True)
-    password = models.CharField(max_length=64, blank=True, null=True)
+    password = models.CharField(max_length=-1, blank=True, null=True)
     identification = models.CharField(unique=True, max_length=16)
-    # state = models.BigIntegerField()
+    state = models.BigIntegerField()
     email = models.CharField(max_length=64, blank=True, null=True)
     phone = models.CharField(unique=True, max_length=64, blank=True, null=True)
-    # confirmation = models.CharField(max_length=64)
+    confirmation = models.CharField(max_length=-1)
 
     class Meta:
         managed = False

@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+
 import os.path
 from pathlib import Path
+# from .urls import *
  
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,7 +45,7 @@ INSTALLED_APPS = [
     'codemirror2',
     'prettyjson',
     'src.models',
-    # 'src.pantalla',
+    'src.pantalla',
     
 ]
 
@@ -57,7 +59,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'main.urls'
+ROOT_URLCONF = 'src.main.urls'
 
 TEMPLATES = [
     {
@@ -76,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'main.wsgi.application'
+WSGI_APPLICATION = 'src.main.wsgi.application'
 
 
 # Database

@@ -13,6 +13,8 @@ class AgeFriendlyRange(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -24,6 +26,8 @@ class Agent(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
     user = models.ForeignKey('User', models.DO_NOTHING)
 
     class Meta:
@@ -105,6 +109,8 @@ class Budget(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -116,6 +122,8 @@ class City(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -123,17 +131,20 @@ class City(models.Model):
 
 
 class Client(models.Model):
+    description = models.CharField(max_length=64)
     client_id = models.AutoField(primary_key=True)
     name_contact = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
-    legal_client_type_id = models.BigIntegerField() 
-    client_type_id = models.BigIntegerField()
+    def __str__(self):
+        return self.description
+    legal_client_type = models.ForeignKey('LegalClientType', models.DO_NOTHING) 
+    client_type = models.ForeignKey('ClientType', models.DO_NOTHING)
+    origin = models.ForeignKey('Origin', models.DO_NOTHING)
     dni = models.CharField(unique=True, max_length=32)
     is_owner = models.BooleanField()
     name_contact_2 = models.CharField(max_length=64, blank=True, null=True)
     email = models.CharField(unique=True, max_length=64)
-    origin_id = models.CharField(max_length=64)
     phone = models.CharField(unique=True, max_length=64)
     address = models.CharField(max_length=64)
 
@@ -148,6 +159,8 @@ class ClientType(models.Model):
     props = models.TextField(blank=True, null=True)  # This field type is a guess.
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -159,6 +172,8 @@ class CountryDestination(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -170,9 +185,11 @@ class Day(models.Model):
     description = models.CharField(max_length=64, blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
-    key_activity_id = models.BigIntegerField()
-    included_option_id = models.BigIntegerField()
-    destination_id = models.BigIntegerField()
+    def __str__(self):
+        return self.description
+    key_activity = models.ForeignKey('KeyActivity', models.DO_NOTHING)
+    included_option = models.ForeignKey('IncludedOption', models.DO_NOTHING)
+    destination = models.ForeignKey('Destination', models.DO_NOTHING)
     transport = models.ForeignKey('Transport', models.DO_NOTHING)
     date = models.DateField(blank=True, null=True)
 
@@ -186,6 +203,8 @@ class Delimiter(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -197,7 +216,8 @@ class Destination(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
-
+    def __str__(self):
+        return self.description
     class Meta:
         managed = False
         db_table = 'destination'
@@ -253,6 +273,8 @@ class IncludedOption(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -263,35 +285,39 @@ class Itinerary(models.Model):
     itinerary_id = models.AutoField(primary_key=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.itinerary_id
     pax = models.IntegerField()
-    agent_id = models.BigIntegerField(blank=True, null=True)
-    travel_expert_id = models.BigIntegerField(blank=True, null=True)
-    client_id = models.BigIntegerField()
-    itinerary_state_id = models.BigIntegerField()
-    country_destination_id = models.BigIntegerField()
-    budget_id = models.BigIntegerField()
-    purpose_id = models.BigIntegerField()
-    reproductions = models.BigIntegerField()
-    match = models.TextField(blank=True, null=True)  # This field type is a guess.
-    day_destinations = models.TextField(blank=True, null=True)  # This field type is a guess.
+    agent = models.ForeignKey('Agent', models.DO_NOTHING, blank=True, null=True)
+    travel_expert = models.ForeignKey('TravelExpert', models.DO_NOTHING, blank=True, null=True)
+    # playlist = models.ForeignKey('Playlist', models.DO_NOTHING, blank=True, null=True)
+    client = models.ForeignKey('Client', models.DO_NOTHING)
+    itinerary_state = models.ForeignKey('ItineraryState', models.DO_NOTHING)
+    country_destination = models.ForeignKey('CountryDestination', models.DO_NOTHING)
+    budget = models.ForeignKey('Budget', models.DO_NOTHING)
+    purpose = models.ForeignKey('Purpose', models.DO_NOTHING)
+    # reproductions = models.BigIntegerField()
+    # match = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # day_destinations = models.TextField(blank=True, null=True)  # This field type is a guess.
     arrival_date = models.DateField(blank=True, null=True)
     departure_date = models.DateField(blank=True, null=True)
-    days_duration = models.BigIntegerField(blank=True, null=True)
-    hours_duration = models.BigIntegerField(blank=True, null=True)
-    playlist_id = models.BigIntegerField(blank=True, null=True)
+    # days_duration = models.BigIntegerField(blank=True, null=True)
+    # hours_duration = models.BigIntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'itinerary'
-        unique_together = (('pax', 'agent_id', 'client_id', 'itinerary_state_id', 'country_destination_id', 'budget_id', 'purpose_id'),)
+        unique_together = (('pax', 'agent', 'client', 'itinerary_state', 'country_destination', 'budget', 'purpose'),)
 
 
 class ItineraryDay(models.Model):
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
-    itinerary_day_id = models.BigIntegerField()
-    promo_id = models.BigIntegerField()
-    service_id = models.BigIntegerField()
+    def __str__(self):
+        return self.description
+    itinerary_day_id = models.AutoField(primary_key=True)
+    promo = models.ForeignKey('Promo', models.DO_NOTHING)
+    service = models.ForeignKey('Service', models.DO_NOTHING)
     amount = models.BigIntegerField()
 
     class Meta:
@@ -304,6 +330,8 @@ class ItineraryState(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -315,6 +343,8 @@ class KeyActivity(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -326,6 +356,8 @@ class LegalClientType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -337,8 +369,9 @@ class Media(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
-    media_type_id = models.BigIntegerField()
-
+    def __str__(self):
+        return self.description
+    media_type = models.ForeignKey('MediaType', models.DO_NOTHING)
     class Meta:
         managed = False
         db_table = 'media'
@@ -349,6 +382,8 @@ class MediaType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -356,10 +391,12 @@ class MediaType(models.Model):
 
 
 class Origin(models.Model):
-    origin_id = models.CharField(primary_key=True, max_length=64)
-    name = models.CharField(max_length=64)
+    origin_id = models.AutoField(primary_key=True)
+    description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -371,6 +408,8 @@ class PaymentType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -382,6 +421,8 @@ class Playlist(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
     playlist = models.TextField(blank=True, null=True)  # This field type is a guess.
     playlist_slug = models.CharField(max_length=64)
 
@@ -395,6 +436,8 @@ class Promo(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
     discount = models.FloatField(blank=True, null=True)
 
     class Meta:
@@ -407,6 +450,8 @@ class Purpose(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -417,13 +462,20 @@ class Service(models.Model):
     service_id = models.AutoField(primary_key=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
-    destination_id = models.BigIntegerField()
-    supplier_id = models.BigIntegerField()
-    key_activity_id = models.BigIntegerField()
-    service_type_id = models.BigIntegerField()
-    budget_id = models.BigIntegerField()
-    delimiter_id = models.BigIntegerField()
+    def __str__(self):
+        return self.description
+    destination = models.ForeignKey('Destination', models.DO_NOTHING, blank=True, null=True)
+    supplier = models.ForeignKey('Supplier', models.DO_NOTHING, blank=True, null=True)
+    key_activity = models.ForeignKey('KeyActivity', models.DO_NOTHING, blank=True, null=True)
+    service_type = models.ForeignKey('ServiceType', models.DO_NOTHING, blank=True, null=True)
+    budget = models.ForeignKey('Budget', models.DO_NOTHING, blank=True, null=True)
+    delimiter = models.ForeignKey('Delimiter', models.DO_NOTHING, blank=True, null=True)
+    age_friendly_range = models.ForeignKey('AgeFriendlyRange', models.DO_NOTHING, blank=True, null=True)
+    travel_ritm = models.ForeignKey('TravelRitm', models.DO_NOTHING, blank=True, null=True)
+    child_frendly = models.BooleanField()
+    infant_friendly = models.BooleanField()
     me = models.BooleanField()
+    pet_friendly = models.BooleanField()
     open_days = models.CharField(max_length=16)
     close_time = models.TimeField()
     open_time = models.TimeField()
@@ -432,14 +484,9 @@ class Service(models.Model):
     name = models.CharField(max_length=16)
     description = models.CharField(max_length=64)
     duration = models.BigIntegerField()
-    age_friendly_range_id = models.BigIntegerField()
-    child_frendly = models.BooleanField()
-    infant_friendly = models.BooleanField()
     observation = models.CharField(max_length=64, blank=True, null=True)
     max_capacity = models.BigIntegerField()
-    pet_friendly = models.BooleanField()
     props = models.TextField()  # This field type is a guess.
-    travel_ritm_id = models.BigIntegerField()
 
     class Meta:
         managed = False
@@ -475,8 +522,10 @@ class ServiceCruise(models.Model):
     web_page = models.CharField(max_length=64, blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
     id = models.AutoField(primary_key=True)
-    service_id = models.BigIntegerField()
+    service = models.ForeignKey('Service', models.DO_NOTHING, blank=True, null=False)
 
     class Meta:
         managed = False
@@ -519,8 +568,10 @@ class ServiceHotel(models.Model):
     weekend_rate = models.FloatField(blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
     id = models.AutoField(primary_key=True)
-    service_id = models.BigIntegerField()
+    service = models.ForeignKey('Service', models.DO_NOTHING, blank=True, null=False)
 
     class Meta:
         managed = False
@@ -532,6 +583,8 @@ class ServiceType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -543,16 +596,17 @@ class Supplier(models.Model):
     description = models.CharField(max_length=64, blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
-    supplier_type_id = models.BigIntegerField()
-    supplier_rule_id = models.BigIntegerField()
-    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    def __str__(self):
+        return self.description
+    supplier_type = models.ForeignKey('SupplierType', models.DO_NOTHING, blank=True, null=True)
+    supplier_rule = models.ForeignKey('SupplierRule', models.DO_NOTHING, blank=True, null=True)
+    payment_type = models.ForeignKey('PaymentType', models.DO_NOTHING, blank=True, null=True)
+    city = models.ForeignKey('City', models.DO_NOTHING, blank=True, null=True)
     tax_id = models.BigIntegerField(unique=True)
     legal_name = models.CharField(unique=True, max_length=32)
-    city_id = models.BigIntegerField(blank=True, null=True)
     commercial_name = models.CharField(max_length=32)
     contact_name = models.CharField(max_length=32)
     website = models.CharField(max_length=32, blank=True, null=True)
-    payment_type_id = models.BigIntegerField(blank=True, null=True)
     credit_days = models.CharField(max_length=32, blank=True, null=True)
     finance_email = models.CharField(max_length=32, blank=True, null=True)
     commercial_email = models.CharField(max_length=32, blank=True, null=True)
@@ -564,6 +618,7 @@ class Supplier(models.Model):
     building_number = models.CharField(max_length=32, blank=True, null=True)
     lat = models.FloatField(blank=True, null=True)
     long = models.FloatField(blank=True, null=True)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
         managed = False
@@ -575,6 +630,8 @@ class SupplierRule(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -586,6 +643,8 @@ class SupplierType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -594,11 +653,14 @@ class SupplierType(models.Model):
 
 class Transport(models.Model):
     transport_id = models.AutoField(primary_key=True)
-    transport_range_id = models.BigIntegerField()
-    transport_service_id = models.BigIntegerField()
+    transport_range = models.ForeignKey('TransportRange', models.DO_NOTHING)
+    transport_service = models.ForeignKey('TransportService', models.DO_NOTHING)
+    description = models.CharField(max_length=64)
     rate = models.FloatField()
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -610,6 +672,8 @@ class TransportRange(models.Model):
     description = models.CharField(max_length=128)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -621,6 +685,8 @@ class TransportService(models.Model):
     description = models.CharField(max_length=128)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
 
     class Meta:
         managed = False
@@ -632,6 +698,8 @@ class TravelExpert(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
     user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -644,6 +712,8 @@ class TravelRitm(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
     capacity = models.BigIntegerField()
 
     class Meta:
@@ -656,6 +726,8 @@ class User(models.Model):
     description = models.CharField(max_length=64, blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+    def __str__(self):
+        return self.description
     surname = models.CharField(max_length=16, blank=True, null=True)
     lastname = models.CharField(max_length=16, blank=True, null=True)
     username = models.CharField(unique=True, max_length=16, blank=True, null=True)

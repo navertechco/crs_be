@@ -26,7 +26,7 @@ def DSSendEmail(email, type):
     try:
         state = (lambda x: 6 if (x == 'buycredits') else 1)(type)
         parentdb = []
-        stm = """UPDATE public.USER
+        stm = """UPDATE "USER"
                     SET STATE = {}, CONFIRMATION = uuid_generate_v1()
                     WHERE EMAIL = \'{}\'
                     """.format(state, email)
@@ -37,7 +37,7 @@ def DSSendEmail(email, type):
             res["session"].commit()
             parentdb.append(res["session"])
 
-            stm = """SELECT * from public.USER 
+            stm = """SELECT * from "USER" 
                         WHERE EMAIL = \'{}\'
                         """.format(email)
 

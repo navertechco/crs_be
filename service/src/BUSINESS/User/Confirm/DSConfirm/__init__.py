@@ -25,7 +25,7 @@ def DSConfirm(confirmation):
         dict: Diccionario con información de confirmación de usuario.
     """    
     try:
-        stm = """   UPDATE public.USER
+        stm = """   UPDATE "USER"
                     SET STATE = 2
                     WHERE CONFIRMATION = \'{}\'
                     AND STATE = 1

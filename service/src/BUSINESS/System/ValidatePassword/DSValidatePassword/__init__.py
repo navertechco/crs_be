@@ -15,7 +15,7 @@ nbd = NaverDB(app,config)
 def DSValidatePassword(username, password):
     try:
         pp = ""
-        stm = """ SELECT * FROM public.USER WHERE USERNAME = \'{0}\'
+        stm = """ SELECT * FROM "USER" WHERE USERNAME = \'{0}\'
         
         """.format(username)
         table = "USER"

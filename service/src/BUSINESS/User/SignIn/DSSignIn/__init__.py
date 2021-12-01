@@ -33,7 +33,7 @@ def DSSignIn(username):
     """
     try:
 
-        stm = """   UPDATE public.USER
+        stm = """   UPDATE "USER"
                     SET STATE = 6 -- CONNECTED
                         WHERE USERNAME = \'{0}\'
                         AND (STATE = 5 -- DISCONNECTED;
@@ -45,7 +45,7 @@ def DSSignIn(username):
         res = nbd.persistence.setWrite(stm, table)['session']
         if isinstance(res, object):
             res.commit()
-            stm = """   SELECT * FROM public.USER
+            stm = """   SELECT * FROM "USER"
                                 WHERE USERNAME = \'{0}\'
                                 AND STATE = 6;
                                 """.format(username)

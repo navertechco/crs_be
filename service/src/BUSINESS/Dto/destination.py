@@ -1,23 +1,23 @@
 class DestinationDto():
     def __init__(self, data):
-        self.id_quote = data.get('id_quote') or None
-        self.id_destination = data.get('id_destination') or None
-        self.quote_day = data.get('quote_day') or None
-        self.id_activity = data.get('id_activity') or None
-        self.id_included_option = data.get('id_included_option') or None
-        self.id_travel_ritm = data.get('id_travel_ritm') or None
+        self.intinerary_id = data.get('intinerary_id') or None
+        self.destination_id = data.get('destination_id') or None
+        self.intinerary_day = data.get('intinerary_day') or None
+        self.activity_id = data.get('activity_id') or None
+        self.included_option_id = data.get('included_option_id') or None
+        self.travel_ritm_id = data.get('travel_ritm_id') or None
 
     def set(self, attr):
         setattr(self, attr, attr)
 
     def __dict__(self):
         return {
-            "id_quote": self.id_quote,
-            "id_destination": self.id_destination,
-            "quote_day": self.quote_day,
-            "id_activity": self.id_activity,
-            "id_included_option": self.id_included_option,
-            "id_travel_ritm": self.id_travel_ritm
+            "intinerary_id": self.intinerary_id,
+            "destination_id": self.destination_id,
+            "intinerary_day": self.intinerary_day,
+            "activity_id": self.activity_id,
+            "included_option_id": self.included_option_id,
+            "travel_ritm_id": self.travel_ritm_id
         }
 
 
@@ -26,7 +26,7 @@ class DestinationListDto():
         self.destination_list = []
         for d in data['destinations']:
             destinationDto = DestinationDto(d) 
-            destinationDto.id_quote = id
+            destinationDto.intinerary_id = id
             self.destination_list.append(destinationDto)
 
     def __dict__(self):

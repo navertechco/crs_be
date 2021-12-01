@@ -25,7 +25,7 @@ def DSSignUp(data):
     try:
         user = UserDto(data)
         stm = """
-        INSERT INTO "USER"
+        INSERT INTO entities.user
         (identification, username, surname, lastname, email, phone, state,  created, updated, "password")
         VALUES('{}', '{}', '{}', '{}', '{}', '{}',  0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '{}')
     

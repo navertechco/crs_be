@@ -14,7 +14,7 @@ nbd = NaverDB(app,config)
 
 def DSValidateUser(username):
     try:
-        stm = "SELECT * FROM "USER" WHERE USERNAME = \'{0}\'".format(username)
+        stm = "SELECT * FROM entities.user WHERE USERNAME = \'{0}\'".format(username)
         table = "USER"
         res = nbd.persistence.getQuery(stm, table)
         return res  

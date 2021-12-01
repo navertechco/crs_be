@@ -5,8 +5,7 @@ class ProfileDto():
     def __init__(self, data):
         try:
             self.username = utils.replaceDictIf(data, 'username', 'NULL')
-            self.surname = utils.replaceDictIf(data, 'surname', 'NULL')
-            self.nickname = utils.replaceDictIf(data, 'nickname', 'NULL')
+            self.firstname = utils.replaceDictIf(data, 'firstname', 'NULL')
             self.lastname = utils.replaceDictIf(data, 'lastname', 'NULL')
             self.email = utils.replaceDictIf(data, 'email', 'NULL')
             self.phone = utils.replaceDictIf(data, 'phone', 'NULL')
@@ -20,9 +19,8 @@ class ProfileDto():
     def __dict__(self):
         return {
             'username': self.username,
-            'surname': self.surname,
+            'firstname': self.firstname,
             'credits': self.credits,
-            'nickname': utils.replaceIf(self.nickname, 'None', None),
             'lastname': self.lastname,
             'email': self.email,
             'phone': self.phone,

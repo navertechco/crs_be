@@ -203,65 +203,65 @@ class ClientEdit(Resource):
         data = request.get_json(force=True)
         return FSClientEdit(data) 
 #endregion
-#region Quote
-from src.BUSINESS.Quote.QuoteEdit import FSQuoteEdit
-@api.route('/Quote/Edit')
+#region Itinerary
+from src.BUSINESS.Itinerary.ItineraryEdit import FSItineraryEdit
+@api.route('/Itinerary/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class QuoteEdit(Resource):
+class ItineraryEdit(Resource):
     def post(self):
         """Método para Editar un Presupuesto
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSQuoteEdit(data) 
+        return FSItineraryEdit(data) 
     
-from src.BUSINESS.Quote.NewQuote import FSNewQuote
-@api.route('/Quote/NewQuote')
+from src.BUSINESS.Itinerary.NewItinerary import FSNewItinerary
+@api.route('/Itinerary/NewItinerary')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class NewQuote(Resource):
+class NewItinerary(Resource):
     def post(self):
         """Método para salir de session
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSNewQuote(data) 
+        return FSNewItinerary(data) 
     
-from src.BUSINESS.Quote.ProcessQuote import FSProcessQuote
-@api.route('/Quote/ProcessQuote')
+from src.BUSINESS.Itinerary.ProcessItinerary import FSProcessItinerary
+@api.route('/Itinerary/ProcessItinerary')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class ProcessQuote(Resource):
+class ProcessItinerary(Resource):
     def post(self):
         """Método para salir de session
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSProcessQuote(data) 
-from src.BUSINESS.Quote.PromoteQuote import FSPromoteQuote
-@api.route('/Quote/PromoteQuote')
+        return FSProcessItinerary(data) 
+from src.BUSINESS.Itinerary.PromoteItinerary import FSPromoteItinerary
+@api.route('/Itinerary/PromoteItinerary')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class PromoteQuote(Resource):
+class PromoteItinerary(Resource):
     def post(self):
         """Método para salir de session
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSPromoteQuote(data) 
+        return FSPromoteItinerary(data) 
     
-from src.BUSINESS.Quote.UpdateQuote import FSUpdateQuote
-@api.route('/Quote/UpdateQuote')
+from src.BUSINESS.Itinerary.UpdateItinerary import FSUpdateItinerary
+@api.route('/Itinerary/UpdateItinerary')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class UpdateQuote(Resource):
+class UpdateItinerary(Resource):
     def post(self):
         """Método para salir de session
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSUpdateQuote(data) 
+        return FSUpdateItinerary(data) 
 #endregion
 #region File
 from src.BUSINESS.File.MakeEmail import FSMakeEmail

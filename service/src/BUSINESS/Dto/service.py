@@ -1,6 +1,6 @@
 class ServiceDto():
     def __init__(self, data):
-        self.id_quote_day = data.get('id_quote_day') or None
+        self.id_intinerary_day = data.get('id_intinerary_day') or None
         self.id_service = data.get('id_service') or None 
         self.id_promo = data.get('id_promo') or None 
 
@@ -9,7 +9,7 @@ class ServiceDto():
 
     def __dict__(self):
         return {
-            "id_quote_day": self.id_quote_day,
+            "id_intinerary_day": self.id_intinerary_day,
             "id_service": self.id_service, 
             "id_promo": self.id_promo 
         }

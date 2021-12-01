@@ -6,6 +6,6 @@ except ImportError:
 from .user import UserDto
 from .profile import ProfileDto
 from .client import ClientDto
-from .quote import QuoteDto
+from .intinerary import ItineraryDto
 from .destination import DestinationDto, DestinationListDto
 from .service import ServiceDto, ServiceListDto

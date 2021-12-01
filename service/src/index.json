@@ -436,9 +436,9 @@
           "inputs": ["data"]
         },
         {
-          "name": "PromoteQuote",
+          "name": "PromoteItinerary",
           "method": "POST",
-          "doc": "PromoteQuote Documentation",
+          "doc": "PromoteItinerary Documentation",
           "inputs": ["data"]
         },
         {
@@ -682,15 +682,15 @@
           "inputs": ["data"]
         },
         {
-          "name": "ValidateQuote",
+          "name": "ValidateItinerary",
           "method": "POST",
-          "doc": "ValidateQuote Documentation",
+          "doc": "ValidateItinerary Documentation",
           "inputs": ["data"]
         },
         {
-          "name": "LogQuote",
+          "name": "LogItinerary",
           "method": "POST",
-          "doc": "LogQuote Documentation",
+          "doc": "LogItinerary Documentation",
           "inputs": ["data"]
         },
         {

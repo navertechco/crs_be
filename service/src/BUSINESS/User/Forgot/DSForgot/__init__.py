@@ -27,7 +27,7 @@ def DSForgot(password, confirmation):
     """    
     try:
         stm = """ UPDATE GAMER
-                    SET PASSWORD = \'{0}\', CONFIRMATION = uuid_generate_v1()
+                    SET PASSWORD = \'{0}\', CONFIRMATION = django.uuid_generate_v1()
                     WHERE CONFIRMATION = \'{1}\' """.format(password, confirmation)
     
         table = "GAMER"

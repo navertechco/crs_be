@@ -17,7 +17,7 @@ def DSLogout(indetification):
 
     0.- NEW: El usuario es nuevo, no se ha registrado en la base de datos
     1.- UNCONFIRMED: El usuario esta en la base de datos pero no ha confirmado su cuenta
-    2.- REGITERED: El usuario esta en la base de datos y ha confirmado su cuenta
+    2.- REGISTERED: El usuario esta en la base de datos y ha confirmado su cuenta
     3.- FORGOT: El usuario esta en la base de datos pero ha olvidado su contraseña
     4.- BLOCK: El usuario esta en la base de datos pero ha sido bloqueado
     5.- DISCONNECTED: El usuario esta en la base de datos y ha cerrado sesion

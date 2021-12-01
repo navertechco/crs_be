@@ -35,8 +35,8 @@ from .LogPay import LogPay
 from .ValidatePay import ValidatePay
 from .LogSale import LogSale
 from .ValidateSale import ValidateSale
-from .LogQuote import LogQuote
-from .ValidateQuote import ValidateQuote
+from .LogItinerary import LogItinerary
+from .ValidateItinerary import ValidateItinerary
 from .LogOpportunity import LogOpportunity
 from .ValidateOpportunity import ValidateOpportunity
 from .LogUser import LogUser
@@ -57,8 +57,8 @@ class System():
         self.LogUser = LogUser()
         self.ValidateOpportunity = ValidateOpportunity()
         self.LogOpportunity = LogOpportunity()
-        self.ValidateQuote = ValidateQuote()
-        self.LogQuote = LogQuote()
+        self.ValidateItinerary = ValidateItinerary()
+        self.LogItinerary = LogItinerary()
         self.ValidateSale = ValidateSale()
         self.LogSale = LogSale()
         self.ValidatePay = ValidatePay()

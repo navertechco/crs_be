@@ -1,38 +1,38 @@
-class QuoteDayDto():
+class ItineraryDayDto():
     def __init__(self, data):
-        self.id_quote = data.get('id_quote') or None
-        self.id_quote_day = data.get('id_quote_day') or None
-        self.quote_day = data.get('quote_day') or None
-        self.id_activity = data.get('id_activity') or None
-        self.id_included_option = data.get('id_included_option') or None
-        self.id_travel_ritm = data.get('id_travel_ritm') or None
+        self.intinerary_id = data.get('intinerary_id') or None
+        self.intinerary_day_id = data.get('intinerary_day_id') or None
+        self.intinerary_day = data.get('intinerary_day') or None
+        self.activity_id = data.get('activity_id') or None
+        self.included_option_id = data.get('included_option_id') or None
+        self.travel_ritm_id = data.get('travel_ritm_id') or None
 
     def set(self, attr):
         setattr(self, attr, attr)
 
     def __dict__(self):
         return {
-            "id_quote": self.id_quote,
-            "id_quote_day": self.id_quote_day,
-            "quote_day": self.quote_day,
-            "id_activity": self.id_activity,
-            "id_included_option": self.id_included_option,
-            "id_travel_ritm": self.id_travel_ritm
+            "intinerary_id": self.intinerary_id,
+            "intinerary_day_id": self.intinerary_day_id,
+            "intinerary_day": self.intinerary_day,
+            "activity_id": self.activity_id,
+            "included_option_id": self.included_option_id,
+            "travel_ritm_id": self.travel_ritm_id
         }
 
 
-class QuoteDayListDto():
+class ItineraryDayListDto():
     def __init__(self, data, id):
-        self.quote_day_list = []
+        self.intinerary_day_list = []
         for d in data:
-            quote_dayDto = QuoteDayDto(d) 
-            quote_dayDto.id_quote = id
-            self.quote_day_list.append(quote_dayDto)
+            intinerary_dayDto = ItineraryDayDto(d) 
+            intinerary_dayDto.intinerary_id = id
+            self.intinerary_day_list.append(intinerary_dayDto)
 
     def __dict__(self):
         return {
-            "quote_day_list": self.quote_day_list
+            "intinerary_day_list": self.intinerary_day_list
         }
 
     def __list__(self):
-        return self.quote_day_list
+        return self.intinerary_day_list

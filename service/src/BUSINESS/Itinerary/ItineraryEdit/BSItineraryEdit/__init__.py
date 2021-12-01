@@ -25,9 +25,9 @@ def BSItineraryEdit(input):
         if state == 'new':
             valid = DSItineraryEdit(input)
             if valid:
-                intinerary_id = NewItinerary().BSNewItinerary(input)
-                if intinerary_id is not None:
-                    done = ProcessItinerary().BSProcessItinerary(intinerary_id, input)
+                itinerary_id = NewItinerary().BSNewItinerary(input)
+                if itinerary_id is not None:
+                    done = ProcessItinerary().BSProcessItinerary(itinerary_id, input)
                     if done:
                         return done
                     raise Exception('Error al procesar la cotización')

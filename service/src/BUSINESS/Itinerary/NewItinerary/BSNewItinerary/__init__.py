@@ -28,9 +28,9 @@ def BSNewItinerary(input):
         res =  DSNewItinerary(input)
         if len(res) > 0:
             res['session'].commit()
-            new_intinerarys = res['cursor'].fetchall()
-            if len(new_intinerarys) > 0:
-                id = new_intinerarys[0]['intinerary_id']
+            new_itinerarys = res['cursor'].fetchall()
+            if len(new_itinerarys) > 0:
+                id = new_itinerarys[0]['itinerary_id']
                 return id
             raise Exception('No se creó la cotización, pruebe los datos ingresados')
         raise Exception(605, 'Error de NewItineraryación')

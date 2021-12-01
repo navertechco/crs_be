@@ -17,9 +17,9 @@ def DSUpdateItinerary(input):
 
     try:
         data = input.get('data')
-        intinerary = ItineraryDto(data).getAllDict()
+        itinerary = ItineraryDto(data).getAllDict()
         table = "ITINERARY"
-        res = nbd.persistence.updateDto(intinerary, table)
+        res = nbd.persistence.updateDto(itinerary, table)
         return res
 
     except Exception as e:

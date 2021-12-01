@@ -27,9 +27,9 @@ def DSNewItinerary(input):
     """
     try:
         data = input.get('data')
-        intinerary = ItineraryDto(data)
+        itinerary = ItineraryDto(data)
         table = "ITINERARY"
-        res = nbd.persistence.insertDto(intinerary, table)
+        res = nbd.persistence.insertDto(itinerary, table)
         return res
 
     except Exception as e:

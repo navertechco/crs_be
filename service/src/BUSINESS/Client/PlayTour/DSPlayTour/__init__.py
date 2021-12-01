@@ -27,9 +27,9 @@ def DSPlayTour	(slug):
         From = " * FROM {}".format(table)
         Where = " WHERE playlist_slug = \'{}'".format( slug) 
         stm = Command + From + Where
-        intinerary = nbd.persistence.getQuery(stm, table)
-        if len(intinerary) > 0:
-            reproductions = intinerary[0]['reproductions']
+        itinerary = nbd.persistence.getQuery(stm, table)
+        if len(itinerary) > 0:
+            reproductions = itinerary[0]['reproductions']
             if reproductions > 0:
                 Command = "UPDATE "
                 Table = "{}".format(table)
@@ -39,7 +39,7 @@ def DSPlayTour	(slug):
                 update = nbd.persistence.setWrite(stm, table)
                 if len(update) > 0:
                     update['session'].commit()
-                    return intinerary[0]['playlist']
+                    return itinerary[0]['playlist']
                 raise Exception("No se pudo actualizar la cantidad de reproducciones.")
             raise Exception("No se puede reproducir el Tour porque ya se ha reproducido 2 veces")
         raise Exception("No se encontró el Tour")    

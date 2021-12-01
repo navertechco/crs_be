@@ -26,10 +26,10 @@ def DSItineraryEdit(input):
     """      
     try:
         data = input.get('data')
-        intinerary = ItineraryDto(data).getAllDict()
+        itinerary = ItineraryDto(data).getAllDict()
         
         
-        return True if intinerary.get("intinerary_id") is None or 'NULL' or '' else False
+        return True if itinerary.get("itinerary_id") is None or 'NULL' or '' else False
 
     except Exception as e:
         return True

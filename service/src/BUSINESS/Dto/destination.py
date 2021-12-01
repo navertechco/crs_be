@@ -1,8 +1,8 @@
 class DestinationDto():
     def __init__(self, data):
-        self.intinerary_id = data.get('intinerary_id') or None
+        self.itinerary_id = data.get('itinerary_id') or None
         self.destination_id = data.get('destination_id') or None
-        self.intinerary_day = data.get('intinerary_day') or None
+        self.itinerary_day = data.get('itinerary_day') or None
         self.activity_id = data.get('activity_id') or None
         self.included_option_id = data.get('included_option_id') or None
         self.travel_ritm_id = data.get('travel_ritm_id') or None
@@ -12,9 +12,9 @@ class DestinationDto():
 
     def __dict__(self):
         return {
-            "intinerary_id": self.intinerary_id,
+            "itinerary_id": self.itinerary_id,
             "destination_id": self.destination_id,
-            "intinerary_day": self.intinerary_day,
+            "itinerary_day": self.itinerary_day,
             "activity_id": self.activity_id,
             "included_option_id": self.included_option_id,
             "travel_ritm_id": self.travel_ritm_id
@@ -26,7 +26,7 @@ class DestinationListDto():
         self.destination_list = []
         for d in data['destinations']:
             destinationDto = DestinationDto(d) 
-            destinationDto.intinerary_id = id
+            destinationDto.itinerary_id = id
             self.destination_list.append(destinationDto)
 
     def __dict__(self):

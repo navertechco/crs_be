@@ -24,8 +24,8 @@ def DSProcessDestinations(id, input):
         table = "ITINERARY"
         stm = " UPDATE " + table
         stm += " SET destinations='{}'".format(str(json.dumps(jsondata)))
-        stm += ", intinerary_state_id=4"
-        where = " WHERE intinerary_id = \'{}\'".format(id)
+        stm += ", itinerary_state_id=4"
+        where = " WHERE itinerary_id = \'{}\'".format(id)
         stm += " " + where
         res = nbd.persistence.setWrite(stm, table)
         if len(res) > 0:

@@ -29,8 +29,8 @@ def DSProcessItinerary(id):
         stm = " UPDATE "
         stm += table 
         stm += " SET ID_ITINERARY_STATE = 2 "
-        stm += " WHERE intinerary_id = \'{}\'".format(id)
-        stm += " AND intinerary_state_id >= 1"
+        stm += " WHERE itinerary_id = \'{}\'".format(id)
+        stm += " AND itinerary_state_id >= 1"
         res = nbd.persistence.setWrite(stm, table)
         return res  
 

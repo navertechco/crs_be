@@ -30,8 +30,8 @@ def DSNewMatch(id, match):
         table = "ITINERARY"
         stm = " UPDATE " + table
         stm += " SET match=\'{}\'".format(match)
-        stm += ", intinerary_state_id=3"
-        where = " WHERE intinerary_id = \'{}\'".format(id)
+        stm += ", itinerary_state_id=3"
+        where = " WHERE itinerary_id = \'{}\'".format(id)
         stm += " " + where
         res = nbd.persistence.setWrite(stm, table)
         return res

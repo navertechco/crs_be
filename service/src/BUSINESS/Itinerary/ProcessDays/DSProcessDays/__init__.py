@@ -29,18 +29,18 @@ def DSProcessDays(id, input):
         res: Resultado de la operación
     """
     try:
-        table = "QUOTE_DAY"
+        table = "ITINERARY_DAY"
         stm = """
-                SELECT QD.ID_QUOTE_DAY,S.* FROM SERVICE S 
-                JOIN QUOTE_DAY QD 
+                SELECT QD.ID_ITINERARY_DAY,S.* FROM SERVICE S 
+                JOIN ITINERARY_DAY QD 
                 ON QD.ID_DESTINATION = S.ID_DESTINATION 
         """
-        where = " WHERE QD.ID_QUOTE = \'{}\'".format(id)
+        where = " WHERE QD.ID_ITINERARY = \'{}\'".format(id)
         stm += where
         intinerary_day_services = nbd.persistence.getQuery(stm, table)
         if len(intinerary_day_services) > 0:
             serviceList = ServiceListDto(intinerary_day_services).__list__()
-            table = "QUOTE_DAY_DETAIL"
+            table = "ITINERARY_DAY_DETAIL"
             stm = nbd.persistence.prepareListDtoToInsert(
                 serviceList, table)
             res = nbd.persistence.setWrite(stm, table)

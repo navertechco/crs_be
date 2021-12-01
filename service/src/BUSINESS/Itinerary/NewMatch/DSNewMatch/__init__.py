@@ -27,11 +27,11 @@ def DSNewMatch(id, match):
         res: Resultado de la Cotización
     """
     try:
-        table = "QUOTE"
+        table = "ITINERARY"
         stm = " UPDATE " + table
         stm += " SET match=\'{}\'".format(match)
-        stm += ", id_intinerary_state=3"
-        where = " WHERE id_intinerary = \'{}\'".format(id)
+        stm += ", intinerary_state_id=3"
+        where = " WHERE intinerary_id = \'{}\'".format(id)
         stm += " " + where
         res = nbd.persistence.setWrite(stm, table)
         return res

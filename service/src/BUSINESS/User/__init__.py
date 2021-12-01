@@ -19,4 +19,4 @@ class User():
         self.Forgot = Forgot()
         self.Logout = Logout() 
         self.Reset = Reset() 
-        self.attributes={'id_user': None , 'id_user_type': None , 'props': None }
+        self.attributes={'user_id': None , 'user_type_id': None , 'props': None }

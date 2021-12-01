@@ -25,12 +25,12 @@ def DSProcessItinerary(id):
         res: Resultado de la consulta
     """       
     try:
-        table = "QUOTE"
+        table = "ITINERARY"
         stm = " UPDATE "
         stm += table 
-        stm += " SET ID_QUOTE_STATE = 2 "
-        stm += " WHERE id_intinerary = \'{}\'".format(id)
-        stm += " AND id_intinerary_state >= 1"
+        stm += " SET ID_ITINERARY_STATE = 2 "
+        stm += " WHERE intinerary_id = \'{}\'".format(id)
+        stm += " AND intinerary_state_id >= 1"
         res = nbd.persistence.setWrite(stm, table)
         return res  
 

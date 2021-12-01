@@ -21,16 +21,16 @@ def DSProcessDestinations(id, input):
         destinations = {'destinations': getValue(input, 'destinations')}
         jsondata = (ast.literal_eval(jsonConvert(str(destinations).replace("'", '"'))))
         destinationList = DestinationListDto(jsondata, id).__list__()
-        table = "QUOTE"
+        table = "ITINERARY"
         stm = " UPDATE " + table
         stm += " SET destinations='{}'".format(str(json.dumps(jsondata)))
-        stm += ", id_intinerary_state=4"
-        where = " WHERE id_intinerary = \'{}\'".format(id)
+        stm += ", intinerary_state_id=4"
+        where = " WHERE intinerary_id = \'{}\'".format(id)
         stm += " " + where
         res = nbd.persistence.setWrite(stm, table)
         if len(res) > 0:
             res['session'].commit()
-            table = "QUOTE_DAY"
+            table = "ITINERARY_DAY"
             stm = nbd.persistence.prepareListDtoToInsert(
                 destinationList, table)
             res = nbd.persistence.setWrite(stm, table)

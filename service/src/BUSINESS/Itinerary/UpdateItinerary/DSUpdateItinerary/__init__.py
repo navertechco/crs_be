@@ -18,7 +18,7 @@ def DSUpdateItinerary(input):
     try:
         data = input.get('data')
         intinerary = ItineraryDto(data).getAllDict()
-        table = "QUOTE"
+        table = "ITINERARY"
         res = nbd.persistence.updateDto(intinerary, table)
         return res
 

@@ -30,7 +30,7 @@ def BSNewItinerary(input):
             res['session'].commit()
             new_intinerarys = res['cursor'].fetchall()
             if len(new_intinerarys) > 0:
-                id = new_intinerarys[0]['id_intinerary']
+                id = new_intinerarys[0]['intinerary_id']
                 return id
             raise Exception('No se creó la cotización, pruebe los datos ingresados')
         raise Exception(605, 'Error de NewItineraryación')

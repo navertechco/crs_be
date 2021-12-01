@@ -29,7 +29,7 @@ def DSItineraryEdit(input):
         intinerary = ItineraryDto(data).getAllDict()
         
         
-        return True if intinerary.get("id_intinerary") is None or 'NULL' or '' else False
+        return True if intinerary.get("intinerary_id") is None or 'NULL' or '' else False
 
     except Exception as e:
         return True

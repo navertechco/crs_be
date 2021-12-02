@@ -13,12 +13,18 @@ class AgeFriendlyRange(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'age_friendly_range'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Agent(models.Model):
@@ -26,6 +32,7 @@ class Agent(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
     user = models.ForeignKey('User', models.DO_NOTHING)
@@ -33,75 +40,11 @@ class Agent(models.Model):
     class Meta:
         managed = False
         db_table = 'agent'
-
-
-class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=150)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
-
-
-class AuthGroupPermissions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
-
-
-class AuthPermission(models.Model):
-    name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
-    codename = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
-
-
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.BooleanField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
-    is_staff = models.BooleanField()
-    is_active = models.BooleanField()
-    date_joined = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user'
-
-
-class AuthUserGroups(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Budget(models.Model):
@@ -109,12 +52,18 @@ class Budget(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'budget'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class City(models.Model):
@@ -122,12 +71,18 @@ class City(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'city'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Client(models.Model):
@@ -136,9 +91,10 @@ class Client(models.Model):
     name_contact = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
-    legal_client_type = models.ForeignKey('LegalClientType', models.DO_NOTHING) 
+    legal_client_type = models.ForeignKey('LegalClientType', models.DO_NOTHING)
     client_type = models.ForeignKey('ClientType', models.DO_NOTHING)
     origin = models.ForeignKey('Origin', models.DO_NOTHING)
     dni = models.CharField(unique=True, max_length=32)
@@ -151,20 +107,32 @@ class Client(models.Model):
     class Meta:
         managed = False
         db_table = 'client'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class ClientType(models.Model):
     client_type_id = models.AutoField(primary_key=True)
     description = models.CharField(max_length=64)
-    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # This field type is a guess.
+    props = models.TextField(blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'client_type'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class CountryDestination(models.Model):
@@ -172,12 +140,18 @@ class CountryDestination(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'country_destination'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Day(models.Model):
@@ -185,6 +159,7 @@ class Day(models.Model):
     description = models.CharField(max_length=64, blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
     key_activity = models.ForeignKey('KeyActivity', models.DO_NOTHING)
@@ -196,6 +171,11 @@ class Day(models.Model):
     class Meta:
         managed = False
         db_table = 'day'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Delimiter(models.Model):
@@ -203,12 +183,18 @@ class Delimiter(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'delimiter'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Destination(models.Model):
@@ -216,56 +202,18 @@ class Destination(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
+
     class Meta:
         managed = False
         db_table = 'destination'
-
-
-class DjangoAdminLog(models.Model):
-    action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, null=True)
-    object_repr = models.CharField(max_length=200)
-    action_flag = models.SmallIntegerField()
-    change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'django_admin_log'
-
-
-class DjangoContentType(models.Model):
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
-
-
-class DjangoMigrations(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'
-
-
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_session'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class IncludedOption(models.Model):
@@ -273,27 +221,37 @@ class IncludedOption(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'included_option'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Itinerary(models.Model):
     itinerary_id = models.AutoField(primary_key=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.itinerary_id
     pax = models.IntegerField()
-    agent = models.ForeignKey('Agent', models.DO_NOTHING, blank=True, null=True)
-    travel_expert = models.ForeignKey('TravelExpert', models.DO_NOTHING, blank=True, null=True)
+    agent = models.ForeignKey(
+        'Agent', models.DO_NOTHING, blank=True, null=True)
+    travel_expert = models.ForeignKey(
+        'TravelExpert', models.DO_NOTHING, blank=True, null=True)
     # playlist = models.ForeignKey('Playlist', models.DO_NOTHING, blank=True, null=True)
     client = models.ForeignKey('Client', models.DO_NOTHING)
     itinerary_state = models.ForeignKey('ItineraryState', models.DO_NOTHING)
-    country_destination = models.ForeignKey('CountryDestination', models.DO_NOTHING)
+    country_destination = models.ForeignKey(
+        'CountryDestination', models.DO_NOTHING)
     budget = models.ForeignKey('Budget', models.DO_NOTHING)
     purpose = models.ForeignKey('Purpose', models.DO_NOTHING)
     # reproductions = models.BigIntegerField()
@@ -307,7 +265,13 @@ class Itinerary(models.Model):
     class Meta:
         managed = False
         db_table = 'itinerary'
-        unique_together = (('pax', 'agent', 'client', 'itinerary_state', 'country_destination', 'budget', 'purpose'),)
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
+        unique_together = (('pax', 'agent', 'client', 'itinerary_state',
+                           'country_destination', 'budget', 'purpose'),)
 
 
 class ItineraryDay(models.Model):
@@ -323,6 +287,11 @@ class ItineraryDay(models.Model):
     class Meta:
         managed = False
         db_table = 'itinerary_day'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class ItineraryState(models.Model):
@@ -330,12 +299,18 @@ class ItineraryState(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'itinerary_state'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class KeyActivity(models.Model):
@@ -343,12 +318,18 @@ class KeyActivity(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'key_activity'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class LegalClientType(models.Model):
@@ -356,12 +337,18 @@ class LegalClientType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'legal_client_type'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Media(models.Model):
@@ -369,12 +356,19 @@ class Media(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
     media_type = models.ForeignKey('MediaType', models.DO_NOTHING)
+
     class Meta:
         managed = False
         db_table = 'media'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class MediaType(models.Model):
@@ -382,12 +376,18 @@ class MediaType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'media_type'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Origin(models.Model):
@@ -395,12 +395,18 @@ class Origin(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'origin'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class PaymentType(models.Model):
@@ -408,12 +414,18 @@ class PaymentType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'payment_type'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Playlist(models.Model):
@@ -421,14 +433,21 @@ class Playlist(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
-    playlist = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # This field type is a guess.
+    playlist = models.TextField(blank=True, null=True)
     playlist_slug = models.CharField(max_length=64)
 
     class Meta:
         managed = False
         db_table = 'playlist'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Promo(models.Model):
@@ -436,6 +455,7 @@ class Promo(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
     discount = models.FloatField(blank=True, null=True)
@@ -443,6 +463,11 @@ class Promo(models.Model):
     class Meta:
         managed = False
         db_table = 'promo'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Purpose(models.Model):
@@ -450,28 +475,43 @@ class Purpose(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'purpose'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Service(models.Model):
     service_id = models.AutoField(primary_key=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
-    destination = models.ForeignKey('Destination', models.DO_NOTHING, blank=True, null=True)
-    supplier = models.ForeignKey('Supplier', models.DO_NOTHING, blank=True, null=True)
-    key_activity = models.ForeignKey('KeyActivity', models.DO_NOTHING, blank=True, null=True)
-    service_type = models.ForeignKey('ServiceType', models.DO_NOTHING, blank=True, null=True)
-    budget = models.ForeignKey('Budget', models.DO_NOTHING, blank=True, null=True)
-    delimiter = models.ForeignKey('Delimiter', models.DO_NOTHING, blank=True, null=True)
-    age_friendly_range = models.ForeignKey('AgeFriendlyRange', models.DO_NOTHING, blank=True, null=True)
-    travel_ritm = models.ForeignKey('TravelRitm', models.DO_NOTHING, blank=True, null=True)
+    destination = models.ForeignKey(
+        'Destination', models.DO_NOTHING, blank=True, null=True)
+    supplier = models.ForeignKey(
+        'Supplier', models.DO_NOTHING, blank=True, null=True)
+    key_activity = models.ForeignKey(
+        'KeyActivity', models.DO_NOTHING, blank=True, null=True)
+    service_type = models.ForeignKey(
+        'ServiceType', models.DO_NOTHING, blank=True, null=True)
+    budget = models.ForeignKey(
+        'Budget', models.DO_NOTHING, blank=True, null=True)
+    delimiter = models.ForeignKey(
+        'Delimiter', models.DO_NOTHING, blank=True, null=True)
+    age_friendly_range = models.ForeignKey(
+        'AgeFriendlyRange', models.DO_NOTHING, blank=True, null=True)
+    travel_ritm = models.ForeignKey(
+        'TravelRitm', models.DO_NOTHING, blank=True, null=True)
     child_frendly = models.BooleanField()
     infant_friendly = models.BooleanField()
     me = models.BooleanField()
@@ -491,6 +531,11 @@ class Service(models.Model):
     class Meta:
         managed = False
         db_table = 'service'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class ServiceCruise(models.Model):
@@ -499,7 +544,8 @@ class ServiceCruise(models.Model):
     wetsuits = models.BooleanField()
     dr_name = models.CharField(max_length=32)
     description = models.CharField(max_length=32, blank=True, null=True)
-    fleet = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # This field type is a guess.
+    fleet = models.TextField(blank=True, null=True)
     operator_name = models.CharField(max_length=32, blank=True, null=True)
     owner_name = models.CharField(max_length=32, blank=True, null=True)
     ship_name = models.CharField(max_length=64)
@@ -515,21 +561,32 @@ class ServiceCruise(models.Model):
     port_registry = models.BigIntegerField(blank=True, null=True)
     ship_type = models.BigIntegerField(blank=True, null=True)
     tri_number = models.BigIntegerField(blank=True, null=True)
-    additionals = models.TextField(blank=True, null=True)  # This field type is a guess.
-    constraints = models.TextField(blank=True, null=True)  # This field type is a guess.
-    guides = models.TextField(blank=True, null=True)  # This field type is a guess.
-    itinerary = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # This field type is a guess.
+    additionals = models.TextField(blank=True, null=True)
+    # This field type is a guess.
+    constraints = models.TextField(blank=True, null=True)
+    # This field type is a guess.
+    guides = models.TextField(blank=True, null=True)
+    # This field type is a guess.
+    itinerary = models.TextField(blank=True, null=True)
     web_page = models.CharField(max_length=64, blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
     id = models.AutoField(primary_key=True)
-    service = models.ForeignKey('Service', models.DO_NOTHING, blank=True, null=False)
+    service = models.ForeignKey(
+        'Service', models.DO_NOTHING, blank=True, null=False)
 
     class Meta:
         managed = False
         db_table = 'service_cruise'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class ServiceHotel(models.Model):
@@ -553,7 +610,8 @@ class ServiceHotel(models.Model):
     purpouse_fk = models.BigIntegerField(blank=True, null=True)
     roh_from = models.BooleanField(blank=True, null=True)
     ro_house = models.BooleanField(blank=True, null=True)
-    romantic_package = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # This field type is a guess.
+    romantic_package = models.TextField(blank=True, null=True)
     romantic_rate = models.FloatField(blank=True, null=True)
     room_category = models.CharField(max_length=64, blank=True, null=True)
     room_description = models.CharField(max_length=64, blank=True, null=True)
@@ -568,14 +626,21 @@ class ServiceHotel(models.Model):
     weekend_rate = models.FloatField(blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
     id = models.AutoField(primary_key=True)
-    service = models.ForeignKey('Service', models.DO_NOTHING, blank=True, null=False)
+    service = models.ForeignKey(
+        'Service', models.DO_NOTHING, blank=True, null=False)
 
     class Meta:
         managed = False
         db_table = 'service_hotel'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class ServiceType(models.Model):
@@ -583,12 +648,18 @@ class ServiceType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'service_type'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Supplier(models.Model):
@@ -596,11 +667,15 @@ class Supplier(models.Model):
     description = models.CharField(max_length=64, blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
-    supplier_type = models.ForeignKey('SupplierType', models.DO_NOTHING, blank=True, null=True)
-    supplier_rule = models.ForeignKey('SupplierRule', models.DO_NOTHING, blank=True, null=True)
-    payment_type = models.ForeignKey('PaymentType', models.DO_NOTHING, blank=True, null=True)
+    supplier_type = models.ForeignKey(
+        'SupplierType', models.DO_NOTHING, blank=True, null=True)
+    supplier_rule = models.ForeignKey(
+        'SupplierRule', models.DO_NOTHING, blank=True, null=True)
+    payment_type = models.ForeignKey(
+        'PaymentType', models.DO_NOTHING, blank=True, null=True)
     city = models.ForeignKey('City', models.DO_NOTHING, blank=True, null=True)
     tax_id = models.BigIntegerField(unique=True)
     legal_name = models.CharField(unique=True, max_length=32)
@@ -618,11 +693,17 @@ class Supplier(models.Model):
     building_number = models.CharField(max_length=32, blank=True, null=True)
     lat = models.FloatField(blank=True, null=True)
     long = models.FloatField(blank=True, null=True)
-    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    # This field type is a guess.
+    props = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'supplier'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class SupplierRule(models.Model):
@@ -630,12 +711,18 @@ class SupplierRule(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'supplier_rule'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class SupplierType(models.Model):
@@ -643,28 +730,41 @@ class SupplierType(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'supplier_type'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class Transport(models.Model):
     transport_id = models.AutoField(primary_key=True)
     transport_range = models.ForeignKey('TransportRange', models.DO_NOTHING)
-    transport_service = models.ForeignKey('TransportService', models.DO_NOTHING)
+    transport_service = models.ForeignKey(
+        'TransportService', models.DO_NOTHING)
     description = models.CharField(max_length=64)
     rate = models.FloatField()
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'transport'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class TransportRange(models.Model):
@@ -672,12 +772,18 @@ class TransportRange(models.Model):
     description = models.CharField(max_length=128)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'transport_range'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class TransportService(models.Model):
@@ -685,12 +791,18 @@ class TransportService(models.Model):
     description = models.CharField(max_length=128)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
 
     class Meta:
         managed = False
         db_table = 'transport_service'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class TravelExpert(models.Model):
@@ -698,6 +810,7 @@ class TravelExpert(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
     user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True)
@@ -705,6 +818,11 @@ class TravelExpert(models.Model):
     class Meta:
         managed = False
         db_table = 'travel_expert'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class TravelRitm(models.Model):
@@ -712,6 +830,7 @@ class TravelRitm(models.Model):
     description = models.CharField(max_length=64)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
     capacity = models.BigIntegerField()
@@ -719,6 +838,11 @@ class TravelRitm(models.Model):
     class Meta:
         managed = False
         db_table = 'travel_ritm'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )
 
 
 class User(models.Model):
@@ -726,11 +850,13 @@ class User(models.Model):
     description = models.CharField(max_length=64, blank=True, null=True)
     # created = models.DateTimeField()
     # updated = models.DateTimeField()
+
     def __str__(self):
         return self.description
-    surname = models.CharField(max_length=16, blank=True, null=True)
+    firstname = models.CharField(max_length=16, blank=True, null=True)
     lastname = models.CharField(max_length=16, blank=True, null=True)
-    username = models.CharField(unique=True, max_length=16, blank=True, null=True)
+    username = models.CharField(
+        unique=True, max_length=16, blank=True, null=True)
     password = models.CharField(max_length=64, blank=True, null=True)
     identification = models.CharField(unique=True, max_length=16)
     # state = models.BigIntegerField()
@@ -741,3 +867,8 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
+        permissions = (
+            ('add_item', 'Can add item'),
+            ('change_item', 'Can change item'),
+            ('delete_item', 'Can delete item'),
+        )

@@ -5,9 +5,10 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
 WORKDIR /code
 RUN pip install --upgrade pip 
-COPY src /code/ 
-RUN pip install -r requirements.txt
+ 
 COPY . /code/
+RUN pip install -r requirements.txt
+
 WORKDIR /code/main
 EXPOSE 8000
 ENTRYPOINT [ "python" ]

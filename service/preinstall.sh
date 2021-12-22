@@ -1,3 +1,3 @@
 #!/bin/bash
 
-apt -y install libpq-dev build-essential python3-dev 
+apt -y install  build-essential python3-dev 

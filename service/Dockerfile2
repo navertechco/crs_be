@@ -6,7 +6,8 @@ COPY requirements.txt .
 COPY runserver.py .
 COPY src .
 COPY .env-example.txt ./.env
-
+COPY environment.sh .
+RUN source enviroment.sh 
 RUN pip install -r requirements.txt
 
 EXPOSE 9999

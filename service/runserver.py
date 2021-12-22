@@ -6,12 +6,12 @@ if __name__ == '__main__':
 
     try:
         PORT = int(environ.get('SERVER_PORT', '5555'))
-        HOST = environ.get('SERVER_HOST', 'localhost')
+        HOST = environ.get('SERVER_HOST', '0.0.0.0')
         print("HOST: "+HOST)
         print("PORT: "+str(PORT))
     except ValueError:
         PORT = 5002
-        HOST = "172.0.0.1"
+        HOST = "0.0.0.0"
         print("HOST: "+HOST)
         print("PORT: "+str(PORT))        
         

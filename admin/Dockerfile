@@ -1,17 +1,17 @@
-FROM python:3.7.9-buster
-MAINTAINER JCUEVAS <JOSE.CUEVAS.CV@GMAIL.COM>
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-RUN mkdir /code
-WORKDIR /code
+FROM python:3.9-buster
+
+# Install dependencies:
+COPY requirements.txt .
+COPY manage.py .
+COPY models.py .
+COPY src ./src
+RUN apt -y update
+RUN apt -y install build-essential libpq-dev python3-dev
 RUN pip install --upgrade pip
-
-RUN apt-get update
-COPY Pantallas /code/
-RUN bash /code/install.sh
 RUN pip install -r requirements.txt
-COPY . /code/
-WORKDIR /code/main
 EXPOSE 8000
-
+# Run the application:
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+
+

@@ -1,16 +1,12 @@
-FROM python:3.10.0-alpine3.14
-MAINTAINER JCUEVAS <JOSE.CUEVAS.CV@GMAIL.COM>
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-RUN mkdir /code
-WORKDIR /code
-RUN pip install --upgrade pip 
- 
-COPY . /code/
+FROM python:3.9-buster
+# Install dependencies:
+COPY requirements.txt .
+COPY runserver.py .
+COPY src ./src
+RUN apt -y update
+RUN apt -y install build-essential libpq-dev python3-dev
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-
-WORKDIR /code/main
-EXPOSE 8000
-ENTRYPOINT [ "python" ]
-
-CMD [ "src" ]
+EXPOSE 9999
+# Run the application:
+CMD ["python", "runserver.py"]

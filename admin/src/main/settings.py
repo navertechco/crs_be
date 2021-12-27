@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'django_json_widget',
     'codemirror',
     'codemirror2',
-    'prettyjson',
-    'src.models',
+    'prettyjson', 
     'src.pantalla',
     
 ]

@@ -1,5 +1,6 @@
+{'catalog_id': <django.db.models.query_utils.DeferredAttribute object at 0x00000200989DFF40>, 'description': <django.db.models.query_utils.DeferredAttribute object at 0x00000200989DFEE0>, 'created': <django.db.models.query_utils.DeferredAttribute object at 0x00000200989DFD30>, 'updated': <django.db.models.query_utils.DeferredAttribute object at 0x00000200989DFB50>}
 key_activity
-<QuerySet []>
+<QuerySet [(1, 'age_friendly_range')]>
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order

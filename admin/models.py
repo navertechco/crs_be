@@ -8,421 +8,145 @@
 from django.db import models
 
 
-class AgeFriendlyRange(models.Model):
-    age_friendly_range_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
+class Catalog(models.Model):
+    catalog_id = models.BigIntegerField(primary_key=True)
+    catalog_name = models.CharField(max_length=-1, blank=True, null=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
     class Meta:
         managed = False
-        db_table = 'age_friendly_range'
+        db_table = 'catalog'
 
 
-class Agent(models.Model):
-    agent_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    user = models.ForeignKey('User', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'agent'
-
-
-class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=150)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group'
-
-
-class AuthGroupPermissions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_group_permissions'
-        unique_together = (('group', 'permission'),)
-
-
-class AuthPermission(models.Model):
-    name = models.CharField(max_length=255)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
-    codename = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_permission'
-        unique_together = (('content_type', 'codename'),)
-
-
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.BooleanField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
-    is_staff = models.BooleanField()
-    is_active = models.BooleanField()
-    date_joined = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user'
-
-
-class AuthUserGroups(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_groups'
-        unique_together = (('user', 'group'),)
-
-
-class AuthUserUserPermissions(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'auth_user_user_permissions'
-        unique_together = (('user', 'permission'),)
-
-
-class Budget(models.Model):
-    budget_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
+class CatalogDetail(models.Model):
+    catalog_detail_id = models.IntegerField(primary_key=True)
+    catalog_id = models.IntegerField()
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
     class Meta:
         managed = False
-        db_table = 'budget'
+        db_table = 'catalog_detail'
 
-
-class City(models.Model):
-    city_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'city'
-
-
-class Client(models.Model):
-    client_id = models.BigIntegerField(primary_key=True)
-    name_contact = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    legal_client_type_id = models.BigIntegerField()
-    client_type_id = models.BigIntegerField()
-    dni = models.CharField(unique=True, max_length=32)
-    is_owner = models.BooleanField()
-    name_contact_2 = models.CharField(max_length=64, blank=True, null=True)
-    email = models.CharField(unique=True, max_length=64)
-    origin_id = models.CharField(max_length=-1)
-    phone = models.CharField(unique=True, max_length=64)
-    address = models.CharField(max_length=64)
-
-    class Meta:
-        managed = False
-        db_table = 'client'
-
-
-class ClientType(models.Model):
-    client_type_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    props = models.TextField(blank=True, null=True)  # This field type is a guess.
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'client_type'
-
-
-class CountryDestination(models.Model):
-    country_destination_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'country_destination'
-
+def findCatalog(name):
+    return CatalogDetail.objects.filter(catalog_id=Catalog.objects.filter(catalog_name=name).first())
 
 class Day(models.Model):
-    day_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64, blank=True, null=True)
+    day_id = models.IntegerField(primary_key=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    key_activity_id = models.BigIntegerField()
-    included_option_id = models.BigIntegerField()
-    destination_id = models.BigIntegerField()
+    key_activity_id = findCatalog("key_activity")
+    included_option_id = findCatalog("included_option")
     transport = models.ForeignKey('Transport', models.DO_NOTHING)
-    date = models.DateField(blank=True, null=True)
+    meals = models.TextField(blank=True, null=True)  # This field type is a guess.
+    day_name = models.CharField(max_length=-1, blank=True, null=True)
+    day_description = models.CharField(max_length=-1, blank=True, null=True)
+    day_date = models.DateField(blank=True, null=True)
+    day_observation = models.CharField(max_length=-1, blank=True, null=True)
+    day_previous = models.CharField(max_length=-1, blank=True, null=True)
+    day_next = models.CharField(max_length=-1, blank=True, null=True)
+    detail = models.TextField(blank=True, null=True)  # This field type is a guess.
+    itinerary_id = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'day'
 
 
-class Delimiter(models.Model):
-    delimiter_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
+class DayDetail(models.Model):
+    day_detail_id = models.IntegerField(primary_key=True)
+    day_id = models.IntegerField()
+    experience_id = models.IntegerField()
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
     class Meta:
         managed = False
-        db_table = 'delimiter'
+        db_table = 'day_detail'
 
 
 class Destination(models.Model):
-    destination_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
+    destination_id = models.IntegerField(primary_key=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
+    port = models.BooleanField()
+    destination_name = models.CharField(max_length=-1)
+    destination_title = models.CharField(max_length=-1)
+    hotel_id = models.IntegerField()
+    airport_id = models.IntegerField(blank=True, null=True)
+    has_airport = models.BooleanField()
+    description = models.CharField(max_length=-1, blank=True, null=True)
+    previous = models.CharField(max_length=-1, blank=True, null=True)
+    next = models.CharField(max_length=-1, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'destination'
 
 
-class DjangoAdminLog(models.Model):
-    action_time = models.DateTimeField()
-    object_id = models.TextField(blank=True, null=True)
-    object_repr = models.CharField(max_length=200)
-    action_flag = models.SmallIntegerField()
-    change_message = models.TextField()
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
-    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'django_admin_log'
-
-
-class DjangoContentType(models.Model):
-    app_label = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'django_content_type'
-        unique_together = (('app_label', 'model'),)
-
-
-class DjangoMigrations(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'
-
-
-class DjangoSession(models.Model):
-    session_key = models.CharField(primary_key=True, max_length=40)
-    session_data = models.TextField()
-    expire_date = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_session'
-
-
-class IncludedOption(models.Model):
-    included_option_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
+class EndService(models.Model):
+    end_service_id = models.IntegerField(primary_key=True)
+    net_rate = models.ForeignKey('NetRate', models.DO_NOTHING)
+    included = models.TextField(blank=True, null=True)  # This field type is a guess.
+    not_included = models.TextField(blank=True, null=True)  # This field type is a guess.
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
     class Meta:
         managed = False
-        db_table = 'included_option'
+        db_table = 'end_service'
 
 
-class Itinerary(models.Model):
-    itinerary_id = models.BigIntegerField(primary_key=True)
+class Experience(models.Model):
+    experience_id = models.IntegerField(primary_key=True)
+    supplier = models.ForeignKey('Supplier', models.DO_NOTHING)
+    destination = models.ForeignKey(Destination, models.DO_NOTHING)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    pax = models.IntegerField()
-    agent_id = models.BigIntegerField(blank=True, null=True)
-    travel_expert_id = models.BigIntegerField(blank=True, null=True)
-    client_id = models.BigIntegerField()
-    itinerary_state_id = models.BigIntegerField()
-    country_destination_id = models.BigIntegerField()
-    budget_id = models.BigIntegerField()
-    purpose_id = models.BigIntegerField()
-    reproductions = models.BigIntegerField()
-    match = models.TextField(blank=True, null=True)  # This field type is a guess.
-    day_destinations = models.TextField(blank=True, null=True)  # This field type is a guess.
-    arrival_date = models.DateField(blank=True, null=True)
-    departure_date = models.DateField(blank=True, null=True)
-    days_duration = models.BigIntegerField(blank=True, null=True)
-    hours_duration = models.BigIntegerField(blank=True, null=True)
-    playlist_id = models.BigIntegerField(blank=True, null=True)
+    key_activity_id = findCatalog("key_activity")
+    service_type_id = findCatalog("service_type")
+    budget_id = findCatalog("budget")
+    delimiter_id = findCatalog("delimiter")
+    travel_ritm_id = findCatalog("travel_ritm")
+    experience_title = models.CharField(max_length=-1, blank=True, null=True)
+    experience_photo = models.CharField(max_length=-1, blank=True, null=True)
+    experience_description = models.CharField(max_length=-1, blank=True, null=True)
+    experience_previous = models.CharField(max_length=-1, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'itinerary'
-        unique_together = (('pax', 'agent_id', 'client_id', 'itinerary_state_id', 'country_destination_id', 'budget_id', 'purpose_id'),)
+        db_table = 'experience'
 
 
-class ItineraryDay(models.Model):
+class NetRate(models.Model):
+    net_rate_id = models.IntegerField(primary_key=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    itinerary_day_id = models.BigIntegerField()
-    promo_id = models.BigIntegerField()
-    service_id = models.BigIntegerField()
-    amount = models.BigIntegerField()
+    final_detail = models.TextField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
         managed = False
-        db_table = 'itinerary_day'
+        db_table = 'net_rate'
 
 
-class ItineraryState(models.Model):
-    itinerary_state_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
+class NetRateDetail(models.Model):
+    net_rate_detail_id = models.IntegerField(primary_key=True)
+    net_rate_id = models.IntegerField()
+    itinerary_id = models.IntegerField()
+    service_experience_id = models.IntegerField()
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
     class Meta:
         managed = False
-        db_table = 'itinerary_state'
-
-
-class KeyActivity(models.Model):
-    key_activity_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'key_activity'
-
-
-class LegalClientType(models.Model):
-    legal_client_type_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'legal_client_type'
-
-
-class Media(models.Model):
-    media_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    media_type_id = models.BigIntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'media'
-
-
-class MediaType(models.Model):
-    media_type_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'media_type'
-
-
-class Origin(models.Model):
-    origin_id = models.CharField(primary_key=True, max_length=-1)
-    name = models.CharField(max_length=-1)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'origin'
-
-
-class PaymentType(models.Model):
-    payment_type_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'payment_type'
-
-
-class Playlist(models.Model):
-    playlist_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    playlist = models.TextField(blank=True, null=True)  # This field type is a guess.
-    playlist_slug = models.CharField(max_length=-1)
-
-    class Meta:
-        managed = False
-        db_table = 'playlist'
-
-
-class Promo(models.Model):
-    promo_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    discount = models.FloatField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'promo'
-
-
-class Purpose(models.Model):
-    purpose_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'purpose'
+        db_table = 'net_rate_detail'
 
 
 class Service(models.Model):
-    service_id = models.BigIntegerField(primary_key=True)
+    service_id = models.IntegerField(primary_key=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    destination_id = models.BigIntegerField()
-    supplier_id = models.BigIntegerField()
-    key_activity_id = models.BigIntegerField()
-    service_type_id = models.BigIntegerField()
-    budget_id = models.BigIntegerField()
-    delimiter_id = models.BigIntegerField()
     me = models.BooleanField()
     open_days = models.CharField(max_length=16)
     close_time = models.TimeField()
@@ -432,127 +156,33 @@ class Service(models.Model):
     name = models.CharField(max_length=16)
     description = models.CharField(max_length=64)
     duration = models.BigIntegerField()
-    age_friendly_range_id = models.BigIntegerField()
+    age_friendly_range_id = findCatalog("age_friendly_range")
     child_frendly = models.BooleanField()
     infant_friendly = models.BooleanField()
     observation = models.CharField(max_length=64, blank=True, null=True)
     max_capacity = models.BigIntegerField()
     pet_friendly = models.BooleanField()
     props = models.TextField()  # This field type is a guess.
-    travel_ritm_id = models.BigIntegerField()
 
     class Meta:
         managed = False
         db_table = 'service'
 
 
-class ServiceCruise(models.Model):
-    internet = models.BooleanField()
-    tc_cons = models.BooleanField()
-    wetsuits = models.BooleanField()
-    dr_name = models.CharField(max_length=32)
-    description = models.CharField(max_length=32, blank=True, null=True)
-    fleet = models.TextField(blank=True, null=True)  # This field type is a guess.
-    operator_name = models.CharField(max_length=32, blank=True, null=True)
-    owner_name = models.CharField(max_length=32, blank=True, null=True)
-    ship_name = models.CharField(max_length=-1)
-    aet = models.FloatField(blank=True, null=True)
-    cost = models.FloatField(blank=True, null=True)
-    pax_daily_rate = models.FloatField(blank=True, null=True)
-    cab_number = models.BigIntegerField(blank=True, null=True)
-    cab_type = models.BigIntegerField(blank=True, null=True)
-    category = models.BigIntegerField(blank=True, null=True)
-    format = models.BigIntegerField(blank=True, null=True)
-    modality = models.BigIntegerField(blank=True, null=True)
-    pax = models.BigIntegerField(blank=True, null=True)
-    port_registry = models.BigIntegerField(blank=True, null=True)
-    ship_type = models.BigIntegerField(blank=True, null=True)
-    tri_number = models.BigIntegerField(blank=True, null=True)
-    additionals = models.TextField(blank=True, null=True)  # This field type is a guess.
-    constraints = models.TextField(blank=True, null=True)  # This field type is a guess.
-    guides = models.TextField(blank=True, null=True)  # This field type is a guess.
-    itinerary = models.TextField(blank=True, null=True)  # This field type is a guess.
-    web_page = models.CharField(max_length=-1, blank=True, null=True)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    id = models.BigIntegerField(primary_key=True)
-    service_id = models.BigIntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'service_cruise'
-
-
-class ServiceHotel(models.Model):
-    num_room_types = models.IntegerField(blank=True, null=True)
-    balcony = models.BooleanField(blank=True, null=True)
-    budget_fk = models.BigIntegerField(blank=True, null=True)
-    child_friendly = models.BooleanField(blank=True, null=True)
-    extra_bed = models.BooleanField(blank=True, null=True)
-    fit_rate = models.BooleanField(blank=True, null=True)
-    group_from = models.BigIntegerField(blank=True, null=True)
-    group_rate = models.BigIntegerField(blank=True, null=True)
-    guide_transport = models.FloatField(blank=True, null=True)
-    hotel_name = models.CharField(max_length=-1, blank=True, null=True)
-    infant_friendly = models.BooleanField(blank=True, null=True)
-    key_activity_type_fk = models.BigIntegerField(blank=True, null=True)
-    max_capacity = models.BigIntegerField(blank=True, null=True)
-    midweek_rate = models.FloatField(blank=True, null=True)
-    observations = models.CharField(max_length=-1, blank=True, null=True)
-    outside_window = models.BooleanField(blank=True, null=True)
-    pet_friendly = models.BooleanField(blank=True, null=True)
-    purpouse_fk = models.BigIntegerField(blank=True, null=True)
-    roh_from = models.BooleanField(blank=True, null=True)
-    ro_house = models.BooleanField(blank=True, null=True)
-    romantic_package = models.TextField(blank=True, null=True)  # This field type is a guess.
-    romantic_rate = models.FloatField(blank=True, null=True)
-    room_category = models.CharField(max_length=-1, blank=True, null=True)
-    room_description = models.CharField(max_length=-1, blank=True, null=True)
-    selling_price = models.FloatField(blank=True, null=True)
-    supplier_fk = models.BigIntegerField(blank=True, null=True)
-    tax1_iva = models.FloatField(blank=True, null=True)
-    tax2_service = models.FloatField(blank=True, null=True)
-    tax3_citytax = models.FloatField(blank=True, null=True)
-    tax4 = models.FloatField(blank=True, null=True)
-    terrace_patio = models.BooleanField(blank=True, null=True)
-    tub_jacuzzi = models.BooleanField(blank=True, null=True)
-    weekend_rate = models.FloatField(blank=True, null=True)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    id = models.BigIntegerField(primary_key=True)
-    service_id = models.BigIntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'service_hotel'
-
-
-class ServiceType(models.Model):
-    service_type_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'service_type'
-
-
 class Supplier(models.Model):
-    supplier_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64, blank=True, null=True)
+    supplier_id = models.IntegerField(primary_key=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    supplier_type_id = models.BigIntegerField()
-    supplier_rule_id = models.BigIntegerField()
+    supplier_type_id = findCatalog("supplier_type")
+    supplier_rule_id = findCatalog("supplier_rule")
     props = models.TextField(blank=True, null=True)  # This field type is a guess.
-    tax_id = models.BigIntegerField(unique=True)
-    legal_name = models.CharField(unique=True, max_length=32)
-    city_id = models.BigIntegerField(blank=True, null=True)
+    tax_id = models.BigIntegerField(blank=True, null=True)
+    legal_name = models.CharField(max_length=32)
+    city_id = findCatalog("city")
     commercial_name = models.CharField(max_length=32)
     contact_name = models.CharField(max_length=32)
     website = models.CharField(max_length=32, blank=True, null=True)
-    payment_type_id = models.BigIntegerField(blank=True, null=True)
+    payment_type_id = findCatalog("payment_type")
     credit_days = models.CharField(max_length=32, blank=True, null=True)
     finance_email = models.CharField(max_length=32, blank=True, null=True)
     commercial_email = models.CharField(max_length=32, blank=True, null=True)
@@ -570,85 +200,19 @@ class Supplier(models.Model):
         db_table = 'supplier'
 
 
-class SupplierRule(models.Model):
-    supplier_rule_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'supplier_rule'
-
-
-class SupplierType(models.Model):
-    supplier_type_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'supplier_type'
-
-
 class Transport(models.Model):
     transport_id = models.BigIntegerField(primary_key=True)
-    transport_range_id = models.BigIntegerField()
-    transport_service_id = models.BigIntegerField()
+    transport_range_id = findCatalog("transport_range")
+    transport_service_id = findCatalog("transport_service")
     rate = models.FloatField()
     created = models.DateTimeField()
     updated = models.DateTimeField()
+    description = models.CharField(max_length=-1, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'transport'
-
-
-class TransportRange(models.Model):
-    transport_range_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=128)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'transport_range'
-
-
-class TransportService(models.Model):
-    transport_service_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=128)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'transport_service'
-
-
-class TravelExpert(models.Model):
-    travel_expert_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    user = models.ForeignKey('User', models.DO_NOTHING, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'travel_expert'
-
-
-class TravelRitm(models.Model):
-    travel_ritm_id = models.BigIntegerField(primary_key=True)
-    description = models.CharField(max_length=64)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    capacity = models.BigIntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'travel_ritm'
+        unique_together = (('transport_range_id', 'transport_service_id'),)
 
 
 class User(models.Model):
@@ -656,15 +220,16 @@ class User(models.Model):
     description = models.CharField(max_length=64, blank=True, null=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    surname = models.CharField(max_length=16, blank=True, null=True)
+    firstname = models.CharField(max_length=16, blank=True, null=True)
     lastname = models.CharField(max_length=16, blank=True, null=True)
     username = models.CharField(unique=True, max_length=16, blank=True, null=True)
     password = models.CharField(max_length=-1, blank=True, null=True)
     identification = models.CharField(unique=True, max_length=16)
-    state = models.BigIntegerField()
+    state = findCatalog("user_state")
     email = models.CharField(max_length=64, blank=True, null=True)
     phone = models.CharField(unique=True, max_length=64, blank=True, null=True)
     confirmation = models.CharField(max_length=-1)
+    user_type_id = findCatalog("user_type")
 
     class Meta:
         managed = False

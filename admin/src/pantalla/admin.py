@@ -2,9 +2,8 @@ from django.contrib import admin
 from django.contrib.postgres import fields  # if django < 3.1
 from django.db import models
 from django_json_widget.widgets import JSONEditorWidget
-from src.models.models import *
-from django.apps import apps
-import src.models.models as modelmodule
+from .models import *
+from django.apps import apps 
 
  
 class ModelAdmin(admin.ModelAdmin):

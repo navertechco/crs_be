@@ -1,24 +1,41 @@
 from django.db import models
-
-
-
+from django.utils.translation import gettext_lazy as _
 def CatalogField(name, Master, Detail):
-   try:
-        catalog = Master.objects.values_list('catalog_id', 'description').filter(description=name)
+    try:
+        catalogs = Master.objects.values_list(
+            'catalog_id', 'description').filter(description=name)
         # print(name)
         # print(catalog)
         # print(catalog[0][0])
-        
-        if len(catalog)>0:
-            catalog_id = catalog[0][0]
-            if len(Detail.objects.values_list('catalog_detail_id','catalog_id', 'description'))> 0:
-                
-                catalog_detail = list(Detail.objects.values_list('catalog_detail_id','catalog_id', 'description').filter(catalog_id=catalog_id))
-                # print(catalog_detail) 
-                return catalog_detail
-        return []        
-   except Exception as e:
-       print(e)
-       pass
+        choices = list()
+        if len(catalogs) > 0:
+            catalog_id = catalogs[0][0]
+            details = Detail.to_list(Detail)
+            if len(details) > 0:
+                for detail in details:
+                    if detail[1] == catalog_id:
+                        choices.append((detail[0],
+                                        _(detail[3])))
+                tuple_choices = (*choices,)
+                return tuple_choices
+        return tuple(choices)
+    except Exception as e:
+        print(e)
+        pass
+class TestField(models.BigIntegerField):
+    pass
 
- 
+
+def MasterCatalogField(Master):
+    try:
+        choices = list()
+        catalogs = Master.objects.values_list(
+            'catalog_id', 'description')
+        for catalog in catalogs:
+            choices.append((catalog[0],
+                            _(catalog[1])))
+        tuple_choices = (*choices,)
+        return tuple_choices 
+    except Exception as e:
+        print(e)
+        pass

@@ -90,17 +90,18 @@ class Catalog(models.Model):
 
 class CatalogDetail(models.Model):
     catalog_detail_id = models.IntegerField(primary_key=True)
-    catalog_id = models.IntegerField()
+    catalog = models.ForeignKey(Catalog, models.DO_NOTHING)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    order = models.IntegerField(blank=True, null=True)
+    order = models.IntegerField()
     description = models.CharField(max_length=-1)
     code = models.IntegerField()
+    is_active = models.BooleanField()
 
     class Meta:
         managed = False
         db_table = 'catalog_detail'
-        unique_together = (('order', 'catalog_id'),)
+        unique_together = (('code', 'description', 'catalog'),)
 
 
 class Client(models.Model):
@@ -131,14 +132,10 @@ class Day(models.Model):
     updated = models.DateTimeField()
     key_activity_id = models.BigIntegerField()
     transport = models.ForeignKey('Transport', models.DO_NOTHING)
-    meals = models.TextField(blank=True, null=True)  # This field type is a guess.
     day_name = models.CharField(max_length=-1, blank=True, null=True)
     day_description = models.CharField(max_length=-1, blank=True, null=True)
-    day_date = models.DateField(blank=True, null=True)
-    day_observation = models.CharField(max_length=-1, blank=True, null=True)
     day_previous = models.CharField(max_length=-1, blank=True, null=True)
-    day_next = models.CharField(max_length=-1, blank=True, null=True)
-    detail = models.TextField(blank=True, null=True)  # This field type is a guess.
+    detail = models.TextField()  # This field type is a guess.
     description = models.CharField(max_length=-1, blank=True, null=True)
 
     class Meta:
@@ -159,7 +156,6 @@ class Destination(models.Model):
     description = models.CharField(max_length=-1, blank=True, null=True)
     previous = models.CharField(max_length=-1, blank=True, null=True)
     next = models.CharField(max_length=-1, blank=True, null=True)
-    destination_option_id = models.IntegerField()
 
     class Meta:
         managed = False
@@ -217,7 +213,6 @@ class Experience(models.Model):
     created = models.DateTimeField()
     updated = models.DateTimeField()
     key_activity_id = models.BigIntegerField()
-    service_type_id = models.BigIntegerField()
     budget_id = models.BigIntegerField()
     delimiter_id = models.BigIntegerField()
     travel_ritm_id = models.BigIntegerField()
@@ -226,7 +221,8 @@ class Experience(models.Model):
     description = models.CharField(max_length=-1, blank=True, null=True)
     experience_previous = models.CharField(max_length=-1, blank=True, null=True)
     experience_next = models.CharField(max_length=-1, blank=True, null=True)
-    detail = models.TextField(blank=True, null=True)  # This field type is a guess.
+    detail = models.TextField()  # This field type is a guess.
+    destination_option_id = models.IntegerField()
 
     class Meta:
         managed = False
@@ -235,20 +231,20 @@ class Experience(models.Model):
 
 class ExperienceDetail(models.Model):
     experience_detail_id = models.IntegerField(primary_key=True)
-    service_id = models.IntegerField()
-    experience_id = models.IntegerField()
+    service = models.ForeignKey('Service', models.DO_NOTHING)
+    experience = models.ForeignKey(Experience, models.DO_NOTHING)
     created = models.DateTimeField()
     updated = models.DateTimeField()
 
     class Meta:
         managed = False
         db_table = 'experience_detail'
-        unique_together = (('service_id', 'experience_id'),)
+        unique_together = (('service', 'experience'),)
 
 
 class IncludedOption(models.Model):
     included_option_id = models.IntegerField(primary_key=True)
-    tour_id = models.IntegerField()
+    tour = models.ForeignKey('Tour', models.DO_NOTHING)
     option_id = models.IntegerField()
     is_included = models.BooleanField()
     description = models.CharField(max_length=-1, blank=True, null=True)
@@ -258,16 +254,17 @@ class IncludedOption(models.Model):
     class Meta:
         managed = False
         db_table = 'included_option'
-        unique_together = (('tour_id', 'option_id'),)
+        unique_together = (('tour', 'option_id'),)
 
 
 class NetRate(models.Model):
     net_rate_id = models.IntegerField(primary_key=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    final_detail = models.TextField(blank=True, null=True)  # This field type is a guess.
-    tour_id = models.IntegerField()
+    final_detail = models.TextField()  # This field type is a guess.
+    tour = models.ForeignKey('Tour', models.DO_NOTHING)
     description = models.CharField(max_length=-1, blank=True, null=True)
+    has_approbed = models.BooleanField()
 
     class Meta:
         managed = False
@@ -307,7 +304,7 @@ class Supplier(models.Model):
     updated = models.DateTimeField()
     supplier_type_id = models.BigIntegerField()
     supplier_rule_id = models.BigIntegerField()
-    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    props = models.TextField()  # This field type is a guess.
     tax_id = models.BigIntegerField()
     legal_name = models.CharField(max_length=32)
     city_id = models.BigIntegerField(blank=True, null=True)
@@ -337,7 +334,6 @@ class Tour(models.Model):
     tour_id = models.IntegerField(primary_key=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    title = models.CharField(max_length=-1, blank=True, null=True)
     partner = models.CharField(max_length=-1, blank=True, null=True)
     valid = models.DateField(blank=True, null=True)
     destination_country_id = models.IntegerField(blank=True, null=True)
@@ -360,20 +356,20 @@ class Tour(models.Model):
 
 
 class TourDetail(models.Model):
-    tour_id = models.IntegerField()
+    tour = models.ForeignKey(Tour, models.DO_NOTHING)
     created = models.DateTimeField()
     updated = models.DateTimeField()
     detail = models.TextField(blank=True, null=True)  # This field type is a guess.
-    itinerary_state_id = models.IntegerField()
-    destination_id = models.IntegerField()
-    day_id = models.IntegerField()
-    experience_id = models.IntegerField()
+    destination = models.ForeignKey(Destination, models.DO_NOTHING)
+    day = models.ForeignKey(Day, models.DO_NOTHING)
     tour_detail_id = models.IntegerField(primary_key=True)
+    meals = models.CharField(max_length=-1, blank=True, null=True)
+    day_observation = models.CharField(max_length=-1, blank=True, null=True)
+    day_next = models.CharField(max_length=-1, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'tour_detail'
-        unique_together = (('tour_id', 'destination_id', 'day_id', 'experience_id'),)
 
 
 class Transport(models.Model):

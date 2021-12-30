@@ -13,7 +13,7 @@ class CRS():
         self.Client = Client()
         self.File = File()
         self.ExpDeveloper = ExpDeveloper()
-        self.Itinerary = Itinerary()
+        self.Tour = Tour()
         self.TrvExp = TrvExp()
         self.Admin = Admin()
         self.System = System()

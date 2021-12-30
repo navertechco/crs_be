@@ -5,7 +5,7 @@ except ImportError:
 # from ..Core import Business
 import logging
 
-def DSLogItinerary(udata):
+def DSLogTour(udata):
     try:
         business = Business(mySession)
         result = business.method(udata)

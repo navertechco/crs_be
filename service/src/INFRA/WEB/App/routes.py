@@ -19,13 +19,16 @@ SRC_DIR = os.path.dirname(INFRA_DIR)
 ROOT_DIR = os.path.dirname(SRC_DIR)
 STATIC = os.path.join(WEB_DIR, ('static/')) 
 TEMPLATE_FOLDER = os.path.join(STATIC, ('templates/')) 
-# ENV_PATH = os.path.join(ROOT_DIR, ('.env'))
+
+#ENV LOCAL
+ENV_PATH = os.path.join(ROOT_DIR, ('.env'))
+dotenv_path = Path(ENV_PATH)
+load_dotenv(dotenv_path=dotenv_path)
 
 app = Flask(__name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC)
 api = Api(app) 
  
-# dotenv_path = Path(ENV_PATH)
-# load_dotenv(dotenv_path=dotenv_path)
+
 config = NaverConfig(app)
 pksalt = config.core.myVariables["PKSALT"]
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
@@ -203,65 +206,65 @@ class ClientEdit(Resource):
         data = request.get_json(force=True)
         return FSClientEdit(data) 
 #endregion
-#region Itinerary
-from src.BUSINESS.Itinerary.ItineraryEdit import FSItineraryEdit
-@api.route('/Itinerary/Edit')
+#region Tour
+from src.BUSINESS.Tour.TourEdit import FSTourEdit
+@api.route('/Tour/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class ItineraryEdit(Resource):
+class TourEdit(Resource):
     def post(self):
         """Método para Editar un Presupuesto
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSItineraryEdit(data) 
+        return FSTourEdit(data) 
     
-from src.BUSINESS.Itinerary.NewItinerary import FSNewItinerary
-@api.route('/Itinerary/NewItinerary')
+from src.BUSINESS.Tour.NewTour import FSNewTour
+@api.route('/Tour/NewTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class NewItinerary(Resource):
+class NewTour(Resource):
     def post(self):
         """Método para salir de session
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSNewItinerary(data) 
+        return FSNewTour(data) 
     
-from src.BUSINESS.Itinerary.ProcessItinerary import FSProcessItinerary
-@api.route('/Itinerary/ProcessItinerary')
+from src.BUSINESS.Tour.ProcessTour import FSProcessTour
+@api.route('/Tour/ProcessTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class ProcessItinerary(Resource):
+class ProcessTour(Resource):
     def post(self):
         """Método para salir de session
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSProcessItinerary(data) 
-from src.BUSINESS.Itinerary.PromoteItinerary import FSPromoteItinerary
-@api.route('/Itinerary/PromoteItinerary')
+        return FSProcessTour(data) 
+from src.BUSINESS.Tour.PromoteTour import FSPromoteTour
+@api.route('/Tour/PromoteTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class PromoteItinerary(Resource):
+class PromoteTour(Resource):
     def post(self):
         """Método para salir de session
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSPromoteItinerary(data) 
+        return FSPromoteTour(data) 
     
-from src.BUSINESS.Itinerary.UpdateItinerary import FSUpdateItinerary
-@api.route('/Itinerary/UpdateItinerary')
+from src.BUSINESS.Tour.UpdateTour import FSUpdateTour
+@api.route('/Tour/UpdateTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class UpdateItinerary(Resource):
+class UpdateTour(Resource):
     def post(self):
         """Método para salir de session
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSUpdateItinerary(data) 
+        return FSUpdateTour(data) 
 #endregion
 #region File
 from src.BUSINESS.File.MakeEmail import FSMakeEmail

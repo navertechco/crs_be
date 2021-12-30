@@ -436,9 +436,9 @@
           "inputs": ["data"]
         },
         {
-          "name": "PromoteItinerary",
+          "name": "PromoteTour",
           "method": "POST",
-          "doc": "PromoteItinerary Documentation",
+          "doc": "PromoteTour Documentation",
           "inputs": ["data"]
         },
         {
@@ -682,15 +682,15 @@
           "inputs": ["data"]
         },
         {
-          "name": "ValidateItinerary",
+          "name": "ValidateTour",
           "method": "POST",
-          "doc": "ValidateItinerary Documentation",
+          "doc": "ValidateTour Documentation",
           "inputs": ["data"]
         },
         {
-          "name": "LogItinerary",
+          "name": "LogTour",
           "method": "POST",
-          "doc": "LogItinerary Documentation",
+          "doc": "LogTour Documentation",
           "inputs": ["data"]
         },
         {

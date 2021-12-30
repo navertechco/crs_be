@@ -16,7 +16,7 @@ from .ListSaleDetail import ListSaleDetail
 from .ListAllSale import ListAllSale
 from .PromoteSale import PromoteSale
 from .PromoteOpportunity import PromoteOpportunity
-from .PromoteItinerary import PromoteItinerary
+from .PromoteTour import PromoteTour
 from .PromoteContact import PromoteContact
 from .EditOpportunity import EditOpportunity
 from .CreateOpportunity import CreateOpportunity
@@ -34,7 +34,7 @@ class TrvExp():
         self.CreateOpportunity = CreateOpportunity()
         self.EditOpportunity = EditOpportunity()
         self.PromoteContact = PromoteContact()
-        self.PromoteItinerary = PromoteItinerary()
+        self.PromoteTour = PromoteTour()
         self.PromoteOpportunity = PromoteOpportunity()
         self.PromoteSale = PromoteSale()
         self.ListAllSale = ListAllSale()

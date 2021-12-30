@@ -10,7 +10,7 @@ from .Client import *
 from .Dto import *
 from .ExpDeveloper import *
 from .File import *
-from .Itinerary import *
+from .Tour import *
 from .System import *
 from .TrvExp import *
 from .User import *

@@ -5,16 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
-        {
-            "name": "Python: Django",
-            "type": "python",
-            "request": "launch",
-            "program": "admin/manage.py",
-            "args": [
-                "runserver",
-            ],
-            "django": true
-        },
+  
         {
             "name": "Python: Flask",
             "type": "python",
@@ -32,6 +23,16 @@
             ],
             "jinja": true,
             "justMyCode": false
+        },
+        {
+            "name": "Python: Django",
+            "type": "python",
+            "request": "launch",
+            "program": "admin/manage.py",
+            "args": [
+                "runserver",
+            ],
+            "django": true
         }
     ]
 }

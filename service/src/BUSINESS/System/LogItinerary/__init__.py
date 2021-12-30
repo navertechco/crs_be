@@ -2,13 +2,13 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from .FSLogItinerary import FSLogItinerary
-from .BSLogItinerary import BSLogItinerary
-from .DSLogItinerary import DSLogItinerary
+from .FSLogTour import FSLogTour
+from .BSLogTour import BSLogTour
+from .DSLogTour import DSLogTour
 
 
-class LogItinerary():
+class LogTour():
     def __init__(self):
-        self.FSLogItinerary = FSLogItinerary
-        self.BSLogItinerary = BSLogItinerary
-        self.DSLogItinerary = DSLogItinerary
+        self.FSLogTour = FSLogTour
+        self.BSLogTour = BSLogTour
+        self.DSLogTour = DSLogTour

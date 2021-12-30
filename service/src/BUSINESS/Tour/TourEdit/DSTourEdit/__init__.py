@@ -26,10 +26,10 @@ def DSTourEdit(input):
     """      
     try:
         data = input.get('data')
-        itinerary = TourDto(data).getAllDict()
+        tour = TourDto(data).getAllDict()
         
         
-        return True if itinerary.get("itinerary_id") is None or 'NULL' or '' else False
+        return True if tour.get("tour_id") is None or 'NULL' or '' else False
 
     except Exception as e:
         return True

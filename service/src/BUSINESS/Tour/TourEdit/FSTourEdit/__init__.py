@@ -6,17 +6,17 @@ from ..BSTourEdit import BSTourEdit
 from naver_core import *
 from flask import render_template, make_response
 
-def FSTourEdit	(data):
+def FSTourEdit	(input):
     """Método para editar un Cliente.
 
     Args:
-        data (dict): Diccionario con los datos del Cliente.
+        input (dict): Diccionario con los datos del Cliente.
 
     Returns:
         json: Resultado del API.
     """
     try:
-        result = BSTourEdit(data)
+        result = BSTourEdit(input)
         return Ok(result)
     except Exception as e:
         return ErrorResponse(e) 

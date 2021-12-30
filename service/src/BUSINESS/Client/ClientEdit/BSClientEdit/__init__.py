@@ -20,7 +20,7 @@ def BSClientEdit(input):
         boolean: True si el usuario se confirma, False si no
     """
     try:
-        state = getValue(input, 'state')
+        state = input.get('state')
 
         if state == 'new':
             return CreateContact().BSCreateContact(input)

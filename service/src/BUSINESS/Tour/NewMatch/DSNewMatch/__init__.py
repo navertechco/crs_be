@@ -14,7 +14,7 @@ nbd = NaverDB(app, config)
 
 
 def DSNewMatch(id, match):
-    """Método para procesar match de cotización
+    """Método para procesar match de tour 
 
     Args:
         id (int): Identificador de la Cotización
@@ -30,8 +30,8 @@ def DSNewMatch(id, match):
         table = "ITINERARY"
         stm = " UPDATE " + table
         stm += " SET match=\'{}\'".format(match)
-        stm += ", itinerary_state_id=3"
-        where = " WHERE itinerary_id = \'{}\'".format(id)
+        stm += ", tour_state_id=3"
+        where = " WHERE tour_id = \'{}\'".format(id)
         stm += " " + where
         res = nbd.persistence.setWrite(stm, table)
         return res

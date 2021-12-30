@@ -209,15 +209,15 @@ class ClientEdit(Resource):
 #region Tour
 from src.BUSINESS.Tour.TourEdit import FSTourEdit
 @api.route('/Tour/Edit')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class TourEdit(Resource):
     def post(self):
         """Método para Editar un Presupuesto
         Returns:
-            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+            json: {"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}
         """
-        data = request.get_json(force=True)
-        return FSTourEdit(data) 
+        input = request.get_json(force=True)
+        return FSTourEdit(input) 
     
 from src.BUSINESS.Tour.NewTour import FSNewTour
 @api.route('/Tour/NewTour')

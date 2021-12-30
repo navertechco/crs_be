@@ -7,7 +7,7 @@ from naver_core import *
 
 
 def BSProcessDays(id, input):
-    """Método para procesar días de cotización	
+    """Método para procesar días de tour 	
 
     Args:
         id (int): Identificador de la Cotización

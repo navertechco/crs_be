@@ -13,10 +13,10 @@ config = NaverConfig(app)
 nbd = NaverDB(app,config)
 
 def DSProcessTour(id):
-    """Método para validar si existe una cotización
+    """Método para validar si existe un tour 
 
     Args:
-        id (int): id de la cotización
+        id (int): id de el tour
 
     Raises:
         e: Error de conexión a la base de datos
@@ -29,8 +29,8 @@ def DSProcessTour(id):
         stm = " UPDATE "
         stm += table 
         stm += " SET ID_ITINERARY_STATE = 2 "
-        stm += " WHERE itinerary_id = \'{}\'".format(id)
-        stm += " AND itinerary_state_id >= 1"
+        stm += " WHERE tour_id = \'{}\'".format(id)
+        stm += " AND tour_state_id >= 1"
         res = nbd.persistence.setWrite(stm, table)
         return res  
 

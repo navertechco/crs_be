@@ -47,7 +47,7 @@ def BSProcessTour(id, input):
                         raise Exception(605, "Error de Procesamiento de días")
                     raise Exception(605, "Error de Procesamiento de destinos")
                 raise Exception(605, 'Error de Procesamiento de match')
-            raise Exception(605, 'No tiene destinos la cotización')
-        raise Exception(605, 'No tiene match la cotización')
+            raise Exception(605, 'No tiene destinos el tour')
+        raise Exception(605, 'No tiene match el tour')
     except Exception as e:
         raise e

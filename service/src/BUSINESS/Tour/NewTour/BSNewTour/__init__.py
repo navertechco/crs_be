@@ -11,28 +11,28 @@ from naver_core import *
 
 
 def BSNewTour(input):
-    """Método para crear una nueva cotización
+    """Método para crear una nueva tour 
 
     Args:
-        input (dict): Contiene los datos de la cotización
+        input (dict): Contiene los datos de el tour
         
     Raises:
-        Exception: Cuando no se creó la cotización
-        e: Cuando no se creó la cotización
+        Exception: Cuando no se creó el tour
+        e: Cuando no se creó el tour
 
     Returns:
-        bool: True si se creó la cotización, False si no se creó
+        bool: True si se creó el tour, False si no se creó
     """    
     try:
  
         res =  DSNewTour(input)
         if len(res) > 0:
             res['session'].commit()
-            new_itinerarys = res['cursor'].fetchall()
-            if len(new_itinerarys) > 0:
-                id = new_itinerarys[0]['itinerary_id']
+            new_tours = res['cursor'].fetchall()
+            if len(new_tours) > 0:
+                id = new_tours[0]['tour_id']
                 return id
-            raise Exception('No se creó la cotización, pruebe los datos ingresados')
-        raise Exception(605, 'Error de NewTouración')
+            raise Exception('No se creó el tour, pruebe los datos ingresados')
+        raise Exception(605, 'Error de Creación de Tour')
     except Exception as e:
         raise e

@@ -32,25 +32,21 @@ def DSSignIn(username):
         [lst]: Lista con los datos del usuario
     """
     try:
-
-        stm = """   UPDATE entities.user
-                    SET STATE = 6 -- CONNECTED
-                        WHERE USERNAME = \'{0}\'
-                        AND (STATE = 5 -- DISCONNECTED;
-                        OR STATE = 2 -- REGISTERED;
-                        )
-                   
-                        """.format(username)
         table = "USER"
-        res = nbd.persistence.setWrite(stm, table)['session']
+        schema = "entities"
+        update_stm = """ UPDATE {0}.{1} \n""".format(schema, table)
+        set_stm = update_stm + """ SET STATE = 6  """
+        where_stm = set_stm +  """ WHERE USERNAME = \'{0}\' """.format(username)
+        and_stm = where_stm + """  AND (STATE = 5  OR STATE = 2 ) """
+        res = nbd.persistence.setWrite(and_stm, table)['session']
         if isinstance(res, object):
             res.commit()
-            stm = """   SELECT * FROM entities.user
-                                WHERE USERNAME = \'{0}\'
-                                AND STATE = 6;
-                                """.format(username)
-        table = "USER"
-        res = nbd.persistence.getQuery(stm, table)
+            select_stm = """   SELECT * """
+            from_stm = select_stm + """ FROM {0}.{1} """.format(schema, table)
+            where_stm =  from_stm + """      WHERE USERNAME = \'{0}\' """.format(username)
+            and_stm =  where_stm +  """      AND STATE = 6; -- CONNECTED \n"""
+         
+        res = nbd.persistence.getQuery(and_stm, table)
         return res
 
     except Exception as e:

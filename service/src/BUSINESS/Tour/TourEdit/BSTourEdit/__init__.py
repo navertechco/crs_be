@@ -20,19 +20,19 @@ def BSTourEdit(input):
         boolean: True si el usuario se confirma, False si no
     """
     try:
-        state = getValue(input, 'state')
+        state = input.get('state')
 
         if state == 'new':
             valid = DSTourEdit(input)
             if valid:
-                itinerary_id = NewTour().BSNewTour(input)
-                if itinerary_id is not None:
-                    done = ProcessTour().BSProcessTour(itinerary_id, input)
+                tour_id = NewTour().BSNewTour(input)
+                if tour_id is not None:
+                    done = ProcessTour().BSProcessTour(tour_id, input)
                     if done:
                         return done
-                    raise Exception('Error al procesar la cotización')
-                raise Exception('Error al crear la cotización')
-            raise Exception('Ya tiene una cotización activa')
+                    raise Exception('Error al procesar el tour')
+                raise Exception('Error al crear el tour')
+            raise Exception('Ya tiene un tour activo')
 
         if state == 'update':
             return UpdateTour().BSUpdateTour(input)

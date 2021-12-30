@@ -16,7 +16,7 @@ nbd = NaverDB(app, config)
 
 
 def DSProcessDays(id, input):
-    """Método para procesar días de cotización
+    """Método para procesar días de tour 
 
     Args:
         id (int): Identificador de la Cotización
@@ -37,9 +37,9 @@ def DSProcessDays(id, input):
         """
         where = " WHERE QD.ID_ITINERARY = \'{}\'".format(id)
         stm += where
-        itinerary_day_services = nbd.persistence.getQuery(stm, table)
-        if len(itinerary_day_services) > 0:
-            serviceList = ServiceListDto(itinerary_day_services).__list__()
+        tour_day_services = nbd.persistence.getQuery(stm, table)
+        if len(tour_day_services) > 0:
+            serviceList = ServiceListDto(tour_day_services).__list__()
             table = "ITINERARY_DAY_DETAIL"
             stm = nbd.persistence.prepareListDtoToInsert(
                 serviceList, table)

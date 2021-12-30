@@ -14,10 +14,10 @@ nbd = NaverDB(app, config)
 
 
 def DSNewTour(input):
-    """Método para crear una cotización en la base de datos.
+    """Método para crear un tour  en la base de datos.
 
     Args:
-        input (dict): Diccionario con los datos de la cotización.
+        input (dict): Diccionario con los datos de el tour.
 
     Raises:
         e: Error de conexión con la base de datos.
@@ -27,9 +27,9 @@ def DSNewTour(input):
     """
     try:
         data = input.get('data')
-        itinerary = TourDto(data)
+        tour = TourDto(data)
         table = "TOUR"
-        res = nbd.persistence.insertDto(itinerary, table)
+        res = nbd.persistence.insertDto(tour, table)
         return res
 
     except Exception as e:

@@ -17,9 +17,9 @@ def DSUpdateTour(input):
 
     try:
         data = input.get('data')
-        itinerary = TourDto(data).getAllDict()
+        tour = TourDto(data).getAllDict()
         table = "ITINERARY"
-        res = nbd.persistence.updateDto(itinerary, table)
+        res = nbd.persistence.updateDto(tour, table)
         return res
 
     except Exception as e:

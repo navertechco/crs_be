@@ -1,6 +1,6 @@
 class DayDto():
     def __init__(self, data):
-        self.itinerary_day_id = data.get('itinerary_day_id') or None
+        self.tour_day_id = data.get('tour_day_id') or None
         self.day_id = data.get('day_id') or None 
         self.promo_id = data.get('promo_id') or None 
 
@@ -9,7 +9,7 @@ class DayDto():
 
     def __dict__(self):
         return {
-            "itinerary_day_id": self.itinerary_day_id,
+            "tour_day_id": self.tour_day_id,
             "day_id": self.day_id, 
             "promo_id": self.promo_id 
         }

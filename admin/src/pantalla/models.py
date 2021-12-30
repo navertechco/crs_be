@@ -51,14 +51,33 @@ class Day(models.Model):
     day_name = models.CharField(max_length=100,  null=True)
     description = models.CharField(max_length=100) 
     day_previous = models.CharField(max_length=100,  null=True)
+    day_observation = models.CharField(max_length=100, blank=True, null=True)
+    day_next = models.CharField(max_length=100, blank=True, null=True) 
+    meals = models.CharField(max_length=100, blank=True, null=True)
+    tour_detail = models.ForeignKey('TourDetail', models.DO_NOTHING)
 
-    
-    # detail = models.TextField( null=True)
+        
     class Meta:
         managed = False
         db_table = 'day'
     def __str__(self):
-        return self.description+"->"+str(self.day_previous)
+        return str(self.tour_detail)+"->"+self.description
+    
+    
+class DayDetail(models.Model):
+    day_detail_id = models.AutoField(primary_key=True)
+    service = models.ForeignKey('Service', models.DO_NOTHING)
+    experience = models.ForeignKey('Experience', models.DO_NOTHING)
+    day = models.ForeignKey("Day", models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'day_detail'
+        unique_together = (('day', 'experience', 'service'),)
+    
+    def __str__(self):
+        return str(self.day)+"->"+str(self.experience)+"->"+str(self.service)
+    
 class Destination(models.Model):
     destination_id = models.AutoField(primary_key=True)
     port = models.BooleanField()
@@ -79,10 +98,13 @@ class Destination(models.Model):
         return self.description
 class Experience(models.Model):
     experience_id = models.AutoField(primary_key=True)
-    destination = models.ForeignKey(Destination, models.DO_NOTHING)
+    supplier = models.ForeignKey('Supplier', models.DO_NOTHING)
+    destination = models.ForeignKey("Destination", models.DO_NOTHING)
     destination_option = models.IntegerField(db_column="destination_option_id",
         choices=CatalogField("destination_option", Catalog, CatalogDetail))
     key_activity = models.IntegerField(db_column="key_activity_id",
+                                       choices=CatalogField("key_activity", Catalog, CatalogDetail))
+    key_activity2 = models.IntegerField(db_column="key_activity2_id",
                                        choices=CatalogField("key_activity", Catalog, CatalogDetail))
     budget = models.IntegerField(db_column="budget_id",
                                  choices=CatalogField("budget", Catalog, CatalogDetail))
@@ -96,24 +118,13 @@ class Experience(models.Model):
     experience_previous = models.CharField(
         max_length=100,  null=True)
     experience_next = models.CharField(max_length=100,  null=True)
-    # detail = models.TextField( null=True, default = "GFG is best")
+    detail = models.TextField( null=True, default = "GFG is best")
     class Meta:
         managed = False
         db_table = 'experience'
     def __str__(self):
         return "Destination: "+str(self.destination)+"-> Experience: "+self.description
-class ExperienceDetail(models.Model):
-    experience_detail_id = models.AutoField(primary_key=True)
-    service = models.ForeignKey(
-        'Service', models.DO_NOTHING, db_column="service_id",)
-    experience = models.ForeignKey(
-        'Experience', models.DO_NOTHING, db_column="experience_id",)
-    class Meta:
-        managed = False
-        db_table = 'experience_detail'
-    def __str__(self):
-        return str(self.experience)+"->"+str(self.service)
-        # unique_together = (('service_id', 'experience_id'),)
+
 class IncludedOption(models.Model):
     included_option_id = models.AutoField(primary_key=True)
     tour = models.ForeignKey('Tour', models.DO_NOTHING, db_column="tour_id")
@@ -158,6 +169,8 @@ class Service(models.Model):
     infant_friendly = models.BooleanField()
     pet_friendly = models.BooleanField()
     props = models.TextField(default='{"props":""}', null=True)
+    destination = models.ForeignKey(
+        'Destination', models.DO_NOTHING, db_column="destination_id",)
     class Meta:
         managed = False
         db_table = 'service'
@@ -231,7 +244,7 @@ class Tour(models.Model):
         choices=CatalogField("budget", Catalog, CatalogDetail))
     arrival_date = models.DateField(null=True)
     departure_date = models.DateField(null=True)
-    contact_agent = models.CharField(max_length=100,  null=True)
+    contact_agent = models.ForeignKey('User', models.DO_NOTHING, db_column='contact_agent')
     pasengers = models.IntegerField(null=True)
     days = models.IntegerField(null=True)
     nights = models.IntegerField(null=True)
@@ -247,18 +260,13 @@ class TourDetail(models.Model):
     tour_detail_id = models.AutoField(primary_key=True) 
     destination = models.ForeignKey(
         'Destination', models.DO_NOTHING, db_column="destination_id",)
-    day = models.ForeignKey('Day', models.DO_NOTHING, db_column="day_id",) 
     tour = models.ForeignKey('Tour', models.DO_NOTHING, db_column="tour_id",)
-    meals = models.CharField(max_length=100,  null=True)
-    day_next = models.CharField(max_length=100, blank=True,  null=True)
-    day_observation = models.CharField(max_length=100, blank=True,  null=True)
-    
-    # detail = models.TextField( null=True)
     class Meta:
         managed = False
         db_table = 'tour_detail'
+        unique_together = (('tour', 'destination'),)
     def __str__(self):
-        return str(self.tour)+"->"+str(self.day)+"->"+str(self.destination)+"->"+str(self.meals)
+        return str(self.tour)+"->"+str(self.destination)
         # unique_together = (('tour_id', 'destination_id',
         #                    'day_id', 'experience_id'),)
 class Transport(models.Model):

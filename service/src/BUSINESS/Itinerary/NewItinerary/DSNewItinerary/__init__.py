@@ -28,7 +28,7 @@ def DSNewItinerary(input):
     try:
         data = input.get('data')
         itinerary = ItineraryDto(data)
-        table = "ITINERARY"
+        table = "TOUR"
         res = nbd.persistence.insertDto(itinerary, table)
         return res
 

@@ -15,25 +15,38 @@ config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
-def DSProcessDestinations(id, input):
+ 
+
+
+def DSProcessDestinations(tour_id, input):
 
     try:
+        reslist = []
         destinations = {'destinations': getValue(input, 'destinations')}
-        jsondata = (ast.literal_eval(jsonConvert(str(destinations).replace("'", '"'))))
-        destinationList = DestinationListDto(jsondata, id).__list__()
-        table = "ITINERARY"
-        stm = " UPDATE " + table
-        stm += " SET destinations='{}'".format(str(json.dumps(jsondata)))
+        jsondata = prepareJsonData(destinations)
+        destinations = DestinationListDto(jsondata, tour_id).__dict__()
+        destinationsToInsert = str(json.dumps(jsondata))
+        table = "TOUR"
+        schema = "entities"
+        stm = " UPDATE " + schema+"."+table
+        stm += " SET destinations=\'{}\'".format(destinationsToInsert)
         stm += ", tour_state_id=4"
-        where = " WHERE tour_id = \'{}\'".format(id)
+        where = " WHERE tour_id = \'{}\'".format(tour_id)
         stm += " " + where
         res = nbd.persistence.setWrite(stm, table)
         if len(res) > 0:
-            res['session'].commit()
-            table = "ITINERARY_DAY"
-            stm = nbd.persistence.prepareListDtoToInsert(
-                destinationList, table)
-            res = nbd.persistence.setWrite(stm, table)
-            return res
+            reslist.append(res)
+            table = "TOUR_DETAIL"
+            for destination in destinations:
+                stm = """
+                            INSERT INTO {}.{}(TOUR_ID, DETAIL, DESTINATION_ID)
+                            VALUES ({},\'{}\',{})
+                
+                """.format(schema, table, tour_id, str(json.dumps(destination)), destination["destination_id"])
+                res = nbd.persistence.setWrite(
+                    stm, table)
+                if len(res) > 0:
+                    reslist.append(res)
+        return reslist
     except Exception as e:
         raise e

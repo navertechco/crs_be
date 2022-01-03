@@ -6,20 +6,21 @@ from ..DSProcessDays import DSProcessDays
 from naver_core import *
 
 
-def BSProcessDays(id, input):
-    """Método para procesar días de tour 	
+def BSProcessDays(tour_id, destination):
+    """Método de Negocio para procresar dias de un Tour
 
     Args:
-        id (int): Identificador de la Cotización
-        input (dict): Diccionario con los datos de la Cotización
+        tour_id (int): identificacion del tour
+        destination (dict): destino
+
     Raises:
-        e: Cuando no se puede procesar la Cotización
+        e: error de proceso
 
     Returns:
-        res: Resultado de la operación
+        res: resultado de la operación
     """
     try: 
-        res =  DSProcessDays(id, input)
+        res =  DSProcessDays(tour_id, destination)
         return res
     except Exception as e:
         raise e

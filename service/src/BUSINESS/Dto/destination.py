@@ -1,3 +1,9 @@
+import json
+import ast
+import json 
+from naver_core import *
+
+ 
 class DestinationDto():
     def __init__(self, data):
         self.destination_id = data.get("destination_id") or None
@@ -8,11 +14,11 @@ class DestinationDto():
         self.destination_title = data.get("destination_title") or None
         self.hotel_id = data.get("hotel_id") or None
         self.airport_id = data.get("airport_id") or None
-        self.has_airport = data.get("has_airport") or None
+        self.has_airport = data.get("has_airport") or False
         self.description = data.get("description") or None
         self.previous = data.get("previous") or None
         self.next = data.get("next") or None
-        self.detail = data.get("detail") or None
+        self.days = json.dumps(prepareJsonData(data.get("days"))) or None
 
     def set(self, attr):
         setattr(self, attr, attr)
@@ -31,7 +37,7 @@ class DestinationDto():
             "description": self.description,
             "previous": self.previous,
             "next": self.next,
-            "detail": self.detail,
+            "days": self.days,
         }
 
 
@@ -39,14 +45,13 @@ class DestinationListDto():
     def __init__(self, data, id):
         self.destination_list = []
         for d in data['destinations']:
+            destinationDto = None
             destinationDto = DestinationDto(d)
-            destinationDto.destination_id = id
-            self.destination_list.append(destinationDto)
+            self.destination_list.append(destinationDto.__dict__())
 
     def __dict__(self):
-        return {
-            "destination_list": self.destination_list
-        }
+        return self.destination_list
+        
 
     def __list__(self):
         return self.destination_list

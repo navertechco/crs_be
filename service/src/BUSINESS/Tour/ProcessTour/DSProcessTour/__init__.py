@@ -25,10 +25,10 @@ def DSProcessTour(id):
         res: Resultado de la consulta
     """       
     try:
-        table = "ITINERARY"
+        table = "TOUR"
         stm = " UPDATE "
         stm += table 
-        stm += " SET ID_ITINERARY_STATE = 2 "
+        stm += " SET ID_TOUR_STATE = 2 "
         stm += " WHERE tour_id = \'{}\'".format(id)
         stm += " AND tour_state_id >= 1"
         res = nbd.persistence.setWrite(stm, table)

@@ -23,6 +23,7 @@ def BSProcessDestinations(id, input):
     try:
         
         res =  DSProcessDestinations(id, input)
+        
         return res
     except Exception as e:
         raise e

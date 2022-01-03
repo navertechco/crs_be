@@ -2,49 +2,79 @@ try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-
-from src.BUSINESS.Dto import ServiceListDto
+from src.BUSINESS.Dto import DayDto, ExperienceDto, DayDetailDto, ServiceDto
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
 from src.INFRA.WEB.App.routes import app
-import ast
-import json
-
+from src.BUSINESS.System.GetNextVal import DSGetNextVal
 config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
-def DSProcessDays(id, input):
-    """Método para procesar días de tour 
-
+def DSProcessDays(tour_id, destination):
+    """Método de Persistencia para procresar dias de un Tour
     Args:
-        id (int): Identificador de la Cotización
-        input (dict): Diccionario con los datos de la Cotización
-
+        tour_id (int): identificacion del tour
+        destination (dict): destino
     Raises:
-        e: Cuando no se puede procesar la Cotización
-
+        e: error de proceso
     Returns:
-        res: Resultado de la operación
+        res: resultado de la operación
     """
     try:
-        table = "ITINERARY_DAY"
-        stm = """
-                SELECT QD.ID_ITINERARY_DAY,S.* FROM SERVICE S 
-                JOIN ITINERARY_DAY QD 
-                ON QD.ID_DESTINATION = S.ID_DESTINATION 
+        table = "EXPERIENCE"
+        select_stm = " SELECT DISTINCT EXPE.experience_id, SRV.service_id"
+        from_stm = "    FROM entities.EXPERIENCE EXPE"
+        join_stm = """
+                            JOIN entities.SERVICE SRV
+                                ON EXPE.DESTINATION_ID = SRV.DESTINATION_ID
+                            JOIN entities.DESTINATION DEST
+                                ON DEST.DESTINATION_ID = EXPE.DESTINATION_ID
+                            JOIN entities.TOUR_DETAIL TDTL
+                                ON TDTL.DESTINATION_ID = DEST.DESTINATION_ID
         """
-        where = " WHERE QD.ID_ITINERARY = \'{}\'".format(id)
-        stm += where
-        tour_day_services = nbd.persistence.getQuery(stm, table)
-        if len(tour_day_services) > 0:
-            serviceList = ServiceListDto(tour_day_services).__list__()
-            table = "ITINERARY_DAY_DETAIL"
-            stm = nbd.persistence.prepareListDtoToInsert(
-                serviceList, table)
-            res = nbd.persistence.setWrite(stm, table)
-            return res
-
+        where_stm = "   WHERE TDTL.TOUR_ID = \'{}\'".format(tour_id)
+        stm = select_stm + from_stm + join_stm + where_stm
+        services = nbd.persistence.getQuery(stm, table)
+        index = 0
+        if len(services) > 0:
+            days = prepareJsonData(destination.get("days"))
+            index = 0
+            for day in days:
+                last_row_id = (DSGetNextVal("DAY", "day_id"))
+                last_row_id += 1+index
+                day_dto = DayDto(day)
+                day_dto.set("tour_detail_id",
+                            destination.get("tour_detail_id"))
+                day_dto.set("day_id", last_row_id)
+                index += 1
+                table = "DAY"
+                res = nbd.persistence.insertDto(day_dto, table)
+                if len(res) > 0:
+                    res['session'].commit()
+                else:
+                    raise Exception(605, "Error de Procesamiento de días")
+                experiences = day.get("experiences")
+                for experience in experiences:
+                    experience_dto = ExperienceDto(experience)
+                    print(experience_dto.__dict__())
+                    experience_id = experience.get("experience_id")
+                    experience_services = [x for x in services if int(
+                        x['experience_id']) == int(experience_id)]
+                    for service in experience_services:
+                        day_detail_dto = DayDetailDto(
+                            {**day_dto.__dict__(),  **service})
+                        print(day_detail_dto.__dict__())
+                        table = "DAY_DETAIL"
+                        res = nbd.persistence.insertDto(day_detail_dto, table)
+                        if len(res) > 0:
+                            res['session'].commit()
+                            break
+                        else:
+                            raise Exception(
+                                605, "Error de Procesamiento de experiencias")
+            return True
+        raise Exception(605, "Error de Procesamiento de servicios")
     except Exception as e:
         raise e

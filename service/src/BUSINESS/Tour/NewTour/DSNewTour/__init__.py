@@ -29,7 +29,8 @@ def DSNewTour(input):
         data = input.get('data')
         tour = TourDto(data)
         table = "TOUR"
-        res = nbd.persistence.insertDto(tour, table)
+        schema = "entities"
+        res = nbd.persistence.insertDto(tour, table, schema)
         return res
 
     except Exception as e:

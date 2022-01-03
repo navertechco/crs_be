@@ -27,8 +27,9 @@ def DSNewMatch(id, match):
         res: Resultado de la Cotización
     """
     try:
-        table = "ITINERARY"
-        stm = " UPDATE " + table
+        table = "TOUR"
+        schema = "entities"
+        stm = " UPDATE " + schema+"."+str(table).lower()
         stm += " SET match=\'{}\'".format(match)
         stm += ", tour_state_id=3"
         where = " WHERE tour_id = \'{}\'".format(id)

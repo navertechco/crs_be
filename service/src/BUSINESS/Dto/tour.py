@@ -1,10 +1,14 @@
 import json
+import ast
+import json 
+from naver_core import *
 
+ 
 
 def findValue(lstdict, key):
     data = [x for x in lstdict if x["code"] == key]
     if len(data) > 0:
-        return data[0]
+        return data[0]["value"]
 
 
 class TourDto():
@@ -14,26 +18,35 @@ class TourDto():
         cover = data.get('cover') or None
         end = data.get('end') or None
         destinations = data.get('destinations') or None
-        details = {client, tour, cover, end, destinations}
-
+        match = data.get('match') or None
+        match_type = data.get('match_type') or None
+        details = ({
+            "client": client,
+            "tour": tour,
+            "cover": cover,
+            "end": end,
+            "destinations": destinations
+        })
         self.tour_id = findValue(tour, "tour_id")
         self.created = findValue(tour, "created")
         self.updated = findValue(tour, "updated")
         self.partner = findValue(tour, "partner")
-        self.valid = findValue(tour, "valid")
-        self.destination_country_id = findValue(tour, "destination_country")
+        self.match = match
+        self.match_type = match_type
+        self.valid = cover.get("valid_until")
+        self.destination_country_id = findValue(tour, "country")
         self.purpose_id = findValue(tour, "purpose")
         self.accomodation_type_id = findValue(tour, "accomodation_type")
         self.arrival_date = findValue(tour, "arrival_date")
         self.departure_date = findValue(tour, "departure_date")
         self.contact_agent = findValue(tour, "contact_agent")
-        self.pasengers = findValue(tour, "pasenger")
-        self.days = findValue(tour, "day")
-        self.nights = findValue(tour, "night")
-        self.description = findValue(tour, "description")
-        self.client_id = findValue(tour, "client_i")
-        self.detail = json.dump(details)
-        self.cover_details = json.dump(cover)
+        self.pasengers = cover.get("passengers")
+        self.days = cover.get("days")
+        self.nights = cover.get("nights")
+        self.description = cover.get("description")
+        self.client_id = findValue(client, "client_id")
+        self.detail = json.dumps(prepareJsonData(details))
+        self.cover_detail = json.dumps(prepareJsonData(cover))
 
     def __dict__(self):
         return {
@@ -52,7 +65,9 @@ class TourDto():
             "description": self.description,
             "client_id": self.client_id,
             "detail": self.detail,
-            "cover_details": self.cover_details,
+            "cover_detail": self.cover_detail,
+            "match": self.match,
+            "match_type": self.match_type,
 
         }
 
@@ -75,6 +90,8 @@ class TourDto():
             "description": self.description,
             "client_id": self.client_id,
             "detail": self.detail,
-            "cover_details": self.cover_details,
+            "cover_detail": self.cover_detail,
+            "match": self.match,
+            "match_type": self.match_type,
 
         }

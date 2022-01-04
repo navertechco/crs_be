@@ -22,7 +22,7 @@ def DSPlayTour	(slug):
         res: Resultado de la operación.
     """
     try:
-        table = "ITINERARY"
+        table = "TOUR"
         Command = "SELECT "
         From = " * FROM {}".format(table)
         Where = " WHERE playlist_slug = \'{}'".format( slug) 

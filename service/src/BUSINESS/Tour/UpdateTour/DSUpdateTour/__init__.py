@@ -18,7 +18,7 @@ def DSUpdateTour(input):
     try:
         data = input.get('data')
         tour = TourDto(data).getAllDict()
-        table = "ITINERARY"
+        table = "TOUR"
         res = nbd.persistence.updateDto(tour, table)
         return res
 

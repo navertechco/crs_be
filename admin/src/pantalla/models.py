@@ -21,6 +21,7 @@ class CatalogDetail(models.Model):
     # catalog = models.ForeignKey('Catalog', models.DO_NOTHING)
     order = models.IntegerField(null=True)
     description = models.CharField(max_length=100)
+    value = models.CharField(max_length=100)
     code = models.IntegerField()
     is_active = models.BooleanField()
     class Meta:

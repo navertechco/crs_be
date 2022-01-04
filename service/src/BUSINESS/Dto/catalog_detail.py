@@ -1,24 +1,19 @@
+import json
 class CatalogDetailDto():
     def __init__(self, data):
-
-        self.catalog_detail_id = data.get("catalog_detail_id")
-        self.catalog_id = data.get("catalog_id")
-        self.created = data.get("created")
-        self.updated = data.get("updated")
+ 
+        self.catalog = data.get("catalog")
         self.order = data.get("order")
         self.description = data.get("description")
         self.code = data.get("code")
-        self.is_active = data.get("is_active")
+        self.value = json.loads(data.get("value"))
 
     def __dict__(self):
         return {
-
-            "catalog_detail_id": self.catalog_detail_id,
-            "catalog_id": self.catalog_id,
-            "created": self.created,
-            "updated": self.updated,
+ 
+            "catalog": self.catalog, 
             "order": self.order,
             "description": self.description,
             "code": self.code,
-            "is_active": self.is_active,
+            "value": self.value,
         }

@@ -6,8 +6,10 @@ from .models import *
 from django.apps import apps 
 
  
-class ModelAdmin(admin.ModelAdmin):
-
+class ModelAdmin(admin.ModelAdmin): 
+    search_fields = (
+            "description", 
+        )
     def has_add_permission(self, request, obj=None):
         if request.user.is_superuser:
             return True

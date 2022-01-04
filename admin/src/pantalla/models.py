@@ -27,15 +27,17 @@ class CatalogDetail(models.Model):
     class Meta:
         managed = False
         db_table = 'catalog_detail'
+        unique_together = (('order', 'catalog_id', 'code',),('description',),)
+        
     def __str__(self):
         return self.description
-        # unique_together = (('order', 'catalog_id'),)
+        
     @property
     def catalog(self):
         print(self)
         return models.BigIntegerField(choices=Catalog.objects.values_list('catalog_id', 'description').filter(catalog_id=self.catalog_id))
     def __str__(self):
-        return str(Catalog.objects.values_list('catalog_id', 'description').filter(catalog_id=self.catalog_id)[0][1])+"->"+self.description+"->"+str(self.is_active)
+        return str(Catalog.objects.values_list('catalog_id', 'description').filter(catalog_id=self.catalog_id)[0][1])+"->"+self.description+"->"+str(self.code)+"->"+str(self.is_active)
     def to_list(self):
         details = list(self.objects.values_list())
         return details

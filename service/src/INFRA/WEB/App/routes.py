@@ -73,6 +73,23 @@ def encrypted(function):
     return wrapper
 
 
+ 
+
+#region process
+from src.BUSINESS.System.ProcessOptions import FSProcessOptions
+@api.route('/System/ProcessOptions')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class ProcessOptions(Resource):
+    def post(self):
+        """Método para procesar opciones de inclusión
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        data = request.get_json(force=True)
+        return FSProcessOptions(data)
+#endregion
+
+
 #region catalog
 from src.BUSINESS.System.FindCatalog import FSFindCatalog
 @api.route('/System/FindCatalog')
@@ -85,7 +102,7 @@ class FindCatalog(Resource):
         """
         data = request.get_json(force=True)
         return FSFindCatalog(data)
- 
+#endregion
 #region user
 from src.BUSINESS.User.Confirm import FSConfirm
 @api.route('/User/Confirm')

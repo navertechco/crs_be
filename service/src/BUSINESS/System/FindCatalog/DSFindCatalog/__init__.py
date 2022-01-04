@@ -7,7 +7,7 @@ from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
 from src.INFRA.WEB.App.routes import app 
-from itertools import groupby
+
 
 config = NaverConfig(app)
 nbd = NaverDB(app,config)

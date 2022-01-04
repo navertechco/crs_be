@@ -5,9 +5,9 @@ except ImportError:
 from ..DSProcessOptions import DSProcessOptions
 import logging
 
-def BSProcessOptions(input):
+def BSProcessOptions(tour_id):
     try:
-        result = DSProcessOptions(input)
+        result = DSProcessOptions(tour_id)
         return result
 
     except Exception as e:

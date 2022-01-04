@@ -4,11 +4,12 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..BSFindCatalog import BSFindCatalog
 from naver_core import *
-
+import ast
 def FSFindCatalog(input):
     try: 
         result = BSFindCatalog(input)
-        return result
+       
+        return Ok(result)
 
     except Exception as e:
-        return ErrorResponse(e) 
+        return ErrorResponse(e)  

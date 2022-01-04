@@ -12,7 +12,7 @@ from src.INFRA.WEB.App.routes import app
 config = NaverConfig(app)
 nbd = NaverDB(app,config)
 
-def DSProcessOptions(input):
+def DSProcessOptions(tour_id):
     """Método para procesar opciones de inclusión
 
     Args:
@@ -25,7 +25,11 @@ def DSProcessOptions(input):
         res: resultadod de la operación
     """        
     try:
-        res = input  
+        table="CATALOG"
+        stm="""
+                select  entities.sp_options({});
+        """.format(tour_id)
+        res = nbd.persistence.getQuery(stm, table)[0]["sp_options"]  
         return res  
 
     except Exception as e:

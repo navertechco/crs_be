@@ -71,6 +71,20 @@ def encrypted(function):
         res['data']=str(encrypt(str(res['data']), pksalt))
         return res
     return wrapper
+
+
+#region catalog
+from src.BUSINESS.System.FindCatalog import FSFindCatalog
+@api.route('/System/FindCatalog')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class FindCatalog(Resource):
+    def post(self):
+        """Método para mostrar catálogos
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        data = request.get_json(force=True)
+        return FSFindCatalog(data)
  
 #region user
 from src.BUSINESS.User.Confirm import FSConfirm

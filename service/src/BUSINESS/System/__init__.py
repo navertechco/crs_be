@@ -2,6 +2,7 @@ from .LogBlocked import LogBlocked
 from .BlockUser import BlockUser
 from .LoadTemplate import LoadTemplate
 from .GetNextVal import GetNextVal
+from .FindCatalog import FindCatalog
 from .LogNotification import LogNotification
 from .SendNotification import SendNotification
 from .LogAlert import LogAlert
@@ -96,6 +97,7 @@ class System():
         self.LogNotification = LogNotification()
         self.LoadTemplate = LoadTemplate()
         self.GetNextVal = GetNextVal()
+        self.FindCatalog = FindCatalog()
         self.BlockUser = BlockUser()
         self.LogBlocked = LogBlocked()
         self.attributes={self.props: None }

@@ -24,7 +24,8 @@ def DSFindCatalog(input):
                             (cd."order")        as  order,
                             (cd.description)    as  description,
                             (cd.code)           as  code,
-                            (cd.value)          as  value
+                            (cd.value)          as  value,
+                            (cd.relation)          as  relation
              
  
                         from entities.catalog_detail cd 

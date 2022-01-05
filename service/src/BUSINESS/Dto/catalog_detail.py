@@ -1,4 +1,5 @@
 import json
+import ast
 class CatalogDetailDto():
     def __init__(self, data):
  
@@ -6,7 +7,8 @@ class CatalogDetailDto():
         self.order = data.get("order")
         self.description = data.get("description")
         self.code = data.get("code")
-        self.value = json.loads(data.get("value"))
+        self.value = data.get("value")
+        self.relation = data.get("relation")
 
     def __dict__(self):
         return {
@@ -15,5 +17,6 @@ class CatalogDetailDto():
             "order": self.order,
             "description": self.description,
             "code": self.code,
-            "value": self.value,
+            "value": self.value, 
+            "relation": self.relation, 
         }

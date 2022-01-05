@@ -15,11 +15,11 @@ def BSFindCatalog(input):
         catalog_list = {"catalogs": {}}
         catalogs = getValue(input, 'catalogs')
         for catalog in catalogs:
-            catalog_list["catalogs"][catalog]=[]
             for result in results:
                 catalogDto = CatalogDetailDto(result)
-                if catalogDto.catalog==catalog:
-                    catalog_list["catalogs"][catalog].append(catalogDto.__dict__())
+                if catalogDto.catalog not in list(catalog_list["catalogs"]):
+                    catalog_list["catalogs"][catalogDto.catalog]=[]
+                catalog_list["catalogs"][catalogDto.catalog].append(catalogDto.__dict__())
         
         
         tables = getValue(input, 'tables')

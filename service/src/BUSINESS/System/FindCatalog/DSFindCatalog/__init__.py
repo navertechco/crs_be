@@ -17,6 +17,9 @@ def DSFindCatalog(input):
     try:
         catalogs = str(tuple(input.get("data").get("catalogs"))).replace(",)",")")
         table = "CATALOG"
+        and_stm  = " and c.description in {} ".format(catalogs)
+        if "ALL" in catalogs:
+            and_stm = ""
         stm="""
              
                         select  
@@ -31,11 +34,12 @@ def DSFindCatalog(input):
                         from entities.catalog_detail cd 
                             join entities."catalog" c 
                                 on c.catalog_id = cd.catalog_id 
-                            where c.description in {}
+                                where true
+                            {}
                             and cd.is_active is true  
                              
                     
-        """.format(catalogs)
+        """.format(and_stm)
         res = nbd.persistence.getQuery(stm, table)
  
         

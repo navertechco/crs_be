@@ -18,12 +18,13 @@ class Catalog(models.Model):
 class CatalogDetail(models.Model):
     catalog_detail_id = models.AutoField(primary_key=True)
     catalog_id = models.IntegerField(choices=MasterCatalogField(Catalog))
-    # catalog = models.ForeignKey('Catalog', models.DO_NOTHING)
-    order = models.IntegerField(null=True)
-    description = models.CharField(max_length=100)
-    value = models.CharField(max_length=100)
     code = models.IntegerField()
+    description = models.CharField(max_length=100)
+    order = models.IntegerField(null=True)
     is_active = models.BooleanField()
+    value = models.TextField(max_length=100)
+    relation = models.TextField(max_length=100)
+
     class Meta:
         managed = False
         db_table = 'catalog_detail'

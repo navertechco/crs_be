@@ -14,7 +14,7 @@ def CatalogField(name, Master, Detail):
             if len(details) > 0:
                 for detail in details:
                     if detail[1] == catalog_id and detail[5]:
-                        choices.append((detail[4],
+                        choices.append((detail[2],
                                         _(detail[3])))
                 tuple_choices = (*choices,)
                 return tuple_choices

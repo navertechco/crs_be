@@ -16,7 +16,7 @@ def DSQuery(input):
     try:
         table = getValue(input, 'table')
         name = table.get('name')
-        pk = name+"_id"
+        pk = table.get('name') or name+"_id"
         id = table.get('id')
         where = "where {0} = \'{1}\'".format(pk, id)
         if id == "ALL":

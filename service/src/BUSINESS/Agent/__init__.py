@@ -1,3 +1,5 @@
+from .Query import Query
+from .GetDestination import GetDestination
 from .EditOpportunity import EditOpportunity
 from .CreateOpportunity import CreateOpportunity
 from .ListOpportunityDetail import ListOpportunityDetail
@@ -23,4 +25,6 @@ class Agent():
         self.ListOpportunityDetail = ListOpportunityDetail()
         self.CreateOpportunity = CreateOpportunity()
         self.EditOpportunity = EditOpportunity()
+        self.GetDestination = GetDestination()
+        self.Query = Query()
         self.attributes={self.props: None , self.agent_id: None , self.agent_type: None }

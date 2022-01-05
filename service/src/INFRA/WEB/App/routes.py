@@ -367,5 +367,35 @@ class Start(Resource):
         data = request.get_json(force=True)
         # return FSStart(decryptdata())
         return FSStart(data)
+
+
+
+
+from src.BUSINESS.Agent.GetDestination import FSGetDestination
+@api.route('/Agent/GetDestination')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class GetDestination(Resource):
+    # @encrypted
+    def post(self):
+        """Método para conectar un usuario
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        data = request.get_json(force=True)
+        # return FSGetDestination(decryptdata())
+        return FSGetDestination(data)    
     
-#endregion
+from src.BUSINESS.Agent.Query import FSQuery
+@api.route('/Agent/Query')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class Query(Resource):
+    # @encrypted
+    def post(self):
+        """Método para conectar un usuario
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        data = request.get_json(force=True)
+        # return FSQuery(decryptdata())
+        return FSQuery(data) 
+#endregion6

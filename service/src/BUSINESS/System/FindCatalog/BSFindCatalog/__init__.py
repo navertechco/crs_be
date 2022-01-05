@@ -11,15 +11,14 @@ from src.BUSINESS.Dto import CatalogDetailDto
 def BSFindCatalog(input):
     try:
         results = DSFindCatalog(input)
-        catalog_list = {"catalogs": []}
+        catalog_list = {"catalogs": {}}
         catalogs = getValue(input, 'catalogs')
         for catalog in catalogs:
-            catalog_object = {catalog:[]}
-            catalog_list["catalogs"].append(catalog_object)
+            catalog_list["catalogs"][catalog]=[]
             for result in results:
                 catalogDto = CatalogDetailDto(result)
                 if catalogDto.catalog==catalog:
-                    catalog_list['catalogs'][catalog].append(catalogDto.__dict__())
+                    catalog_list["catalogs"][catalog].append(catalogDto.__dict__())
                     
         return catalog_list
 

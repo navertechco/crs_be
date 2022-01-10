@@ -20,7 +20,9 @@ def BSNewMatch(id, input):
         res: Resultado de la Cotización
     """
     try:
-        match = getValue(input, 'match')
+        data = input.get('data')
+        tour = data.get('tour')
+        match = tour.get('match')
         res = DSNewMatch(id, match)
         return res
     except Exception as e:

@@ -26,9 +26,10 @@ def DSProcessTour(id):
     """       
     try:
         table = "TOUR"
+        schema = "entities"
         stm = " UPDATE "
-        stm += table 
-        stm += " SET ID_TOUR_STATE = 2 "
+        stm += schema+"."+table 
+        stm += " SET TOUR_STATE_ID = 2 "
         stm += " WHERE tour_id = \'{}\'".format(id)
         stm += " AND tour_state_id >= 1"
         res = nbd.persistence.setWrite(stm, table)

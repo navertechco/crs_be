@@ -36,7 +36,9 @@ def BSProcessTour(tour_id, input):
             raise Exception( 605, "Error de Procesamiento de tour")
         data = input.get('data')
         destinations = data.get('destinations')
-        if data.get('match') is not None:
+        tour = data.get('tour')
+        match = tour.get('match')
+        if match is not None:
             if destinations is not None:
                 match = NewMatch().BSNewMatch(tour_id, input)
                 if len(match) > 0:
@@ -57,7 +59,7 @@ def BSProcessTour(tour_id, input):
                             days = ProcessDays().BSProcessDays(tour_id, destination)
                             if days is False:
                                 raise Exception(605, "Error de Procesamiento de días")
-                        finalProccess()
+                        return finalProccess()
                     raise Exception(605, "Error de Procesamiento de destinos")
                 raise Exception(605, 'Error de Procesamiento de match')
             raise Exception(605, 'No tiene destinos el tour')

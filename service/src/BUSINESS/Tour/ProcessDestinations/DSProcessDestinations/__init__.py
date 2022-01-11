@@ -15,14 +15,11 @@ config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
- 
-
-
 def DSProcessDestinations(tour_id, input):
 
     try:
         reslist = []
-        destinations = {'destinations': getValue(input, 'destinations')}
+        destinations = getValue(input, 'destinations')
         jsondata = prepareJsonData(destinations)
         destinations = DestinationListDto(jsondata, tour_id).__dict__()
         destinationsToInsert = str(json.dumps(jsondata))

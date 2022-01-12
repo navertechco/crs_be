@@ -368,7 +368,19 @@ class Start(Resource):
         # return FSStart(decryptdata())
         return FSStart(data)
 
-
+from src.BUSINESS.Agent.GetExperience import FSGetExperience
+@api.route('/Agent/GetExperience')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class GetExperience(Resource):
+    # @encrypted
+    def post(self):
+        """Método para conectar un usuario
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        data = request.get_json(force=True)
+        # return FSGetExperience(decryptdata())
+        return FSGetExperience(data)    
 
 
 from src.BUSINESS.Agent.GetDestination import FSGetDestination

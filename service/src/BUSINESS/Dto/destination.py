@@ -44,7 +44,7 @@ class DestinationDto():
 class DestinationListDto():
     def __init__(self, data, id):
         self.destination_list = []
-        for d in data['destinations']:
+        for d in data:
             destinationDto = None
             destinationDto = DestinationDto(d)
             self.destination_list.append(destinationDto.__dict__())

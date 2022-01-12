@@ -16,7 +16,7 @@ def DSGetExperience(name):
     try:
         table = "DESTINATION"
         stm = """
-            select distinct e.experience_title title, e.experience_photo image 
+            select distinct e.experience_title title, e.experience_photo image, e.experience_video video 
                 from entities.experience e 
                     join entities.destination d 
                         on e.destination_id =d.destination_id 

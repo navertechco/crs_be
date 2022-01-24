@@ -7,8 +7,8 @@ from naver_core import *
 
 def FSGetExperience(input):
     try:
-        name = getValue(input, 'name')
-        result = BSGetExperience(name)
+        
+        result = BSGetExperience( input)
         return Ok((result))
 
     except Exception as e:

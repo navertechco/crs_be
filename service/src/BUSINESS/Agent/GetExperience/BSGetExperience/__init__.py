@@ -6,10 +6,10 @@ from ..DSGetExperience import DSGetExperience
 from naver_core import *
 
 
-def BSGetExperience(name):
+def BSGetExperience(input):
     try:
-         
-        res = DSGetExperience(name)
+
+        res = DSGetExperience(input)
         return res
 
     except Exception as e:

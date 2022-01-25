@@ -14,8 +14,8 @@ nbd = NaverDB(app, config)
 
 def DSGetExperience(input):
     try:
-        table = "DESTINATION"
-        destination, experience, key_activities, travel_rhtythms = input.get(
+        table = "EXPERIENCE"
+        destination, experience, key_activities, travel_rhtythms, destination_option = input.get(
             "data").values()
         stm_ka = ""
         if len(key_activities) > 0:
@@ -24,7 +24,10 @@ def DSGetExperience(input):
         stm_tr = ""
         if len(travel_rhtythms) > 0:
             stm_tr = f" and (e.travel_ritm_id ) in {str(tuple(travel_rhtythms)).replace(',)',')')}"
-
+        stm_to = ""
+        if (destination_option != None) :
+            stm_to = f" and (e.destination_option_id ) =\'{destination_option}\'"
+            
         stm = f"""
             select distinct  d.destination_title, e.experience_title title, e.experience_photo image, e.experience_video video, 
              (e.props)::jsonb    props 
@@ -33,7 +36,7 @@ def DSGetExperience(input):
                         on e.destination_id =d.destination_id 
                 where (d.destination_title like upper('%{destination}%') 
                 and e.experience_title like upper('%{experience}%'))
-        """+stm_ka+stm_tr
+        """+stm_ka+stm_tr+stm_to
         res = nbd.persistence.getQuery(stm, table)
         return res
     except Exception as e:

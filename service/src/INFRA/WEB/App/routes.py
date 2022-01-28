@@ -333,19 +333,7 @@ class MakePlaylist(Resource):
         data = request.get_json(force=True)
         return FSMakePlaylist(data) 
 #endregion
-#region TrvExp
-from src.BUSINESS.TrvExp.AssignTravelExpert import FSAssignTravelExpert
-@api.route('/TrvExp/AssignTravelExpert')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class AssignTravelExpert(Resource):
-    def post(self):
-        """Método para salir de session
-        Returns:
-            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
-        """
-        data = request.get_json(force=True)
-        return FSAssignTravelExpert(data) 
-#endregion
+ 
 #region Agent
 from src.BUSINESS.Agent.Start import FSStart
 @api.route('/Agent/Start')

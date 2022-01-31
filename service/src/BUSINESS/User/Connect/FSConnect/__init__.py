@@ -21,4 +21,5 @@ def FSConnect(input):
             
         
     except Exception as e:
+        print(e)
         return ErrorResponse(e) 

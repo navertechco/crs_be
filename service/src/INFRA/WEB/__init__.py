@@ -5,8 +5,10 @@ except ImportError:
 from .App.routes import app 
 
 from os import system
+from werkzeug.serving import WSGIRequestHandler
 
- 
+WSGIRequestHandler.protocol_version = "HTTP/1.1"
+
 def main(host,port):
     app.run(host=host, port=port)
  

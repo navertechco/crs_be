@@ -135,61 +135,14 @@ class Connect(Resource):
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
-        data = request.get_json(force=True)
-        # return FSConnect(decryptdata())
-        return FSConnect(data)
-from src.BUSINESS.User.SignIn import FSSignIn
-@api.route('/User/SignIn')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class SignIn(Resource):
-    def post(self):
-        """Método para logonear un usuario
-        Returns:
-            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
-        """
-        data = request.get_json(force=True)
-        return FSSignIn(data)
-from src.BUSINESS.User.SignUp import FSSignUp
-@api.route('/User/SignUp')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class SignUp(Resource):
-    def post(self):
-        """Método para registrar un usuario
-        Returns:
-            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
-        """
-        data = request.get_json(force=True)
-        return FSSignUp(data) 
-from src.BUSINESS.User.Forgot import FSForgot
-@api.route('/User/Forgot')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class Forgot(Resource):
-    def post(self):
-        """Método para recuperar contraseña Backend
-        Returns:
-            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
-        """
-        form = RecoveryForm(request.form)
-        if  form.validate():
-            parser = reqparse.RequestParser()
-            parser.add_argument('confirmation')
-            data = parser.parse_args()
-            input = {'password':request.form['password'], 'confirmation':data['confirmation']}
-            FSForgot(input)
-        headers = {'Content-Type': 'text/html'} 
-        return make_response(render_template('success.html'),200,headers) 
-    def get(self):
-        """Método para recuperar contraseña Frontend
-        Returns:
-            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
-        """
-        form = RecoveryForm(request.form)
-        parser = reqparse.RequestParser()
-        parser.add_argument('confirmation')
-        data = parser.parse_args()
-        headers = {'Content-Type': 'text/html'} 
-        return make_response(render_template('recovery.html', form=form, data=data),200,headers) 
- 
+        try:
+            data = request.get_json(force=True)
+            # return FSConnect(decryptdata())
+            return FSConnect(data) 
+        except Exception as e:
+            print(e)
+            return ErrorResponse(e) 
+        
      
 from src.BUSINESS.User.Logout import FSLogout
 @api.route('/User/Logout')

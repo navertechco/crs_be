@@ -1,6 +1,9 @@
 from os import environ
 from src.INFRA.WEB.App.routes import app 
 
+from werkzeug.serving import WSGIRequestHandler
+
+WSGIRequestHandler.protocol_version = "HTTP/1.1"
 
 if __name__ == '__main__': 
 

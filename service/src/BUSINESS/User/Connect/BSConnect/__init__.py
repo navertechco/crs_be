@@ -7,7 +7,7 @@ except ImportError:
 from naver_core import *
 from naver_config import *
 from src.INFRA.WEB.App.routes import app
-from src.BUSINESS.System import ValidateUser, LogConnection
+from src.BUSINESS.System import ValidateUser, LogConnection, FindCatalog
 from ... import SignUp, SignIn, UpdateProfile, Reset
 config = NaverConfig(app)
 
@@ -20,6 +20,7 @@ class BS():
         self.SignIn = SignIn.SignIn()
         self.UpdateProfile = UpdateProfile.UpdateProfile()
         self.Reset = Reset.Reset() 
+        self.FindCatalog = FindCatalog()
 
 
 def BSConnect(input):
@@ -51,7 +52,9 @@ def BSConnect(input):
         if validuser:
             if state == "signin":
                 result = self.SignIn.BSSignIn(input)
-                return result
+                if len(result) > 0:
+                    res = self.FindCatalog.BSFindCatalog({"data":{"catalogs":["ALL"]}})
+                    return res
             if state == "update":
                 result = self.UpdateProfile.BSUpdateProfile(input)
                 return result

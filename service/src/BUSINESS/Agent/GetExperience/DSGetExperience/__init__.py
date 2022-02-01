@@ -27,16 +27,17 @@ def DSGetExperience(input):
         stm_to = ""
         if (destination_option != None) :
             stm_to = f" and (e.destination_option_id ) =\'{destination_option}\'"
-            
+        order = """ order by e."order" """
         stm = f"""
-            select distinct  d.destination_title, e.experience_title title, e.experience_photo image, e.experience_video video, 
+            select distinct  d.destination_title, e.experience_title title, e.experience_photo image, e.experience_video video, e."order",
              (e.props)::jsonb    props 
                 from entities.experience e 
                     join entities.destination d 
                         on e.destination_id =d.destination_id 
                 where (d.destination_title like upper('%{destination}%') 
                 and e.experience_title like upper('%{experience}%'))
-        """+stm_ka+stm_tr+stm_to
+               
+        """+stm_ka+stm_tr+stm_to+order
         res = nbd.persistence.getQuery(stm, table)
         return res
     except Exception as e:

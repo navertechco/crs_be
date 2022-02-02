@@ -5,9 +5,9 @@ except ImportError:
 from ..BSGetDestination import BSGetDestination
 from naver_core import *
 
-def FSGetDestination(udata):
+def FSGetDestination(input):
     try:
-        result = BSGetDestination(udata)
+        result = BSGetDestination(input)
         return Ok((result))
 
     except Exception as e:

@@ -17,6 +17,10 @@ def DSGetExperience(input):
         table = "EXPERIENCE"
         destination, experience, key_activities, travel_rhtythms, destination_option = input.get(
             "data").values()
+        if isinstance(destination, str) and destination !="":
+            destination = [destination]
+        if isinstance(destination, list) and len(destination) == 0 :
+            destination = [""]
         stm_ka = ""
         if len(key_activities) > 0:
             stm_ka = f" and (e.key_activity_id   ) in {str(tuple(key_activities)).replace(',)',')')}"
@@ -34,7 +38,7 @@ def DSGetExperience(input):
                 from entities.experience e 
                     join entities.destination d 
                         on e.destination_id =d.destination_id 
-                where (d.destination_title like upper('%{destination}%') 
+                where (d.destination_title in {str(tuple(destination)).replace(',)',')').upper()} 
                 and e.experience_title like upper('%{experience}%'))
                
         """+stm_ka+stm_tr+stm_to+order

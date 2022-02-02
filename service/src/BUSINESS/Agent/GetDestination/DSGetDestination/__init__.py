@@ -12,14 +12,23 @@ config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
-def DSGetDestination(destination_id):
+def DSGetDestination(input):
     try:
-        where = "where destination_id = \'{}\'".format(destination_id)
-        if destination_id == "ALL":
-            where = ""
+        destination_id = getValue(input, 'destination_id')
+        destination_name = getValue(input, 'destination_name')
+        destination_id_stm = f" where destination_id = \'{destination_id}\'" 
+        destination_name_stm = f" where destination_name = upper(\'{destination_name}\')"
+        where = ""
+        if destination_id == None and destination_name == None:
+            return None
+        if destination_id != "ALL" and destination_id != "" and destination_id != None:
+            where += destination_id_stm
+        if destination_name != "ALL" and destination_name != "" and destination_name != None:
+            where += destination_name_stm
         table = "DESTINATION"
-        stm = "select * from entities.destination {}".format(where)
-        res = nbd.persistence.getQuery(stm, table) 
+        select = "select * from entities.destination"
+        stm = select+where
+        res = nbd.persistence.getQuery(stm, table)
         return res
     except Exception as e:
         raise e

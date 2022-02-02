@@ -8,8 +8,8 @@ from naver_core import *
 
 def BSGetDestination(input):
     try:
-        destination_id = getValue(input, 'destination_id')
-        res = DSGetDestination(destination_id)
+        
+        res = DSGetDestination(input)
         return res
 
     except Exception as e:

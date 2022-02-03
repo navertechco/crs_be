@@ -16,11 +16,11 @@ config = NaverConfig(app)
 class BS():
     def __init__(self):
         self.ValidateUser = ValidateUser()
-        self.LogConnection = LogConnection() 
+        self.LogConnection = LogConnection()
         self.SignUp = SignUp.SignUp()
         self.SignIn = SignIn.SignIn()
         self.UpdateProfile = UpdateProfile.UpdateProfile()
-        self.Reset = Reset.Reset() 
+        self.Reset = Reset.Reset()
         self.FindCatalog = FindCatalog()
         self.GetExperience = GetExperience()
 
@@ -55,16 +55,16 @@ def BSConnect(input):
             if state == "signin":
                 result = self.SignIn.BSSignIn(input)
                 if len(result) > 0:
-                    res = self.FindCatalog.BSFindCatalog({"data":{"catalogs":["ALL"]}})
-                    res = self.GetExperience.BSGetExperience({	"data":{
-		
-		"destination":"",
-		"experience":"",
-		"key_activities":[],
-		"travel_rhythms":[],
-		"destination_option":1
-	}})
-                    return res
+                    catalogs = self.FindCatalog.BSFindCatalog(
+                        {"data": {"catalogs": ["ALL"]}})
+                    experiences = self.GetExperience.BSGetExperience({"data": {
+                        "destination": None,
+                        "experience": None,
+                        "key_activities": [],
+                        "travel_rhythms": [],
+                        "destination_option": None
+                    }})
+                    return {"catalogs": catalogs, "experiences": experiences}
             if state == "update":
                 result = self.UpdateProfile.BSUpdateProfile(input)
                 return result

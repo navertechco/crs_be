@@ -8,6 +8,7 @@ from naver_core import *
 from naver_config import *
 from src.INFRA.WEB.App.routes import app
 from src.BUSINESS.System import ValidateUser, LogConnection, FindCatalog
+from src.BUSINESS.Agent.GetExperience import GetExperience
 from ... import SignUp, SignIn, UpdateProfile, Reset
 config = NaverConfig(app)
 
@@ -21,6 +22,7 @@ class BS():
         self.UpdateProfile = UpdateProfile.UpdateProfile()
         self.Reset = Reset.Reset() 
         self.FindCatalog = FindCatalog()
+        self.GetExperience = GetExperience()
 
 
 def BSConnect(input):
@@ -54,6 +56,14 @@ def BSConnect(input):
                 result = self.SignIn.BSSignIn(input)
                 if len(result) > 0:
                     res = self.FindCatalog.BSFindCatalog({"data":{"catalogs":["ALL"]}})
+                    res = self.GetExperience.BSGetExperience({	"data":{
+		
+		"destination":"",
+		"experience":"",
+		"key_activities":[],
+		"travel_rhythms":[],
+		"destination_option":1
+	}})
                     return res
             if state == "update":
                 result = self.UpdateProfile.BSUpdateProfile(input)

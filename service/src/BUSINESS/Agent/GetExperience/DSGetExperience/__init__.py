@@ -46,7 +46,7 @@ def DSGetExperience(input):
                  
         order = """ order by e."order" """
         stm = f"""
-            select distinct  d.destination_title destination, e.experience_title title, e.experience_photo image, e.experience_video video, e."order",
+            select distinct  d.destination_title destination, e.experience_title title, e.experience_video_photo image, e.experience_video video, e."order",
              (e.props)::jsonb    props 
                 from entities.experience e 
                     join entities.destination d 

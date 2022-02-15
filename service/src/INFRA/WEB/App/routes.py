@@ -191,6 +191,18 @@ class ClientEdit(Resource):
         return FSClientEdit(data) 
 #endregion
 #region Tour
+from src.BUSINESS.Tour.CalculateNetRate import FSCalculateNetRate
+@api.route('/Tour/CalculateNetRate')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class CalculateNetRate(Resource):
+    def post(self): 
+        """_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        input = request.get_json(force=True)
+        return FSCalculateNetRate(input) 
 from src.BUSINESS.Tour.TourEdit import FSTourEdit
 @api.route('/Tour/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})

@@ -4,7 +4,7 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSTourEdit import DSTourEdit
 from naver_core import *
-from ... import NewTour, ProcessTour, UpdateTour
+from ... import NewTour, ProcessTour, UpdateTour, CalculateNetRate
 
 
 def BSTourEdit(input):
@@ -33,7 +33,8 @@ def BSTourEdit(input):
 
         if state == 'update':
             return UpdateTour().BSUpdateTour(input)
-
+        if state == 'calculate':
+            return CalculateNetRate.BSCalculateNetRate(input)
         raise Exception(605, 'Error de Edición')
     except Exception as e:
         raise e

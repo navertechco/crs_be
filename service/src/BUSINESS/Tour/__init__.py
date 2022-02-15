@@ -10,3 +10,4 @@ from .PromoteTour import *
 from .UpdateTour import *
 from .ProcessDestinations import *
 from .TourEdit import *
+from .CalculateNetRate import *

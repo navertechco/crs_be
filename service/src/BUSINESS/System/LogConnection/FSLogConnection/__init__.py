@@ -15,7 +15,7 @@ def FSLogConnection():
     """
     try:
         result = BSLogConnection()
-        return result
+        return Ok(result)
 
     except Exception as e:
         return ErrorResponse(e) 

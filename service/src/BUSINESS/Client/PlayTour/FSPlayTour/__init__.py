@@ -16,7 +16,7 @@ def FSPlayTour(slug):
     try:
  
         result = BSPlayTour(slug)
-        return result
+        return Ok(result)
 
             
         

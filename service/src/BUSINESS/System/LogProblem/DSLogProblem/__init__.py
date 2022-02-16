@@ -12,4 +12,4 @@ def DSLogProblem(udata):
         return result
 
     except Exception as e:
-        logging.error(e)
+        raise e

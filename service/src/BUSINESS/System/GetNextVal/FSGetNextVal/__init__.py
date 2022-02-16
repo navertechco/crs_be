@@ -3,14 +3,14 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..BSGetNextVal import BSGetNextVal
-import logging
+from naver_core import *
 
 def FSGetNextVal(input):
     try:
         table = input.get('table')
         field = input.get('field')
         result = BSGetNextVal(field, table)
-        return result
+        return Ok(result)
 
     except Exception as e:
-        logging.error(e)
+        ErrorResponse(e)

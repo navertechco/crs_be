@@ -3,12 +3,12 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..BSSendAlert import BSSendAlert
-import logging
+from naver_core import *
 
 def FSSendAlert(udata):
     try:
         result = BSSendAlert(udata)
-        return result
+        return Ok(result)
 
     except Exception as e:
-        logging.error(e)
+        ErrorResponse(e)

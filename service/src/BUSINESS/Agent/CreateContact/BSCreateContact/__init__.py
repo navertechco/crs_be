@@ -15,4 +15,4 @@ def BSCreateContact(input):
         raise Exception(630, 'No data to insert')
 
     except Exception as e:
-        logging.error(e)
+        raise e

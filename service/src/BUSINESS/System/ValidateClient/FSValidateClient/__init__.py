@@ -3,12 +3,12 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..BSValidateClient import BSValidateClient
-import logging
+from naver_core import *
 
 def FSValidateClient(udata):
     try:
         result = BSValidateClient(udata)
-        return result
+        return Ok(result)
 
     except Exception as e:
-        logging.error(e)
+        ErrorResponse(e)

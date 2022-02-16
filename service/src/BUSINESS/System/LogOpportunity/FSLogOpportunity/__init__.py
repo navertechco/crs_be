@@ -3,12 +3,12 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..BSLogOpportunity import BSLogOpportunity
-import logging
+from naver_core import *
 
 def FSLogOpportunity(udata):
     try:
         result = BSLogOpportunity(udata)
-        return result
+        return Ok(result)
 
     except Exception as e:
-        logging.error(e)
+        ErrorResponse(e)

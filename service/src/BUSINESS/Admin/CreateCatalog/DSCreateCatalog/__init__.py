@@ -5,11 +5,11 @@ except ImportError:
 # from ..Core import Business
 import logging
 
-def DSDeletePoll(udata):
+def DSCreateCatalog(udata):
     try:
         business = Business(mySession)
         result = business.method(udata)
         return result
 
     except Exception as e:
-        logging.error(e)
+        raise e

@@ -8,7 +8,9 @@ from naver_core import *
 def BSCreateCatalog(input):
     try:
         result = DSCreateCatalog(input)
-        return result
+        if len(result) > 0:
+            result["session"].commit()
+        return True
 
     except Exception as e:
         raise e

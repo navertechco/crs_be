@@ -6,7 +6,7 @@ from src.INFRA.WEB.App.routes import app
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-
+import json
 config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
@@ -18,7 +18,7 @@ def DSCreateCatalog(input):
         description=data.get("description")
         is_active=data.get("is_active")
         code=data.get("code")
-        value=data.get("value")
+        value=json.dumps(data.get("value"))
         table = "CATALOG_DETAIL"
         schema = "entities"
         stm = f"INSERT INTO {schema}.{table}"

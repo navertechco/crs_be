@@ -6,12 +6,12 @@ import json
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
  
  
-FILE_PATH_XSLX = os.path.join(ROOT_DIR,"hotel.xlsx")
+FILE_PATH_XSLX = os.path.join(ROOT_DIR,"cruises.xlsx")
 
   
-hotel_xlsx = pd.ExcelFile(FILE_PATH_XSLX, engine='openpyxl')
-data = hotel_xlsx.parse(hotel_xlsx.sheet_names[0]).to_dict()
-hotels = []
+cruise_xlsx = pd.read_excel(FILE_PATH_XSLX, engine='openpyxl')
+data = cruise_xlsx.to_dict()
+cruises = []
 
 catalogs = []
 
@@ -19,22 +19,22 @@ for col,values in data.items():
     dto = {}
     dto[col]=None
     for row,value in values.items():
-        if len(hotels)<=row:
-            hotels.append({})
+        if len(cruises)<=row:
+            cruises.append({})
         dto[col]=value
-        hotels[row]={**hotels[row],**dto}
+        cruises[row]={**cruises[row],**dto}
 i=7         
-for hotel in hotels:
-    hotel_name = hotel.get('hotelname')
-    room_category = hotel.get('roomcategory')
+for cruise in cruises:
+    ship_name = cruise.get('ship_name')
+    category = cruise.get('category') 
     catalog = {
         
-        "catalog_id":24,
+        "catalog_id":36,
         "order":0,
-        "description":f"{hotel_name}-{room_category}-{i}",
+        "description":f"{ship_name}-{category}-{i}",
         "is_active":True,
         "code":i,
-        "value":hotel
+        "value":cruise
         
     }
     catalogs.append(catalog)

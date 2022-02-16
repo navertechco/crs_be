@@ -8,21 +8,21 @@ from naver_core import *
 from naver_config import *
 from src.INFRA.WEB.App.routes import app
 from src.BUSINESS.System import ValidateUser, LogConnection, FindCatalog
-from src.BUSINESS.Agent.GetExperience import GetExperience
+from src.BUSINESS.Agent import GetExperience
 from ... import SignUp, SignIn, UpdateProfile, Reset
 config = NaverConfig(app)
 
 
 class BS():
     def __init__(self):
-        self.ValidateUser = ValidateUser()
         self.LogConnection = LogConnection()
-        self.SignUp = SignUp.SignUp()
-        self.SignIn = SignIn.SignIn()
+        self.SignUp = SignUp()
+        self.SignIn = SignIn()
         self.UpdateProfile = UpdateProfile.UpdateProfile()
         self.Reset = Reset.Reset()
         self.FindCatalog = FindCatalog()
         self.GetExperience = GetExperience()
+        self.ValidateUser = ValidateUser()
 
 
 def BSConnect(input):

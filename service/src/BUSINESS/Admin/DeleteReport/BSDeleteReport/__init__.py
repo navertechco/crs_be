@@ -5,9 +5,9 @@ except ImportError:
 from ..DSDeleteReport import DSDeleteReport
 from naver_core import *
 
-def BSDeleteReport(udata):
+def BSDeleteReport(input):
     try:
-        result = DSDeleteReport(udata)
+        result = DSDeleteReport(input)
         return result
 
     except Exception as e:

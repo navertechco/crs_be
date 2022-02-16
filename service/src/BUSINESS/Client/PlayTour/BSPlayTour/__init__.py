@@ -5,9 +5,9 @@ except ImportError:
 from ..DSPlayTour import DSPlayTour
 from naver_core import *
 
-def BSPlayTour(udata):
+def BSPlayTour(input):
     try:
-        result = DSPlayTour(udata)
+        result = DSPlayTour(input)
         return result
 
     except Exception as e:

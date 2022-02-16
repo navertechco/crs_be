@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLogNotification import DSLogNotification
 from naver_core import *
 
-def BSLogNotification(udata):
+def BSLogNotification(input):
     try:
-        result = DSLogNotification(udata)
+        result = DSLogNotification(input)
         return result
 
     except Exception as e:

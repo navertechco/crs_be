@@ -5,9 +5,9 @@ except ImportError:
 from ..BSSendAlert import BSSendAlert
 from naver_core import *
 
-def FSSendAlert(udata):
+def FSSendAlert(input):
     try:
-        result = BSSendAlert(udata)
+        result = BSSendAlert(input)
         return Ok(result)
 
     except Exception as e:

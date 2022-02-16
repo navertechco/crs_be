@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidateOpportunity import BSValidateOpportunity
 from naver_core import *
 
-def FSValidateOpportunity(udata):
+def FSValidateOpportunity(input):
     try:
-        result = BSValidateOpportunity(udata)
+        result = BSValidateOpportunity(input)
         return Ok(result)
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..BSEditReport import BSEditReport
 from naver_core import *
 
-def FSEditReport(udata):
+def FSEditReport(input):
     try:
-        result = BSEditReport(udata)
+        result = BSEditReport(input)
         return Ok(result)
 
     except Exception as e:

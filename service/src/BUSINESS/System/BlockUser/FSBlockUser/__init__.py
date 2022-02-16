@@ -5,9 +5,9 @@ except ImportError:
 from ..BSBlockUser import BSBlockUser
 from naver_core import *
 
-def FSBlockUser(udata):
+def FSBlockUser(input):
     try:
-        result = BSBlockUser(udata)
+        result = BSBlockUser(input)
         return Ok(result)
 
     except Exception as e:

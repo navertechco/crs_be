@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidateDestiny import BSValidateDestiny
 from naver_core import *
 
-def FSValidateDestiny(udata):
+def FSValidateDestiny(input):
     try:
-        result = BSValidateDestiny(udata)
+        result = BSValidateDestiny(input)
         return Ok(result)
 
     except Exception as e:

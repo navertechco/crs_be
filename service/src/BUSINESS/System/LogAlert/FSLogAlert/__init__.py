@@ -5,9 +5,9 @@ except ImportError:
 from ..BSLogAlert import BSLogAlert
 from naver_core import *
 
-def FSLogAlert(udata):
+def FSLogAlert(input):
     try:
-        result = BSLogAlert(udata)
+        result = BSLogAlert(input)
         return Ok(result)
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..BSLogService import BSLogService
 from naver_core import *
 
-def FSLogService(udata):
+def FSLogService(input):
     try:
-        result = BSLogService(udata)
+        result = BSLogService(input)
         return Ok(result)
 
     except Exception as e:

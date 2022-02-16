@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLogActivity import DSLogActivity
 from naver_core import *
 
-def BSLogActivity(udata):
+def BSLogActivity(input):
     try:
-        result = DSLogActivity(udata)
+        result = DSLogActivity(input)
         return result
 
     except Exception as e:

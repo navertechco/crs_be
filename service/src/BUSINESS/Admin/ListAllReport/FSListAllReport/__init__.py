@@ -5,9 +5,9 @@ except ImportError:
 from ..BSListAllReport import BSListAllReport
 from naver_core import *
 
-def FSListAllReport(udata):
+def FSListAllReport(input):
     try:
-        result = BSListAllReport(udata)
+        result = BSListAllReport(input)
         return Ok(result)
 
     except Exception as e:

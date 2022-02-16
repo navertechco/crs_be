@@ -5,9 +5,9 @@ except ImportError:
 from ..BSEditUser import BSEditUser
 from naver_core import *
 
-def FSEditUser(udata):
+def FSEditUser(input):
     try:
-        result = BSEditUser(udata)
+        result = BSEditUser(input)
         return Ok(result)
 
     except Exception as e:

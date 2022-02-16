@@ -5,9 +5,9 @@ except ImportError:
 from ..BSEditOpportunity import BSEditOpportunity
 from naver_core import *
 
-def FSEditOpportunity(udata):
+def FSEditOpportunity(input):
     try:
-        result = BSEditOpportunity(udata)
+        result = BSEditOpportunity(input)
         return Ok(result)
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..DSCreateUser import DSCreateUser
 from naver_core import *
 
-def BSCreateUser(udata):
+def BSCreateUser(input):
     try:
-        result = DSCreateUser(udata)
+        result = DSCreateUser(input)
         return result
 
     except Exception as e:

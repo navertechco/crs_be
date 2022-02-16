@@ -5,9 +5,9 @@ except ImportError:
 from ..DSBlockUser import DSBlockUser
 from naver_core import *
 
-def BSBlockUser(udata):
+def BSBlockUser(input):
     try:
-        result = DSBlockUser(udata)
+        result = DSBlockUser(input)
         return result
 
     except Exception as e:

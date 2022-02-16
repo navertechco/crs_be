@@ -5,9 +5,9 @@ except ImportError:
 from ..BSStart import BSStart
 from naver_core import *
 
-def FSStart(udata):
+def FSStart(input):
     try:
-        result = BSStart(udata)
+        result = BSStart(input)
         return Ok(result)
 
     except Exception as e:

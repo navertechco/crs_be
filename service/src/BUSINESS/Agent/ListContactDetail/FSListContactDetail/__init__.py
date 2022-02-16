@@ -5,9 +5,9 @@ except ImportError:
 from ..BSListContactDetail import BSListContactDetail
 from naver_core import *
 
-def FSListContactDetail(udata):
+def FSListContactDetail(input):
     try:
-        result = BSListContactDetail(udata)
+        result = BSListContactDetail(input)
         return Ok(result)
 
     except Exception as e:

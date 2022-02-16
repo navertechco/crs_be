@@ -5,9 +5,9 @@ except ImportError:
 from ..BSDeleteUser import BSDeleteUser
 from naver_core import *
 
-def FSDeleteUser(udata):
+def FSDeleteUser(input):
     try:
-        result = BSDeleteUser(udata)
+        result = BSDeleteUser(input)
         return Ok(result)
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..DSValidateContact import DSValidateContact
 from naver_core import *
 
-def BSValidateContact(udata):
+def BSValidateContact(input):
     try:
-        result = DSValidateContact(udata)
+        result = DSValidateContact(input)
         return result
 
     except Exception as e:

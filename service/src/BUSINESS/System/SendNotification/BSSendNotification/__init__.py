@@ -5,9 +5,9 @@ except ImportError:
 from ..DSSendNotification import DSSendNotification
 from naver_core import *
 
-def BSSendNotification(udata):
+def BSSendNotification(input):
     try:
-        result = DSSendNotification(udata)
+        result = DSSendNotification(input)
         return result
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLogSms import DSLogSms
 from naver_core import *
 
-def BSLogSms(udata):
+def BSLogSms(input):
     try:
-        result = DSLogSms(udata)
+        result = DSLogSms(input)
         return result
 
     except Exception as e:

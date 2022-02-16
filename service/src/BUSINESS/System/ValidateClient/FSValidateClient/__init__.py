@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidateClient import BSValidateClient
 from naver_core import *
 
-def FSValidateClient(udata):
+def FSValidateClient(input):
     try:
-        result = BSValidateClient(udata)
+        result = BSValidateClient(input)
         return Ok(result)
 
     except Exception as e:

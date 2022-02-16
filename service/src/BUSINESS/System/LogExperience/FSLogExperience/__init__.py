@@ -5,9 +5,9 @@ except ImportError:
 from ..BSLogExperience import BSLogExperience
 from naver_core import *
 
-def FSLogExperience(udata):
+def FSLogExperience(input):
     try:
-        result = BSLogExperience(udata)
+        result = BSLogExperience(input)
         return Ok(result)
 
     except Exception as e:

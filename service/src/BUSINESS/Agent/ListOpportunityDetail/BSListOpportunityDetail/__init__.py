@@ -5,9 +5,9 @@ except ImportError:
 from ..DSListOpportunityDetail import DSListOpportunityDetail
 from naver_core import *
 
-def BSListOpportunityDetail(udata):
+def BSListOpportunityDetail(input):
     try:
-        result = DSListOpportunityDetail(udata)
+        result = DSListOpportunityDetail(input)
         return result
 
     except Exception as e:

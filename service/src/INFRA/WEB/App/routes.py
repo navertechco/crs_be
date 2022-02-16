@@ -72,7 +72,19 @@ def encrypted(function):
         return res
     return wrapper
 
-
+#region admin
+from src.BUSINESS.Admin.CreateCatalog import FSCreateCatalog
+@api.route('/Admin/CreateCatalog')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class CreateCatalog(Resource):
+    def post(self):
+        """Método para crear catalogo
+        Returns:
+            json: {"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        input = request.get_json(force=True)
+        return FSCreateCatalog(input)
+#endregion
  
 
 #region process

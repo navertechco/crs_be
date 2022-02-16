@@ -5,9 +5,9 @@ except ImportError:
 from ..DSDeleteTour import DSDeleteTour
 from naver_core import *
 
-def BSDeleteTour(udata):
+def BSDeleteTour(input):
     try:
-        result = DSDeleteTour(udata)
+        result = DSDeleteTour(input)
         return result
 
     except Exception as e:

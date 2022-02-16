@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLoadTemplate import DSLoadTemplate
 from naver_core import *
 
-def BSLoadTemplate(udata):
+def BSLoadTemplate(input):
     try:
-        result = DSLoadTemplate(udata)
+        result = DSLoadTemplate(input)
         return result
 
     except Exception as e:

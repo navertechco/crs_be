@@ -5,9 +5,9 @@ except ImportError:
 from ..DSValidateTour import DSValidateTour
 from naver_core import *
 
-def BSValidateTour(udata):
+def BSValidateTour(input):
     try:
-        result = DSValidateTour(udata)
+        result = DSValidateTour(input)
         return result
 
     except Exception as e:

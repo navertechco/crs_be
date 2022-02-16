@@ -5,9 +5,9 @@ except ImportError:
 from ..BSListUserDetail import BSListUserDetail
 from naver_core import *
 
-def FSListUserDetail(udata):
+def FSListUserDetail(input):
     try:
-        result = BSListUserDetail(udata)
+        result = BSListUserDetail(input)
         return Ok(result)
 
     except Exception as e:

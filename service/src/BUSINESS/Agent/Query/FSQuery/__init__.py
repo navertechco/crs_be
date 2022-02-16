@@ -5,9 +5,9 @@ except ImportError:
 from ..BSQuery import BSQuery
 from naver_core import *
 
-def FSQuery(udata):
+def FSQuery(input):
     try:
-        result = BSQuery(udata)
+        result = BSQuery(input)
         return Ok((result))
 
     except Exception as e:

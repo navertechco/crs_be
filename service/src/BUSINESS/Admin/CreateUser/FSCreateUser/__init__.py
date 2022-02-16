@@ -5,9 +5,9 @@ except ImportError:
 from ..BSCreateUser import BSCreateUser
 from naver_core import *
 
-def FSCreateUser(udata):
+def FSCreateUser(input):
     try:
-        result = BSCreateUser(udata)
+        result = BSCreateUser(input)
         return Ok(result)
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..BSCreateOpportunity import BSCreateOpportunity
 from naver_core import *
 
-def FSCreateOpportunity(udata):
+def FSCreateOpportunity(input):
     try:
-        result = BSCreateOpportunity(udata)
+        result = BSCreateOpportunity(input)
         return Ok(result)
 
     except Exception as e:

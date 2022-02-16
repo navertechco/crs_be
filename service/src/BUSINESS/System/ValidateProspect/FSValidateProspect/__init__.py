@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidateProspect import BSValidateProspect
 from naver_core import *
 
-def FSValidateProspect(udata):
+def FSValidateProspect(input):
     try:
-        result = BSValidateProspect(udata)
+        result = BSValidateProspect(input)
         return Ok(result)
 
     except Exception as e:

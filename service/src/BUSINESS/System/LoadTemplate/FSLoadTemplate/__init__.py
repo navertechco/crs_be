@@ -5,9 +5,9 @@ except ImportError:
 from ..BSLoadTemplate import BSLoadTemplate
 from naver_core import *
 
-def FSLoadTemplate(udata):
+def FSLoadTemplate(input):
     try:
-        result = BSLoadTemplate(udata)
+        result = BSLoadTemplate(input)
         return Ok(result)
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..DSValidateActivity import DSValidateActivity
 from naver_core import *
 
-def BSValidateActivity(udata):
+def BSValidateActivity(input):
     try:
-        result = DSValidateActivity(udata)
+        result = DSValidateActivity(input)
         return result
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLogEmail import DSLogEmail
 from naver_core import *
 
-def BSLogEmail(udata):
+def BSLogEmail(input):
     try:
-        result = DSLogEmail(udata)
+        result = DSLogEmail(input)
         return result
 
     except Exception as e:

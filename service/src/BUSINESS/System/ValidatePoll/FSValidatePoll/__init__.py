@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidatePoll import BSValidatePoll
 from naver_core import *
 
-def FSValidatePoll(udata):
+def FSValidatePoll(input):
     try:
-        result = BSValidatePoll(udata)
+        result = BSValidatePoll(input)
         return Ok(result)
 
     except Exception as e:

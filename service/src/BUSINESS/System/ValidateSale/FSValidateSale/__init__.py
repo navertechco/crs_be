@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidateSale import BSValidateSale
 from naver_core import *
 
-def FSValidateSale(udata):
+def FSValidateSale(input):
     try:
-        result = BSValidateSale(udata)
+        result = BSValidateSale(input)
         return Ok(result)
 
     except Exception as e:

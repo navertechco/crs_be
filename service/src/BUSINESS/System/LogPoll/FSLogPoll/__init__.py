@@ -5,9 +5,9 @@ except ImportError:
 from ..BSLogPoll import BSLogPoll
 from naver_core import *
 
-def FSLogPoll(udata):
+def FSLogPoll(input):
     try:
-        result = BSLogPoll(udata)
+        result = BSLogPoll(input)
         return Ok(result)
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLogContact import DSLogContact
 from naver_core import *
 
-def BSLogContact(udata):
+def BSLogContact(input):
     try:
-        result = DSLogContact(udata)
+        result = DSLogContact(input)
         return result
 
     except Exception as e:

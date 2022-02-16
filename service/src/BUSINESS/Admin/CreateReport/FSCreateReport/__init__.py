@@ -5,9 +5,9 @@ except ImportError:
 from ..BSCreateReport import BSCreateReport
 from naver_core import *
 
-def FSCreateReport(udata):
+def FSCreateReport(input):
     try:
-        result = BSCreateReport(udata)
+        result = BSCreateReport(input)
         return Ok(result)
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..DSListAllContact import DSListAllContact
 from naver_core import *
 
-def BSListAllContact(udata):
+def BSListAllContact(input):
     try:
-        result = DSListAllContact(udata)
+        result = DSListAllContact(input)
         return result
 
     except Exception as e:

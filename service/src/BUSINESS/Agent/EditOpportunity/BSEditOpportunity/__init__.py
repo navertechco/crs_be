@@ -5,9 +5,9 @@ except ImportError:
 from ..DSEditOpportunity import DSEditOpportunity
 from naver_core import *
 
-def BSEditOpportunity(udata):
+def BSEditOpportunity(input):
     try:
-        result = DSEditOpportunity(udata)
+        result = DSEditOpportunity(input)
         return result
 
     except Exception as e:

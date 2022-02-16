@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLogOpportunity import DSLogOpportunity
 from naver_core import *
 
-def BSLogOpportunity(udata):
+def BSLogOpportunity(input):
     try:
-        result = DSLogOpportunity(udata)
+        result = DSLogOpportunity(input)
         return result
 
     except Exception as e:

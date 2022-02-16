@@ -5,9 +5,9 @@ except ImportError:
 from ..DSValidatePay import DSValidatePay
 from naver_core import *
 
-def BSValidatePay(udata):
+def BSValidatePay(input):
     try:
-        result = DSValidatePay(udata)
+        result = DSValidatePay(input)
         return result
 
     except Exception as e:

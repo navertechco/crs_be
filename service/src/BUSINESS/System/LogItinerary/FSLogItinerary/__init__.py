@@ -5,9 +5,9 @@ except ImportError:
 from ..BSLogTour import BSLogTour
 from naver_core import *
 
-def FSLogTour(udata):
+def FSLogTour(input):
     try:
-        result = BSLogTour(udata)
+        result = BSLogTour(input)
         return Ok(result)
 
     except Exception as e:

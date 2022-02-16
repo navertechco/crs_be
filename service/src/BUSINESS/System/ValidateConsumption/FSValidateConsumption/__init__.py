@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidateConsumption import BSValidateConsumption
 from naver_core import *
 
-def FSValidateConsumption(udata):
+def FSValidateConsumption(input):
     try:
-        result = BSValidateConsumption(udata)
+        result = BSValidateConsumption(input)
         return Ok(result)
 
     except Exception as e:

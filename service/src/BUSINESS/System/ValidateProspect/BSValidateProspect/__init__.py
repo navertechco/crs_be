@@ -5,9 +5,9 @@ except ImportError:
 from ..DSValidateProspect import DSValidateProspect
 from naver_core import *
 
-def BSValidateProspect(udata):
+def BSValidateProspect(input):
     try:
-        result = DSValidateProspect(udata)
+        result = DSValidateProspect(input)
         return result
 
     except Exception as e:

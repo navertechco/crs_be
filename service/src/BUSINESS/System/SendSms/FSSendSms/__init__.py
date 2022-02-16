@@ -5,9 +5,9 @@ except ImportError:
 from ..BSSendSms import BSSendSms
 from naver_core import *
 
-def FSSendSms(udata):
+def FSSendSms(input):
     try:
-        result = BSSendSms(udata)
+        result = BSSendSms(input)
         return Ok(result)
 
     except Exception as e:

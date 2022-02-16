@@ -5,9 +5,9 @@ except ImportError:
 from ..BSListOpportunityDetail import BSListOpportunityDetail
 from naver_core import *
 
-def FSListOpportunityDetail(udata):
+def FSListOpportunityDetail(input):
     try:
-        result = BSListOpportunityDetail(udata)
+        result = BSListOpportunityDetail(input)
         return Ok(result)
 
     except Exception as e:

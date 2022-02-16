@@ -5,9 +5,9 @@ except ImportError:
 from ..BSSendNotification import BSSendNotification
 from naver_core import *
 
-def FSSendNotification(udata):
+def FSSendNotification(input):
     try:
-        result = BSSendNotification(udata)
+        result = BSSendNotification(input)
         return Ok(result)
 
     except Exception as e:

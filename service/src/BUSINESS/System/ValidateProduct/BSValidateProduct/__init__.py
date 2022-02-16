@@ -5,9 +5,9 @@ except ImportError:
 from ..DSValidateProduct import DSValidateProduct
 from naver_core import *
 
-def BSValidateProduct(udata):
+def BSValidateProduct(input):
     try:
-        result = DSValidateProduct(udata)
+        result = DSValidateProduct(input)
         return result
 
     except Exception as e:

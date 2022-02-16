@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLogClient import DSLogClient
 from naver_core import *
 
-def BSLogClient(udata):
+def BSLogClient(input):
     try:
-        result = DSLogClient(udata)
+        result = DSLogClient(input)
         return result
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..BSLogDestiny import BSLogDestiny
 from naver_core import *
 
-def FSLogDestiny(udata):
+def FSLogDestiny(input):
     try:
-        result = BSLogDestiny(udata)
+        result = BSLogDestiny(input)
         return Ok(result)
 
     except Exception as e:

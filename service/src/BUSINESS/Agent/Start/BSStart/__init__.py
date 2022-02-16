@@ -5,9 +5,9 @@ except ImportError:
 from ..DSStart import DSStart
 from naver_core import *
 
-def BSStart(udata):
+def BSStart(input):
     try:
-        result = DSStart(udata)
+        result = DSStart(input)
         return result
 
     except Exception as e:

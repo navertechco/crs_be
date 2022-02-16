@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidateActivity import BSValidateActivity
 from naver_core import *
 
-def FSValidateActivity(udata):
+def FSValidateActivity(input):
     try:
-        result = BSValidateActivity(udata)
+        result = BSValidateActivity(input)
         return Ok(result)
 
     except Exception as e:

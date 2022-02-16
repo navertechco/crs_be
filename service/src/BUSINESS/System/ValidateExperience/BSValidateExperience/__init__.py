@@ -5,9 +5,9 @@ except ImportError:
 from ..DSValidateExperience import DSValidateExperience
 from naver_core import *
 
-def BSValidateExperience(udata):
+def BSValidateExperience(input):
     try:
-        result = DSValidateExperience(udata)
+        result = DSValidateExperience(input)
         return result
 
     except Exception as e:

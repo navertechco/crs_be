@@ -5,9 +5,9 @@ except ImportError:
 from ..DSCreateCatalog import DSCreateCatalog
 from naver_core import *
 
-def BSCreateCatalog(udata):
+def BSCreateCatalog(input):
     try:
-        result = DSCreateCatalog(udata)
+        result = DSCreateCatalog(input)
         return result
 
     except Exception as e:

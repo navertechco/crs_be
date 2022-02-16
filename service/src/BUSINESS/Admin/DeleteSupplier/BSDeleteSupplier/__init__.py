@@ -5,9 +5,9 @@ except ImportError:
 from ..DSDeleteSupplier import DSDeleteSupplier
 from naver_core import *
 
-def BSDeleteSupplier(udata):
+def BSDeleteSupplier(input):
     try:
-        result = DSDeleteSupplier(udata)
+        result = DSDeleteSupplier(input)
         return result
 
     except Exception as e:

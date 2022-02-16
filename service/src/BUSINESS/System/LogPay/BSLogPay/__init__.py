@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLogPay import DSLogPay
 from naver_core import *
 
-def BSLogPay(udata):
+def BSLogPay(input):
     try:
-        result = DSLogPay(udata)
+        result = DSLogPay(input)
         return result
 
     except Exception as e:

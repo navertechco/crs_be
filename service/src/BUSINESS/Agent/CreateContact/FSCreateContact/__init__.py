@@ -5,9 +5,9 @@ except ImportError:
 from ..BSCreateContact import BSCreateContact
 from naver_core import *
 
-def FSCreateContact(udata):
+def FSCreateContact(input):
     try:
-        result = BSCreateContact(udata)
+        result = BSCreateContact(input)
         return Ok(result)
 
     except Exception as e:

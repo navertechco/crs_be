@@ -5,9 +5,9 @@ except ImportError:
 from ..DSLogConsumption import DSLogConsumption
 from naver_core import *
 
-def BSLogConsumption(udata):
+def BSLogConsumption(input):
     try:
-        result = DSLogConsumption(udata)
+        result = DSLogConsumption(input)
         return result
 
     except Exception as e:

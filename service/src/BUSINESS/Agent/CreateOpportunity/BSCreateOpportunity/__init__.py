@@ -5,9 +5,9 @@ except ImportError:
 from ..DSCreateOpportunity import DSCreateOpportunity
 from naver_core import *
 
-def BSCreateOpportunity(udata):
+def BSCreateOpportunity(input):
     try:
-        result = DSCreateOpportunity(udata)
+        result = DSCreateOpportunity(input)
         return result
 
     except Exception as e:

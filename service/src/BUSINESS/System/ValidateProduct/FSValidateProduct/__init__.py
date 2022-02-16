@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidateProduct import BSValidateProduct
 from naver_core import *
 
-def FSValidateProduct(udata):
+def FSValidateProduct(input):
     try:
-        result = BSValidateProduct(udata)
+        result = BSValidateProduct(input)
         return Ok(result)
 
     except Exception as e:

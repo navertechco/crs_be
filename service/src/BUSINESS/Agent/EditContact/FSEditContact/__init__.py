@@ -5,9 +5,9 @@ except ImportError:
 from ..BSEditContact import BSEditContact
 from naver_core import *
 
-def FSEditContact(udata):
+def FSEditContact(input):
     try:
-        result = BSEditContact(udata)
+        result = BSEditContact(input)
         return Ok(result)
 
     except Exception as e:

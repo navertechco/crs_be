@@ -5,9 +5,9 @@ except ImportError:
 from ..BSLogActivity import BSLogActivity
 from naver_core import *
 
-def FSLogActivity(udata):
+def FSLogActivity(input):
     try:
-        result = BSLogActivity(udata)
+        result = BSLogActivity(input)
         return Ok(result)
 
     except Exception as e:

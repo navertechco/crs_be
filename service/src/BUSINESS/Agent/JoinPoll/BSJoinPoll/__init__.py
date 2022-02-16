@@ -5,9 +5,9 @@ except ImportError:
 from ..DSJoinPoll import DSJoinPoll
 from naver_core import *
 
-def BSJoinPoll(udata):
+def BSJoinPoll(input):
     try:
-        result = DSJoinPoll(udata)
+        result = DSJoinPoll(input)
         return result
 
     except Exception as e:

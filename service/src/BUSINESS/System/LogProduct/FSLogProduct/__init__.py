@@ -5,9 +5,9 @@ except ImportError:
 from ..BSLogProduct import BSLogProduct
 from naver_core import *
 
-def FSLogProduct(udata):
+def FSLogProduct(input):
     try:
-        result = BSLogProduct(udata)
+        result = BSLogProduct(input)
         return Ok(result)
 
     except Exception as e:

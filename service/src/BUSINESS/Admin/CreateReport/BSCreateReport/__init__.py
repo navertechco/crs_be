@@ -5,9 +5,9 @@ except ImportError:
 from ..DSCreateReport import DSCreateReport
 from naver_core import *
 
-def BSCreateReport(udata):
+def BSCreateReport(input):
     try:
-        result = DSCreateReport(udata)
+        result = DSCreateReport(input)
         return result
 
     except Exception as e:

@@ -5,9 +5,9 @@ except ImportError:
 from ..BSValidateProblem import BSValidateProblem
 from naver_core import *
 
-def FSValidateProblem(udata):
+def FSValidateProblem(input):
     try:
-        result = BSValidateProblem(udata)
+        result = BSValidateProblem(input)
         return Ok(result)
 
     except Exception as e:

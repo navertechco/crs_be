@@ -5,9 +5,9 @@ except ImportError:
 from ..BSDeleteReport import BSDeleteReport
 from naver_core import *
 
-def FSDeleteReport(udata):
+def FSDeleteReport(input):
     try:
-        result = BSDeleteReport(udata)
+        result = BSDeleteReport(input)
         return Ok(result)
 
     except Exception as e:

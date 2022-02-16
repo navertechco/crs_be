@@ -13,4 +13,4 @@ def FSGetNextVal(input):
         return Ok(result)
 
     except Exception as e:
-        ErrorResponse(e)
+        return ErrorResponse(e)

@@ -8,7 +8,7 @@ from .ListUserDetail import ListUserDetail
 from .ListAllUser import ListAllUser
 from .DeleteUser import DeleteUser
 from .DeleteReport import DeleteReport
-from .DeletePoll import DeletePoll
+from .CreateCatalog import CreateCatalog
 from .DeleteTour import DeleteTour
 from .DeleteSupplier import DeleteSupplier
 
@@ -20,7 +20,7 @@ class Admin():
     def __init__(self):
         self.DeleteSupplier = DeleteSupplier()
         self.DeleteTour = DeleteTour()
-        self.DeletePoll = DeletePoll()
+        self.CreateCatalog = CreateCatalog()
         self.DeleteReport = DeleteReport()
         self.DeleteUser = DeleteUser()
         self.ListAllUser = ListAllUser()

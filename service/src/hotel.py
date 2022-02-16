@@ -41,4 +41,4 @@ for hotel in hotels:
 
 
 
-print(hotels)
+print(catalogs[0])

@@ -18,7 +18,7 @@ def DSCreateCatalog(input):
         description=data.get("description")
         is_active=data.get("is_active")
         code=data.get("code")
-        value=json.dumps(data.get("value"))
+        value=json.dumps(data.get("value")).replace("NaN","\"\"")
         table = "CATALOG_DETAIL"
         schema = "entities"
         stm = f"INSERT INTO {schema}.{table}"

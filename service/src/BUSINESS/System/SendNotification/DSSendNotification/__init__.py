@@ -3,7 +3,7 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 # from ..Core import Business
-import logging
+from naver_core import *
 
 def DSSendNotification(udata):
     try:

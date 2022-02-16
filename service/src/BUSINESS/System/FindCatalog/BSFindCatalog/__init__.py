@@ -4,7 +4,7 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSFindCatalog import DSFindCatalog
 from ..DSFindTableCatalog import DSFindTableCatalog
-import logging
+from naver_core import *
 from naver_core import *
 from src.BUSINESS.Dto import CatalogDetailDto
 

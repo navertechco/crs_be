@@ -1,0 +1,3 @@
+{"cpu":64,"freemem":11485,"timestamp":{"$$date":1645052464584},"hostname":"DESKTOP-H9B832U","creationDate":{"$$date":1645052464587},"modificationDate":{"$$date":1645052464587},"shortid":"lpGD2aV","_id":"h0276U1zd4uOrROQ","$entitySet":"monitoring"}
+{"cpu":42,"freemem":10842,"timestamp":{"$$date":1645052524578},"hostname":"DESKTOP-H9B832U","creationDate":{"$$date":1645052524579},"modificationDate":{"$$date":1645052524579},"shortid":"BFkc_xS","_id":"TbT8NLyZPuZOUqMh","$entitySet":"monitoring"}
+{"cpu":63,"freemem":10429,"timestamp":{"$$date":1645052584581},"hostname":"DESKTOP-H9B832U","creationDate":{"$$date":1645052584582},"modificationDate":{"$$date":1645052584582},"shortid":"YDlXu2Y","_id":"gL7bMAQ8tGKN5Zgb","$entitySet":"monitoring"}

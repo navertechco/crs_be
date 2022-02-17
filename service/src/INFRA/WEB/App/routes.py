@@ -13,7 +13,6 @@ from dotenv import load_dotenv
 from pathlib import Path
 from .recoveryform import RecoveryForm
  
-
 ROUTES_PATH = os.path.abspath(__file__)
 APP_DIR = os.path.dirname(ROUTES_PATH)
 WEB_DIR = os.path.dirname(APP_DIR)
@@ -28,21 +27,13 @@ ALLOWED_EXTENSIONS = {'xlsx', 'csv'}
 ENV_PATH = os.path.join(ROOT_DIR, ('.env'))
 dotenv_path = Path(ENV_PATH)
 load_dotenv(dotenv_path=dotenv_path)
-
-
-
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-
 app = Flask(__name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 api = Api(app) 
  
-
 config = NaverConfig(app)
 pksalt = config.core.myVariables["PKSALT"]
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
@@ -50,7 +41,6 @@ db = SQLAlchemy()
 resource_fields = api.model('Resource', {
     'data': fields.Raw,
 })
-
 def removeBytePrefix(value):
     """Method to remove the byte prefix from the response
     Args:
@@ -60,7 +50,6 @@ def removeBytePrefix(value):
         value: Replaced value
     """
     return str(value).replace("b'","").replace("'","")
-
 def decryptdata(): 
     data = request.headers.get('token')
     tokendecrypted = decrypt(encrypt(pksalt, pksalt), pksalt)
@@ -70,7 +59,6 @@ def decryptdata():
     jsondata = ast.literal_eval(jsonConvert(res))
     data = {"data":jsondata}
     return data
-
 def encrypted(function):
     """Method decorator to encrypt the response
     Args:
@@ -85,12 +73,6 @@ def encrypted(function):
         res['data']=str(encrypt(str(res['data']), pksalt))
         return res
     return wrapper
-
-
-
-
-
-
 @app.route('/Admin/UploadCatalog', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -119,9 +101,6 @@ def upload_file():
       <input type=submit value=Upload>
     </form>
     '''
-
-
-
 #region admin
 from src.BUSINESS.Admin.CreateCatalog import FSCreateCatalog
 @api.route('/Admin/CreateCatalog')
@@ -136,7 +115,6 @@ class CreateCatalog(Resource):
         return FSCreateCatalog(input)
 #endregion
  
-
 #region process
 from src.BUSINESS.System.ProcessOptions import FSProcessOptions
 @api.route('/System/ProcessOptions')
@@ -150,8 +128,6 @@ class ProcessOptions(Resource):
         data = request.get_json(force=True)
         return FSProcessOptions(data)
 #endregion
-
-
 #region catalog
 from src.BUSINESS.System.FindCatalog import FSFindCatalog
 @api.route('/System/FindCatalog')
@@ -228,7 +204,6 @@ import binascii
 class PlayTour(Resource):
     def get(self, slug):
         """Método para reproducir un tour
-
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """ 
@@ -259,7 +234,6 @@ from src.BUSINESS.Tour.FindTour import FSFindTour
 class FindTour(Resource):
     def post(self): 
         """_summary_
-
         Returns:
             _type_: _description_
         """
@@ -272,7 +246,6 @@ from src.BUSINESS.Tour.CalculateNetRate import FSCalculateNetRate
 class CalculateNetRate(Resource):
     def post(self): 
         """_summary_
-
         Returns:
             _type_: _description_
         """
@@ -395,7 +368,6 @@ class Start(Resource):
         data = request.get_json(force=True)
         # return FSStart(decryptdata())
         return FSStart(data)
-
 from src.BUSINESS.Agent.GetExperience import FSGetExperience
 @api.route('/Agent/GetExperience')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
@@ -409,8 +381,6 @@ class GetExperience(Resource):
         data = request.get_json(force=True)
         # return FSGetExperience(decryptdata())
         return FSGetExperience(data)    
-
-
 from src.BUSINESS.Agent.GetDestination import FSGetDestination
 @api.route('/Agent/GetDestination')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})

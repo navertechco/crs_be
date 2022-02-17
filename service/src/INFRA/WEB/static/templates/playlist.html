@@ -21,10 +21,10 @@
 </head>
 
 <body>
-  <video  id="my-video" data={{data}} class="carousel slide" style="width: 100%; height: 100%;"></video >
- 
+  <!-- <video  id="my-video" data={{data}} class="carousel slide" style="width: 100%; height: 100%;"></video >  -->
+    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/videoseries?controls=0&amp;list={{data}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </body>
-<script>
+<!-- <script>
   var binascii = (function () {
 
     var hexlify = function (str) {
@@ -58,11 +58,11 @@
   })();
   var encrypted = $('#my-video').attr('data').replace("b'", "")
   var decrypted = binascii.unhexlify(encrypted).replace(/\0/g, '')
-  var json = JSON.parse(decrypted)['videos']
-  $('#my-video').idowsVideowall({
-    wallType: 'thumb',
-    videos: json
-  });
-</script>
+  var json = JSON.parse(decrypted)
+  // $('#my-video').idowsVideowall({
+  //   wallType: 'thumb',
+  //   videos: json
+  // });
+</script> -->
 
 </html>

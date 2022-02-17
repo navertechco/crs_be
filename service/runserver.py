@@ -1,3 +1,4 @@
+import os
 from os import environ
 from src.INFRA.WEB.App.routes import app 
 
@@ -20,4 +21,6 @@ if __name__ == '__main__':
         
     print("HOST: "+HOST)
     print("PORT: "+str(PORT))
+    SECRET_KEY = os.urandom(32)
+    app.config['SECRET_KEY'] = SECRET_KEY
     app.run(host=HOST, port=PORT)

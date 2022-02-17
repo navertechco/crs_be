@@ -23,23 +23,25 @@ def DSPlayTour	(slug):
     """
     try:
         table = "TOUR"
-        Command = "SELECT "
-        From = " * FROM {}".format(table)
-        Where = " WHERE playlist_slug = \'{}'".format( slug) 
-        stm = Command + From + Where
+        schema = "entities"
+        
+        stm = "SELECT "
+        stm += f" * FROM {schema}.{table}"
+        stm += f" WHERE playlist_slug = \'{slug}'"
+       
         tour = nbd.persistence.getQuery(stm, table)
         if len(tour) > 0:
             reproductions = tour[0]['reproductions']
             if reproductions > 0:
-                Command = "UPDATE "
-                Table = "{}".format(table)
-                Set = " SET reproductions={}".format(reproductions-1)
-                Where = " WHERE playlist_slug = \'{}'".format( slug) 
-                stm = Command + Table + Set + Where
+                stm = "UPDATE "
+                stm += f" {schema}.{table}"
+                stm += f" SET reproductions={reproductions-1}"
+                stm += f" WHERE playlist_slug = \'{slug}'" 
                 update = nbd.persistence.setWrite(stm, table)
                 if len(update) > 0:
                     update['session'].commit()
-                    return tour[0]['playlist']
+                    playlist = str(tour[0]['playlist']).replace('"','')
+                    return playlist
                 raise Exception("No se pudo actualizar la cantidad de reproducciones.")
             raise Exception("No se puede reproducir el Tour porque ya se ha reproducido 2 veces")
         raise Exception("No se encontró el Tour")    

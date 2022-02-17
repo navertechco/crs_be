@@ -2,6 +2,8 @@ import os
 import ast
 from flask_restx import Api, Resource, reqparse, fields 
 from flask import Flask, request,render_template, make_response
+from flask import  flash,  redirect, url_for
+from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy 
 from flask_cors import CORS
 from naver_web import *
@@ -10,6 +12,7 @@ from naver_core import *
 from dotenv import load_dotenv
 from pathlib import Path
 from .recoveryform import RecoveryForm
+ 
 
 ROUTES_PATH = os.path.abspath(__file__)
 APP_DIR = os.path.dirname(ROUTES_PATH)
@@ -19,13 +22,24 @@ SRC_DIR = os.path.dirname(INFRA_DIR)
 ROOT_DIR = os.path.dirname(SRC_DIR)
 STATIC = os.path.join(WEB_DIR, ('static/')) 
 TEMPLATE_FOLDER = os.path.join(STATIC, ('templates/')) 
-
+UPLOAD_FOLDER = os.path.join(STATIC, ('uploads/')) 
+ALLOWED_EXTENSIONS = {'xlsx', 'csv'}
 #ENV LOCAL
 ENV_PATH = os.path.join(ROOT_DIR, ('.env'))
 dotenv_path = Path(ENV_PATH)
 load_dotenv(dotenv_path=dotenv_path)
 
+
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+
 app = Flask(__name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 api = Api(app) 
  
 
@@ -71,6 +85,42 @@ def encrypted(function):
         res['data']=str(encrypt(str(res['data']), pksalt))
         return res
     return wrapper
+
+
+
+
+
+
+@app.route('/Admin/UploadCatalog', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return render_template('empty.html')
+         
+    # return render_template('upload.html')
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    '''
+
+
 
 #region admin
 from src.BUSINESS.Admin.CreateCatalog import FSCreateCatalog
@@ -186,9 +236,9 @@ class PlayTour(Resource):
         res = FSPlayTour(slug)     
         if res is None:
             return make_response(render_template('empty.html'),200,headers)  
-        data = json.dumps(res) 
-        hash = binascii.hexlify(data.encode('utf-8'))
-        return make_response(render_template('playlist.html',  data=hash),200,headers) 
+        # data = json.dumps(res) 
+        # hash = binascii.hexlify(data.encode('utf-8'))
+        return make_response(render_template('playlist.html',  data=res),200,headers) 
     
 from src.BUSINESS.Client.ClientEdit import FSClientEdit
 @api.route('/Client/Edit')

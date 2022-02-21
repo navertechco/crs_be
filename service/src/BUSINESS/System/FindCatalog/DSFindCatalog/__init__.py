@@ -37,6 +37,7 @@ def DSFindCatalog(input):
                                 where true
                             {}
                             and cd.is_active is true  
+                            order by cd."order" asc
                              
                     
         """.format(and_stm)

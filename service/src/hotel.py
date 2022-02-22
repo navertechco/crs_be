@@ -10,7 +10,7 @@ FILE_PATH_XSLX = os.path.join(ROOT_DIR,"hotel.xlsx")
 
   
 hotel_xlsx = pd.ExcelFile(FILE_PATH_XSLX, engine='openpyxl')
-data = hotel_xlsx.parse(hotel_xlsx.sheet_names[0]).to_dict()
+data = hotel_xlsx.parse(hotel_xlsx.sheet_names[2]).to_dict()
 hotels = []
 
 catalogs = []
@@ -25,13 +25,13 @@ for col,values in data.items():
         hotels[row]={**hotels[row],**dto}
 i=7         
 for hotel in hotels:
-    hotel_name = hotel.get('hotelname')
-    room_category = hotel.get('roomcategory')
+    tag1 = hotel.get('supplier_fk')
+    tag2 = hotel.get('RulePeriod')
     catalog = {
         
-        "catalog_id":24,
+        "catalog_id":39,
         "order":0,
-        "description":f"{hotel_name}-{room_category}-{i}",
+        "description":f"{tag1}-{i}",
         "is_active":True,
         "code":i,
         "value":hotel

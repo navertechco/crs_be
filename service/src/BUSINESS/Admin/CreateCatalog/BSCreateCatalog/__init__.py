@@ -6,8 +6,8 @@ from ..DSCreateCatalog import DSCreateCatalog
 from naver_core import *
 import ast, json,re, yaml
 def myconverter(o):
-    if "datetime" in str(o):
-        return str(o).replace(",","-").replace("datetime.date","").__str__()
+    char = str(o)
+    return char
     
 def BSCreateCatalog(input):
     try:
@@ -15,7 +15,6 @@ def BSCreateCatalog(input):
         if state == "tour":
             value = getValue(input, 'value')  
             value = yaml.safe_load(value)
-            print(value)
             value = json.dumps(value, default=myconverter)
             value = json.loads(value)
             input["data"]["value"] = value

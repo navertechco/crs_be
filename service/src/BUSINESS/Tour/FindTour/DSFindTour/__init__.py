@@ -18,22 +18,24 @@ def DSFindTour(input):
         tour_id = getValue(input, 'tour_id')
         table = "TOUR"
         schema = "entities"
-        results = []
+ 
         #TOUR QUERY
-        tour_stm=f"SELECT *"
+        tour_stm=f"SELECT detail"
         tour_stm+=f" FROM {schema}.{table}" 
         tour_stm+=f" WHERE tour_id=\'{tour_id}\'"
-        res = nbd.persistence.getQuery(tour_stm, table)
-        results.append(res)
+        res = {"tour":"", "customer":""}
+        result = nbd.persistence.getQuery(tour_stm, table)[0].get("detail")
+        res["tour"] = result
+         
         #CLIENT QUERY
         client_stm = """
                 select c.* from entities.tour t join entities.client c 
                 on t.client_id = c.client_id 
         """
         client_stm+=f" WHERE tour_id=\'{tour_id}\'"
-        res = nbd.persistence.getQuery(client_stm, table)
-        results.append(res)
-        return results  
+        res["customer"] = nbd.persistence.getQuery(client_stm, table)[0]
+      
+        return result  
 
     except Exception as e:
         raise e

@@ -25,8 +25,9 @@ def DSTourEdit(input):
         res: Resultado de la operacion
     """      
     try:
-        data = input.get('data')
-        tour = TourDto(data).getAllDict()
+        input = prepareTour(input)
+        value = getValue(input, 'value')
+        tour = TourDto(value).getAllDict()
         
         
         return True if tour.get("tour_id") is None or 'NULL' or '' else False

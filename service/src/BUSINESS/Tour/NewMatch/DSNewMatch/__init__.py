@@ -7,7 +7,7 @@ from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
 from src.INFRA.WEB.App.routes import app
-
+import json
 
 config = NaverConfig(app)
 nbd = NaverDB(app, config)
@@ -27,6 +27,7 @@ def DSNewMatch(id, match):
         res: Resultado de la Cotización
     """
     try:
+        match = json.dumps(match)
         table = "TOUR"
         schema = "entities"
         stm = " UPDATE " + schema+"."+str(table).lower()

@@ -1,51 +1,46 @@
 import json
 import ast
-import json 
+import json
 from naver_core import *
-
- 
-
-def findValue(lstdict, key):
-    return lstdict.get(key)
 
 
 class TourDto():
-    def __init__(self, data):
-        client = data.get('client') or None
-        tour = data.get('tour') or None 
-        end = data.get('end') or None
-        destinations = data.get('destinations') or None 
-        details = ({
-            "client": client,
-            "tour": tour, 
-            "end": end,
-            "destinations": destinations
-        })
-        self.tour_id = findValue(tour, "tour_id")
-        self.created = findValue(tour, "created")
-        self.updated = findValue(tour, "updated")
-        self.partner = findValue(tour, "partner")
+    def __init__(self, value):
+        #from Frontend
+        tour = value.get('tour') or None
+        logistic = value.get('logistic') or None
+        customer = value.get('customer') or None 
+        promoted = value.get('promoted') or None
+        destinations = value.get('destinations') or None
+        day = promoted.get('day') or None
+
+        #to DataBase
+        self.tour_id = tour.get("tour_id")
+        self.created = tour.get("created")
+        self.updated = tour.get("updated") 
         self.match = tour.get("match")
         self.match_type = tour.get("match_type")
+        self.destinations = json.dumps(destinations)
         self.valid = tour.get("valid_until")
-        self.destination_country_id = findValue(tour, "destination_country_id")
-        self.purpose_id = findValue(tour, "purpose_id")
-        self.accomodation_type_id = findValue(tour, "accomodation_type_id")
-        self.arrival_date = findValue(tour, "arrival_date")
-        self.departure_date = findValue(tour, "departure_date")
-        self.contact_agent = findValue(tour, "contact_agent")
+        self.destination_country_id = tour.get("country")
+        self.purpose_id = tour.get("purpose")
+        self.accomodation_type_id = tour.get("accomodation_type")
+        self.arrival_date = logistic.get("arrival_date")
+        self.departure_date = logistic.get("departure_date")
+        self.contact_agent = tour.get("contact_agent")
         self.pasengers = tour.get("passengers")
-        self.days = tour.get("days")
-        self.nights = tour.get("nights")
-        self.description = tour.get("description")
-        self.client_id = findValue(client, "client_id")
-        self.detail = json.dumps(prepareJsonData(details))
-        self.cover_detail = json.dumps( (self.__dict__()))
+        self.days = len(day) - 1
+        self.nights = self.days - 1
+        self.description = customer.get("travel_code")
+        self.client_id = int(customer.get("dni"))
+        self.detail = json.dumps(value)
+        self.cover_detail =  json.dumps(self.__dict__())
 
+    #to DataBase
     def __dict__(self):
         return {
 
-            "partner": self.partner,
+ 
             "valid": self.valid,
             "destination_country_id": self.destination_country_id,
             "purpose_id": self.purpose_id,
@@ -61,15 +56,17 @@ class TourDto():
             "detail": self.detail,
             "match": self.match,
             "match_type": self.match_type,
+            "destinations": self.destinations,
+            
 
         }
 
+    #from DataBase
     def getAllDict(self):
         return {
             "tour_id": self.tour_id,
             "created": self.created,
-            "updated": self.updated,
-            "partner": self.partner,
+            "updated": self.updated, 
             "valid": self.valid,
             "destination_country_id": self.destination_country_id,
             "purpose_id": self.purpose_id,
@@ -86,5 +83,6 @@ class TourDto():
             "cover_detail": self.cover_detail,
             "match": self.match,
             "match_type": self.match_type,
+            "destinations": self.destinations,
 
         }

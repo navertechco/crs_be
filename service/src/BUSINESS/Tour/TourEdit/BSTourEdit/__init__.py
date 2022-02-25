@@ -25,9 +25,9 @@ def BSTourEdit(input):
         if state == 'new':
             valid = DSTourEdit(input)
             if valid:
-                tour_id = NewTour().BSNewTour(input)
+                tour_id,session = NewTour().BSNewTour(input)
                 if tour_id is not None:
-                    return ProcessTour().BSProcessTour(tour_id, input)
+                    return ProcessTour().BSProcessTour(tour_id,session, input)
                 raise Exception('Error al crear el tour')
             raise Exception('Ya tiene un tour activo')
 

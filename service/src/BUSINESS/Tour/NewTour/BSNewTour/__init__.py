@@ -24,11 +24,11 @@ def BSNewTour(input):
  
         res =  DSNewTour(input)
         if len(res) > 0:
-            res['session'].commit()
             new_tours = res['cursor'].fetchall()
             if len(new_tours) > 0:
-                id = new_tours[0]['tour_id']
-                return id
+                id = new_tours[0][0]
+                session=res['session']
+                return id,session
             raise Exception('No se creó el tour, pruebe los datos ingresados')
         raise Exception(605, 'Error de Creación de Tour')
     except Exception as e:

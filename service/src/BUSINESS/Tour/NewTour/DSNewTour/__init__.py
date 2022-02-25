@@ -14,20 +14,21 @@ nbd = NaverDB(app, config)
 
 
 def DSNewTour(input):
-    """Método para crear un tour  en la base de datos.
+    """_summary_
 
     Args:
-        input (dict): Diccionario con los datos de el tour.
+        input (_type_): _description_
 
     Raises:
-        e: Error de conexión con la base de datos.
+        e: _description_
 
     Returns:
-        res: Resultado de la operación.
+        _type_: _description_
     """
     try:
-        data = input.get('data')
-        tour = TourDto(data)
+        value = getValue(input, 'value')
+        tour = TourDto(value)
+        data = tour.getAllDict()
         table = "TOUR"
         schema = "entities"
         res = nbd.persistence.insertDto(tour, table, schema)

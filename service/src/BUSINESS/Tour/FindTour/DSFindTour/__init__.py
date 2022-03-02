@@ -20,20 +20,22 @@ def DSFindTour(input):
         schema = "entities"
  
         #TOUR QUERY
-        tour_stm=f"SELECT detail"
-        tour_stm+=f" FROM {schema}.{table}" 
-        tour_stm+=f" WHERE tour_id=\'{tour_id}\'"
+        stm=f"SELECT detail"
+        stm+=f" FROM {schema}.{table}" 
+        stm+=f" WHERE tour_id=\'{tour_id}\'"
         res = {"tour":"", "customer":""}
-        result = nbd.persistence.getQuery(tour_stm, table)[0].get("detail")
+        result = nbd.persistence.getQuery(stm, table)[0].get("detail")
         res["tour"] = result
          
         #CLIENT QUERY
-        client_stm = """
-                select c.* from entities.tour t join entities.client c 
-                on t.client_id = c.client_id 
+        stm = """
+                select c.* 
+                    from entities.tour t 
+                    join entities.client c 
+                        on t.client_id = c.client_dni
         """
-        client_stm+=f" WHERE tour_id=\'{tour_id}\'"
-        res["customer"] = nbd.persistence.getQuery(client_stm, table)[0]
+        stm+=f" WHERE tour_id=\'{tour_id}\'"
+        res["customer"] = nbd.persistence.getQuery(stm, table)[0]
       
         return result  
 

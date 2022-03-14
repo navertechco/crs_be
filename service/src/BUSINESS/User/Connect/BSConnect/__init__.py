@@ -57,14 +57,7 @@ def BSConnect(input):
                 if len(result) > 0:
                     catalogs = self.FindCatalog.BSFindCatalog(
                         {"data": {"catalogs": ["ALL"]}})
-                    experiences = self.GetExperience.BSGetExperience({"data": {
-                        "destination": None,
-                        "experience": None,
-                        "key_activities": [],
-                        "travel_rhythms": [],
-                        "destination_option": None
-                    }})
-                    return {"catalogs": catalogs, "experiences": experiences}
+                    return catalogs
             if state == "update":
                 result = self.UpdateProfile.BSUpdateProfile(input)
                 return result

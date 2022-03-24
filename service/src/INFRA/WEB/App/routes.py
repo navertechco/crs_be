@@ -1,78 +1,20 @@
-import os
-import ast
-from flask_restx import Api, Resource, reqparse, fields 
-from flask import Flask, request,render_template, make_response
-from flask import  flash,  redirect, url_for
-from werkzeug.utils import secure_filename
-from flask_sqlalchemy import SQLAlchemy 
-from flask_cors import CORS
-from naver_web import *
-from naver_config import NaverConfig
-from naver_core import *
-from dotenv import load_dotenv
-from pathlib import Path
-from .recoveryform import RecoveryForm
+"""routes module."""
+from .libs import *
  
-ROUTES_PATH = os.path.abspath(__file__)
-APP_DIR = os.path.dirname(ROUTES_PATH)
-WEB_DIR = os.path.dirname(APP_DIR)
-INFRA_DIR = os.path.dirname(WEB_DIR)
-SRC_DIR = os.path.dirname(INFRA_DIR)
-ROOT_DIR = os.path.dirname(SRC_DIR)
-STATIC = os.path.join(WEB_DIR, ('static/')) 
-TEMPLATE_FOLDER = os.path.join(STATIC, ('templates/')) 
-UPLOAD_FOLDER = os.path.join(STATIC, ('uploads/')) 
-ALLOWED_EXTENSIONS = {'xlsx', 'csv'}
-#ENV LOCAL
-ENV_PATH = os.path.join(ROOT_DIR, ('.env'))
-dotenv_path = Path(ENV_PATH)
-load_dotenv(dotenv_path=dotenv_path)
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-app = Flask(__name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-api = Api(app) 
- 
-config = NaverConfig(app)
-pksalt = config.core.myVariables["PKSALT"]
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
-db = SQLAlchemy()
-resource_fields = api.model('Resource', {
-    'data': fields.Raw,
-})
-def removeBytePrefix(value):
-    """Method to remove the byte prefix from the response
-    Args:
-        value (value): value to be decorated
-        
-    Returns:
-        value: Replaced value
-    """
-    return str(value).replace("b'","").replace("'","")
-def decryptdata(): 
-    data = request.headers.get('token')
-    tokendecrypted = decrypt(encrypt(pksalt, pksalt), pksalt)
-    salt = removeBytePrefix(tokendecrypted.decode('utf8'))
-    jdata = removeBytePrefix(request.get_json(force=True)['data']).encode('utf8')
-    res = decrypt(jdata, salt).decode('utf8')
-    jsondata = ast.literal_eval(jsonConvert(res))
-    data = {"data":jsondata}
-    return data
-def encrypted(function):
-    """Method decorator to encrypt the response
-    Args:
-        function (function): Function to be decorated
-    Returns:
-        function: Decorated function
-    """    
-    def wrapper(data):
-        
-        f= function
-        res = f(data)
-        res['data']=str(encrypt(str(res['data']), pksalt))
-        return res
-    return wrapper
+
+#region admin
+from src.BUSINESS.Admin.CreateCatalog import FSCreateCatalog
+@api.route('/Admin/CreateCatalog')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class CreateCatalog(Resource):
+    def post(self):
+        """Método para crear catalogo
+        Returns:
+            json: {"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        input = request.get_json(force=True)
+        return FSCreateCatalog(input)
+    
 @app.route('/Admin/UploadCatalog', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -89,6 +31,8 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            input = request.get_json(force=True)
+            res =  FSCreateCatalog(input)
             return render_template('empty.html')
          
     # return render_template('upload.html')
@@ -101,18 +45,6 @@ def upload_file():
       <input type=submit value=Upload>
     </form>
     '''
-#region admin
-from src.BUSINESS.Admin.CreateCatalog import FSCreateCatalog
-@api.route('/Admin/CreateCatalog')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
-class CreateCatalog(Resource):
-    def post(self):
-        """Método para crear catalogo
-        Returns:
-            json: {"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}
-        """
-        input = request.get_json(force=True)
-        return FSCreateCatalog(input)
 #endregion
  
 #region process

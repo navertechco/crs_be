@@ -4,8 +4,7 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
     
 from .BUSINESS import *
-from .INFRA.WEB import *
-from .INFRA.NET import *
+from .INFRA import *
 class CRS():
     def __init__(self):
         self.User = User()

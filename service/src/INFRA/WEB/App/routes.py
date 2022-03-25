@@ -1,7 +1,7 @@
 """routes module."""
 from .libs import *
  
-
+    
 #region admin
 from src.BUSINESS.Admin.CreateCatalog import FSCreateCatalog
 @api.route('/Admin/CreateCatalog')
@@ -14,6 +14,21 @@ class CreateCatalog(Resource):
         """
         input = request.get_json(force=True)
         return FSCreateCatalog(input)
+
+@app.route('/pdf.html', methods=['GET'])
+def view_pdf():
+    doc = request.args.get("doc")
+    return render_template('pdf.html',  doc=doc)
+
+@app.route('/docx.html', methods=['GET'])
+def view_docx():
+    doc = request.args.get("doc")
+    return render_template('docx.html',  doc=doc)
+
+@app.route('/gallery.html', methods=['GET'])
+def view_gallery():
+    doc = request.args.get("doc")
+    return render_template('gallery.html',  doc=doc)
     
 @app.route('/Admin/UploadCatalog', methods=['GET', 'POST'])
 def upload_file():

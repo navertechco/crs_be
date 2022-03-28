@@ -16,7 +16,7 @@ def get_catalogs(**kwargs):
     tags = kwargs.get("tags")
     rows = get_rows(**kwargs)
     catalogs = []
-    i = 7
+    i = 1
     for row in rows:
         tag = get_tag(row, tags)
         catalog = {

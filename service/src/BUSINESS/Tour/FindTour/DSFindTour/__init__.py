@@ -33,6 +33,7 @@ def DSFindTour(input):
         stm += f" FROM {schema}.{table} t"
         stm += f" JOIN {schema}.client c  "
         stm += "  ON t.client_id = c.client_dni"
+        stm += "  ORDER BY t.created DESC"
         if(tour_id != 0):
             stm += f" WHERE tour_id=\'{tour_id}\'"
         res = nbd.persistence.getQuery(stm, table)

@@ -34,20 +34,19 @@ def DSSignIn(username):
     try:
         table = "USER"
         schema = "entities"
-        update_stm = """ UPDATE {0}.{1} \n""".format(schema, table)
-        set_stm = update_stm + """ SET STATE = 6  """
-        where_stm = set_stm +  """ WHERE USERNAME = \'{0}\' """.format(username)
-        and_stm = where_stm + """  AND (STATE = 5  OR STATE = 2 ) """
-        res = nbd.persistence.setWrite(and_stm, table)['session']
-        if isinstance(res, object):
-            res.commit()
-            select_stm = """   SELECT * """
-            from_stm = select_stm + """ FROM {0}.{1} """.format(schema, table)
-            where_stm =  from_stm + """      WHERE USERNAME = \'{0}\' """.format(username)
-            and_stm =  where_stm +  """      AND STATE = 6; -- CONNECTED \n"""
-         
-        res = nbd.persistence.getQuery(and_stm, table)
-        return res
-
+        stm =  "  SELECT * "
+        stm += f" FROM {schema}.{table} "
+        stm += f" WHERE USERNAME = \'{username}\' "
+        stm += "  AND  (STATE = 5  OR STATE = 2 ) \n"
+        user = nbd.persistence.getQuery(stm, table)
+        if(len(user) > 0):
+            stm =  f" UPDATE {schema}.{table} \n"
+            stm += "  SET STATE = 6  "
+            stm += f" WHERE USERNAME = \'{username}\' " 
+            res = nbd.persistence.setWrite(stm, table)
+            if len(res) > 0:
+                res['session'].commit()
+                return user
+        raise Exception("User Connected")
     except Exception as e:
         raise e

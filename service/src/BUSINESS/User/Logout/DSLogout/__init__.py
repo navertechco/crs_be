@@ -13,7 +13,7 @@ config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
-def DSLogout(id):
+def DSLogout(username):
     """Método de persistencia para desconectar usuario
 
     0.- NEW: El usuario es nuevo, no se ha registrado en la base de datos
@@ -25,7 +25,7 @@ def DSLogout(id):
     6.- CONNECTED: El usuario esta en la base de datos y ha iniciado sesion
 
     Args:
-        id (int): identificador de usuario
+        username (str): identificador de usuario
 
     Raises:
         e: Error de conexión a base de datos
@@ -39,7 +39,7 @@ def DSLogout(id):
         stm = ""
         stm += f" UPDATE {schema}.{table}"
         stm += " SET STATE = 5"
-        stm += f" WHERE IDENTIFICATION = \'{id}\'"
+        stm += f" WHERE username = \'{username}\'"
         stm += " AND STATE = 6"
         res = nbd.persistence.setWrite(stm, table)
         return res

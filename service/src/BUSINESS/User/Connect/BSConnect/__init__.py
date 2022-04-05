@@ -9,13 +9,14 @@ from naver_config import *
 from src.INFRA.WEB.App.routes import app
 from src.BUSINESS.System import ValidateUser, LogConnection, FindCatalog
 from src.BUSINESS.Agent import GetExperience
-from ... import SignUp, SignIn, UpdateProfile, Reset
+from ... import SignUp, SignIn, UpdateProfile, Reset, Logout
 config = NaverConfig(app)
 
 
 class BS():
     def __init__(self):
         self.LogConnection = LogConnection()
+        self.Logout = Logout()
         self.SignUp = SignUp()
         self.SignIn = SignIn()
         self.UpdateProfile = UpdateProfile.UpdateProfile()
@@ -44,6 +45,9 @@ def BSConnect(input):
             res = self.LogConnection.BSLogConnection(config)
             return res
         state = input.get("state")
+        if state == "logout":
+            result = self.Logout.BSLogout(input)
+            return result
         if state == "signup":
             result = self.SignUp.BSSignUp(input)
             return result

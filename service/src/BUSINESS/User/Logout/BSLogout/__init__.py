@@ -19,9 +19,10 @@ def BSLogout(input):
         bool: True si se desconecto el usuario, False en caso contrario
     """    
     try:
-        indetification = getValue(input, 'indetification')
-        result = DSLogout(indetification)
+        username = getValue(input, 'username')
+        result = DSLogout(username)
         if len(result) > 0:
+            result['session'].commit()
             return True
         return False
 

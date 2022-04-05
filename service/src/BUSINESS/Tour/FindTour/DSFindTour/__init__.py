@@ -1,4 +1,4 @@
-try: 
+try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
@@ -6,38 +6,37 @@ except ImportError:
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.INFRA.WEB.App.routes import app 
+from src.INFRA.WEB.App.routes import app
 
 
 config = NaverConfig(app)
-nbd = NaverDB(app,config)
+nbd = NaverDB(app, config)
+
 
 def DSFindTour(input):
-    """"""
+    """_summary_
+
+    Args:
+        input (_type_): _description_
+
+    Raises:
+        e: _description_
+
+    Returns:
+        _type_: _description_
+    """    
     try:
         tour_id = getValue(input, 'tour_id')
         table = "TOUR"
         schema = "entities"
- 
-        #TOUR QUERY
-        stm=f"SELECT detail"
-        stm+=f" FROM {schema}.{table}" 
-        stm+=f" WHERE tour_id=\'{tour_id}\'"
-        res = {"tour":"", "customer":""}
-        result = nbd.persistence.getQuery(stm, table)[0].get("detail")
-        res["tour"] = result
-         
-        #CLIENT QUERY
-        stm = """
-                select c.* 
-                    from entities.tour t 
-                    join entities.client c 
-                        on t.client_id = c.client_dni
-        """
-        stm+=f" WHERE tour_id=\'{tour_id}\'"
-        res["customer"] = nbd.persistence.getQuery(stm, table)[0]
-      
-        return result  
+        stm = " SELECT * "
+        stm += f" FROM {schema}.{table} t"
+        stm += f" JOIN {schema}.client c  "
+        stm += "  ON t.client_id = c.client_dni"
+        if(tour_id != 0):
+            stm += f" WHERE tour_id=\'{tour_id}\'"
+        res = nbd.persistence.getQuery(stm, table)
+        return res
 
     except Exception as e:
         raise e

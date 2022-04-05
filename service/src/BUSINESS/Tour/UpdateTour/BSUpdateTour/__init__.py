@@ -21,7 +21,7 @@ def BSUpdateTour(input):
         boolean: True si el usuario se confirma, False si no
     """
     try:
-        state = input.get('state')
+        state = input.get("state")
         if state == 'update':
             result = DSUpdateTour(input)
             if len(result) > 0:

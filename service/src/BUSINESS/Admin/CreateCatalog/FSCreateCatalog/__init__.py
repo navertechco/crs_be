@@ -10,7 +10,7 @@ def myconverter(o):
     return char
 def FSCreateCatalog(input):
     try:
-        state = input.get('state')
+        state = input.get("state")
         if state == "tour":
             value = getValue(input, 'value')  
             value = yaml.safe_load(value)

@@ -20,7 +20,7 @@ def BSTourEdit(input):
         boolean: True si el usuario se confirma, False si no
     """
     try:
-        state = input.get('state')
+        state = input.get("state")
 
         if state == 'new':
             valid = DSTourEdit(input)

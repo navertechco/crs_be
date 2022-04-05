@@ -43,7 +43,7 @@ def BSConnect(input):
         if input is None:
             res = self.LogConnection.BSLogConnection(config)
             return res
-        state = input.get('state')
+        state = input.get("state")
         if state == "signup":
             result = self.SignUp.BSSignUp(input)
             return result

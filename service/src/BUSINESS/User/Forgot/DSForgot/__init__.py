@@ -26,11 +26,11 @@ def DSForgot(password, confirmation):
         res: Resultado de la operación
     """    
     try:
-        stm = """ UPDATE GAMER
+        stm = """ UPDATE USER
                     SET PASSWORD = \'{0}\', CONFIRMATION = django.uuid_generate_v1()
                     WHERE CONFIRMATION = \'{1}\' """.format(password, confirmation)
     
-        table = "GAMER"
+        table = "USER"
         res = nbd.persistence.setWrite(stm, table)
         return res  
 

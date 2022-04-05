@@ -1,4 +1,4 @@
-try: 
+try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
@@ -6,13 +6,14 @@ except ImportError:
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.INFRA.WEB.App.routes import app 
+from src.INFRA.WEB.App.routes import app
 
 
 config = NaverConfig(app)
-nbd = NaverDB(app,config)
+nbd = NaverDB(app, config)
 
-def DSLogout(indetification):
+
+def DSLogout(id):
     """Método de persistencia para desconectar usuario
 
     0.- NEW: El usuario es nuevo, no se ha registrado en la base de datos
@@ -24,24 +25,24 @@ def DSLogout(indetification):
     6.- CONNECTED: El usuario esta en la base de datos y ha iniciado sesion
 
     Args:
-        indetification (int): identificador de usuario
+        id (int): identificador de usuario
 
     Raises:
         e: Error de conexión a base de datos
 
     Returns:
         dict: respuesta de conexión a base de datos
-    """    
+    """
     try:
-        stm = """UPDATE GAMER
-                    SET
-                        STATE = 5  -- DISCONNECTED
-                        WHERE IDENTIFICATION = \'{}\'
-                        AND STATE = 6 -- CONNECTED
-                            """.format(indetification)
-        table = "GAMER"
+        table = "USER"
+        schema = "entities"
+        stm = ""
+        stm += f" UPDATE {schema}.{table}"
+        stm += " SET STATE = 5"
+        stm += f" WHERE IDENTIFICATION = \'{id}\'"
+        stm += " AND STATE = 6"
         res = nbd.persistence.setWrite(stm, table)
-        return res  
+        return res
 
     except Exception as e:
         raise e

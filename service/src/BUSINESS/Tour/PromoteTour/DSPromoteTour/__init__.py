@@ -25,13 +25,13 @@ def DSPromoteTour(confirmation):
         dict: Diccionario con información de confirmación de usuario.
     """    
     try:
-        stm = """   UPDATE GAMER
+        stm = """   UPDATE USER
                     SET STATE = 2
                     WHERE CONFIRMATION = \'{}\'
                     AND STATE = 1
                     ;""".format(confirmation)
 
-        table = "GAMER"
+        table = "USER"
         res = nbd.persistence.setWrite(stm, table)
         return res  
 

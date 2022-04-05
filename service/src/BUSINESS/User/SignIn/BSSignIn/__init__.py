@@ -29,7 +29,7 @@ def BSSignIn(input):
             
             valid = BSValidatePassword(input)[0]['valid']
             if len(user) > 0: 
-                dbstate = user[0]['state']
+                dbstate = user[0]["state"]
                 if valid and dbstate == 6: 
                     res = ProfileDto(user[0]).__dict__()
                     return res

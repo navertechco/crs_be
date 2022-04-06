@@ -24,7 +24,7 @@ emailtype = dict({
     'forgot': {
         'template': 'forgot',
         'subject': 'CRS: RECUPERACIÓN DE USUARIO',
-        'server': 'http://uiodesign.fortiddns.com:9999/User/Confirm',
+        'server': 'http://uiodesign.fortiddns.com:9999/User/Forgot',
         'code': 'confirmation'
     }
 })

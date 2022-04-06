@@ -89,6 +89,40 @@ class FindCatalog(Resource):
         return FSFindCatalog(data)
 #endregion
 #region user
+
+from src.BUSINESS.User.Forgot import FSForgot
+@api.route('/User/Forgot')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class Forgot(Resource):
+    def post(self):
+        """Método para recuperar contraseña Backend
+
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        form = RecoveryForm(request.form)
+        if  form.validate():
+            parser = reqparse.RequestParser()
+            parser.add_argument('confirmation')
+            data = parser.parse_args()
+            input = {'password':request.form['password'], 'confirmation':data['confirmation']}
+            FSForgot(input)
+        headers = {'Content-Type': 'text/html'} 
+        return make_response(render_template('success.html'),200,headers) 
+    def get(self):
+        """Método para recuperar contraseña Frontend
+
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        form = RecoveryForm(request.form)
+        parser = reqparse.RequestParser()
+        parser.add_argument('confirmation')
+        data = parser.parse_args()
+        headers = {'Content-Type': 'text/html'} 
+        return make_response(render_template('recovery.html', form=form, data=data),200,headers) 
+
+
 from src.BUSINESS.User.Confirm import FSConfirm
 @api.route('/User/Confirm')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})

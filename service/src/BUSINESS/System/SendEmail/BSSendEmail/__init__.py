@@ -5,7 +5,7 @@ except ImportError:
 from ..DSSendEmail import DSSendEmail
 from naver_core import *
 import os
-from src.INFRA.NET import Net
+# from src.INFRA.NET import Net
 
 
 emailtype = dict({
@@ -84,6 +84,9 @@ def EmailSender(data, type):
         f.close()
         email = str(data.get("email")).strip()
         subject = type.get('subject')
+        from src.INFRA.WEB.App.routes import app 
+        from naver_net import NaverNet
+        Net = NaverNet(app)
         Net.sender.sendmail(email, subject, body)
         return True
     except Exception as e:

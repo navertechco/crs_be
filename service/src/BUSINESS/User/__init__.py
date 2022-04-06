@@ -19,4 +19,5 @@ class User():
         self.Forgot = Forgot()
         self.Logout = Logout() 
         self.Reset = Reset() 
+        self.UpdateProfile = UpdateProfile() 
         self.attributes={'user_id': None , 'user_type_id': None , 'props': None }

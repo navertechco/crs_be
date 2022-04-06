@@ -3,13 +3,17 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 # from ..DSConnect import DSConnect
+try:
+    from naver_core import *
+    from naver_config import *
+    from src.INFRA.WEB.App.routes import app
+    from src.BUSINESS.System import ValidateUser, LogConnection, FindCatalog
+    from src.BUSINESS.Agent import GetExperience
+    from src.BUSINESS.User import SignUp, SignIn, Logout, Reset, UpdateProfile
+except Exception as e:
+    print(e)
+    pass
 
-from naver_core import *
-from naver_config import *
-from src.INFRA.WEB.App.routes import app
-from src.BUSINESS.System import ValidateUser, LogConnection, FindCatalog
-from src.BUSINESS.Agent import GetExperience
-from ... import SignUp, SignIn, UpdateProfile, Reset, Logout
 config = NaverConfig(app)
 
 
@@ -19,11 +23,11 @@ class BS():
         self.Logout = Logout()
         self.SignUp = SignUp()
         self.SignIn = SignIn()
-        self.UpdateProfile = UpdateProfile.UpdateProfile()
-        self.Reset = Reset.Reset()
+        self.Reset = Reset
         self.FindCatalog = FindCatalog()
         self.GetExperience = GetExperience()
         self.ValidateUser = ValidateUser()
+        self.UpdateProfile = UpdateProfile
 
 
 def BSConnect(input):

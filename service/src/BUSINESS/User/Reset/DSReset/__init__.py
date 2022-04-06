@@ -14,8 +14,11 @@ nbd = NaverDB(app,config)
 
 def DSReset(email):
     try:
-        stm = "SELECT * from entities.user where email = '"+email+"'"
         table = "USER"
+        schema = "entities"
+        stm = " SELECT *  "
+        stm += f" FROM {schema}.{table}"
+        stm += f" WHERE email = \'{email}\'" 
         res = nbd.persistence.getQuery(stm, table)
         return res  
 

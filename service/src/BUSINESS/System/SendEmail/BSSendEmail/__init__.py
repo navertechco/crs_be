@@ -11,20 +11,20 @@ from src.INFRA.NET import Net
 emailtype = dict({
     'confirmation': {
         'template': 'confirmation',
-        'subject': 'TRIVIA: REGISTRO CON CONFIRMACIÓN',
-        'server': 'http://localhost:5001/User/Confirm',
+        'subject': 'CRS: REGISTRO CON CONFIRMACIÓN',
+        'server': 'http://uiodesign.fortiddns.com:9999/User/Confirm',
         'code': 'confirmation'
     },
     'buycredits': {
         'template': 'buycredits',
-        'subject': 'TRIVIA: REGISTRO DE COMPRAS',
-        'server': 'http://localhost:5001/User/Confirm',
+        'subject': 'CRS: REGISTRO DE COMPRAS',
+        'server': 'http://uiodesign.fortiddns.com:9999/User/Confirm',
         'code': 'username'
     },
     'forgot': {
         'template': 'forgot',
-        'subject': 'TRIVIA: RECUPERACIÓN DE USUARIO',
-        'server': 'http://localhost:5001/User/Forgot',
+        'subject': 'CRS: RECUPERACIÓN DE USUARIO',
+        'server': 'http://uiodesign.fortiddns.com:9999/User/Confirm',
         'code': 'confirmation'
     }
 })

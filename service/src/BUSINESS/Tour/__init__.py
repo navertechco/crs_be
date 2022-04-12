@@ -12,3 +12,4 @@ from .ProcessDestinations import *
 from .TourEdit import *
 from .CalculateNetRate import *
 from .FindTour import *
+from .GenTour import *

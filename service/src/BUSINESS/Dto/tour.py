@@ -33,8 +33,7 @@ class TourDto():
         self.nights = self.days - 1
         self.description = customer.get("travel_code")
         self.client_id = int(customer.get("dni"))
-        self.detail = json.dumps(value)
-        self.cover_detail =  json.dumps(self.__dict__())
+        self.detail =  json.dumps(self.__dict__(), indent=4, sort_keys=True, default=str)
 
     #to DataBase
     def __dict__(self):
@@ -53,7 +52,6 @@ class TourDto():
             "nights": self.nights,
             "description": self.description,
             "client_id": self.client_id,
-            "detail": self.detail,
             "match": self.match,
             "match_type": self.match_type,
             "destinations": self.destinations,

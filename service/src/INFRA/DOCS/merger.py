@@ -15,7 +15,7 @@ DOCS = []
 
 def gen_tour_doc(data):
     header = gen_header(data)
-    gen_cover_doc(header, 'cover', 'tour_id')
+    gen_cover_doc(header, 'tour_id')
     gen_dest(data)
     # doc_compose(DOCS, 'tour_id')
     # combine_word_documents(DOCS)
@@ -34,9 +34,9 @@ def replace_word(document, key, word):
         if key in paragraph.text:
             paragraph.text = paragraph.text.replace(key, word)
 
-def gen_cover_doc(header, template, name):
-    doc_template = os.path.join(ROOT_DIR, (f"{template}.docx"))
-    doc_output = os.path.join(ROOT_DIR, (f'{template}-{name}-output.docx'))
+def gen_cover_doc(header, name): 
+    doc_template = os.path.join(ROOT_DIR, (f"cover.docx"))
+    doc_output = os.path.join(ROOT_DIR, (f'cover-{name}-output.docx'))
     document = Document(doc_template)
     replace_word(document, "NIGHTS", "9")
     replace_word(document, "DAYS", "10")
@@ -51,10 +51,7 @@ def gen_cover_doc(header, template, name):
 def gen_dest(data):
     dest_template = os.path.join(ROOT_DIR, ("dest.docx"))
     destinations = data["destinations"]
-    customer = data["customer"]
     name = 'tour_id'
-    # Create an instance of a word document
-     
     for dest_name in destinations:
         destination = destinations[dest_name]
         dest_output = MailMerge(dest_template)
@@ -68,8 +65,10 @@ def gen_dest(data):
         for day_name in days:
             day = days[day_name]
             experiences = day["experiences"]
+            meals = day["meals"]
             if day_name == '0':
                 doc.add_heading(f'Arrival', 1)
+                meals = 'D/O'
             else:
                 doc.add_heading(f'Day {day_name}', 1)
             doc.add_heading(f'Experiences', 2)
@@ -79,15 +78,24 @@ def gen_dest(data):
                 font = run.font
                 font.name = 'Calibri'
                 font.size = Pt(12)
-                run = doc.add_paragraph(experience["description"]).add_run()
+                run = doc.add_paragraph(experience["description"].split('.')[1:]).add_run()
                 font = run.font
                 font.name = 'Calibri'
                 font.size = Pt(12)
                 image = os.path.join(ROOT_DIR, (f'image.png'))
                 doc.add_picture(image, width=Inches(4), height=Inches(4))
-                if i+1 < len(experiences):
+                if i < len(experiences)-1:
                     next = list(experiences)[i+1]
-                    run = doc.add_paragraph(f"Next we going to, {experiences[next]['description']}").add_run()
+                    run = doc.add_paragraph(f"Next we're going to get, {experiences[next]['description'].split('.')[0]}").add_run()
+                    font = run.font
+                    font.name = 'Calibri'
+                    font.size = Pt(12)
+                else:
+                    run = doc.add_paragraph(f"Next we're going back to hotel to rest and take a meal\n").add_run()
+                    font = run.font
+                    font.name = 'Calibri'
+                    font.size = Pt(12)
+                    run = doc.add_paragraph(f"{meals}").add_run()
                     font = run.font
                     font.name = 'Calibri'
                     font.size = Pt(12)

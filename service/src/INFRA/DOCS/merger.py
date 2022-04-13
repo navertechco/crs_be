@@ -5,8 +5,8 @@ from docx import Document
 from docxcompose.composer import Composer
 from docx.shared import Inches
 from docx.shared import Pt
-
-
+from datetime import datetime
+from docx2pdf import convert
 
 ROOT_DIR = os.path.dirname(__file__)
 DATA_PATH = os.path.join(ROOT_DIR, ('data.json'))
@@ -15,10 +15,10 @@ DOCS = []
 
 def gen_tour_doc(data):
     header = gen_header(data)
-    gen_cover_doc(header, 'tour_id')
-    gen_dest(data)
-    # doc_compose(DOCS, 'tour_id')
-    # combine_word_documents(DOCS)
+    travel_code = header.get('travel_code')
+    gen_cover_doc(header, travel_code)
+    gen_dest(data, travel_code)
+    doc_compose(DOCS, travel_code)
 
 
 def gen_header(data):
@@ -35,33 +35,43 @@ def replace_word(document, key, word):
             paragraph.text = paragraph.text.replace(key, word)
 
 def gen_cover_doc(header, name): 
+    passengers = header.get('passengers')
+    arrival_date = header.get('arrival_date')
+    departure_date = header.get('departure_date')
+    names = header.get('names').upper()
+    last_names = header.get('last_names').upper()
+    until_date = header.get('until_date')
+    arrival = datetime.strptime(arrival_date, '%Y-%m-%d %H:%M:%S')
+    departure = datetime.strptime(departure_date, '%Y-%m-%d %H:%M:%S')
+    until = datetime.strptime(until_date, '%Y-%m-%d %H:%M:%S.%f')
+    days = (departure - arrival).days
+    nights = days - 1
+    customer = f"{names} {last_names}"
+    print(header)
     doc_template = os.path.join(ROOT_DIR, (f"cover.docx"))
-    doc_output = os.path.join(ROOT_DIR, (f'cover-{name}-output.docx'))
+    doc_output = os.path.join(ROOT_DIR, (f'cover-{name}.docx'))
     document = Document(doc_template)
-    replace_word(document, "NIGHTS", "9")
-    replace_word(document, "DAYS", "10")
-    replace_word(document, "CUSTOMER", "CUSTOMER NAME TEST")
-    replace_word(document, "LEGAL_NAME", "CUSTOMER NAME TEST")
-    replace_word(document, "PAX", "10")
-    replace_word(document, "VALID", "12-31-2022")
+    replace_word(document, "NIGHTS", f"{nights}")
+    replace_word(document, "DAYS", f"{days}")
+    replace_word(document, "CUSTOMER", f"{customer.upper()}")
+    replace_word(document, "LEGAL_NAME", f"{customer.upper()}")
+    replace_word(document, "PAX", f"{passengers}")
+    replace_word(document, "VALID", f'{until.strftime("%Y-%m-%d")}')
     document.save(doc_output)
     DOCS.append(doc_output)
 
 
-def gen_dest(data):
+def gen_dest(data, name):
     dest_template = os.path.join(ROOT_DIR, ("dest.docx"))
     destinations = data["destinations"]
-    name = 'tour_id'
     for dest_name in destinations:
         destination = destinations[dest_name]
-        dest_output = MailMerge(dest_template)
         doc = Document()
-        run = doc.add_heading(f'{dest_name.capitalize()}', 0).add_run()
+        run = doc.add_heading(f'{dest_name.upper()}', 0).add_run()
         font = run.font
         font.name = 'Calibri'
         font.size = Pt(12)
         days = destination["daysData"]
-        dest_output.merge_pages(days.values())
         for day_name in days:
             day = days[day_name]
             experiences = day["experiences"]
@@ -102,13 +112,14 @@ def gen_dest(data):
                 # else:
                 #     doc.add_paragraph(f"Next we going to departure to Home", style='Intense Quote')
                 doc.add_page_break()
-        output = os.path.join(ROOT_DIR, (f'{dest_name}-{name}-output.docx'))
+        output = os.path.join(ROOT_DIR, (f'{dest_name}-{name}.docx'))
         doc.save(output)
         DOCS.append(output)
 
 
 def doc_compose(files, name):
-    composed = os.path.join(ROOT_DIR, (f'{name}-output.docx'))
+    composed = os.path.join(ROOT_DIR, (f'{name}.docx'))
+    pdf = os.path.join(ROOT_DIR, (f'{name}.pdf'))
     empty = os.path.join(ROOT_DIR, (f'empty.docx'))
     new_document = Document(empty)
     composer = Composer(new_document)
@@ -118,18 +129,8 @@ def doc_compose(files, name):
             doc.add_page_break()
         composer.append(doc)
     composer.save(composed)
-
-
-def combine_word_documents(files):
-    cover = Document(files[0])
-    new = os.path.join(ROOT_DIR, (f'new.docx'))
-    for sub_doc in range(1, len(files)):
-        sub_doc = Document(files[sub_doc])
-        for element in sub_doc.element.body:
-            cover.element.body.append(element)
-        cover.add_page_break()
-    cover.save(new)
-
+    convert(composed, pdf)
+ 
 
 if __name__ == '__main__':
     G = open(DATA_PATH, 'r', encoding="utf8")

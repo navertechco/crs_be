@@ -1,6 +1,5 @@
 import json
 import os
-from mailmerge import MailMerge
 from docx import Document
 from docxcompose.composer import Composer
 from docx.shared import Inches
@@ -8,8 +7,10 @@ from docx.shared import Pt
 from datetime import datetime
 from docx2pdf import convert
 
-ROOT_DIR = os.path.dirname(__file__)
-DATA_PATH = os.path.join(ROOT_DIR, ('data.json'))
+FILE_DIR = os.path.dirname(__file__)
+ROOT_DIR = os.path.dirname(FILE_DIR)
+DOC_DIR = os.path.join(ROOT_DIR, ('WEB\\static\\docs'))
+DATA_PATH = os.path.join(FILE_DIR, ('data.json'))
 DOCS = []
 
 
@@ -48,8 +49,8 @@ def gen_cover_doc(header, name):
     nights = days - 1
     customer = f"{names} {last_names}"
     print(header)
-    doc_template = os.path.join(ROOT_DIR, (f"cover.docx"))
-    doc_output = os.path.join(ROOT_DIR, (f'cover-{name}.docx'))
+    doc_template = os.path.join(FILE_DIR, (f"cover.docx"))
+    doc_output = os.path.join(FILE_DIR, (f'cover-{name}.docx'))
     document = Document(doc_template)
     replace_word(document, "NIGHTS", f"{nights}")
     replace_word(document, "DAYS", f"{days}")
@@ -62,7 +63,7 @@ def gen_cover_doc(header, name):
 
 
 def gen_dest(data, name):
-    dest_template = os.path.join(ROOT_DIR, ("dest.docx"))
+    dest_template = os.path.join(FILE_DIR, ("dest.docx"))
     destinations = data["destinations"]
     for dest_name in destinations:
         destination = destinations[dest_name]
@@ -92,7 +93,7 @@ def gen_dest(data, name):
                 font = run.font
                 font.name = 'Calibri'
                 font.size = Pt(12)
-                image = os.path.join(ROOT_DIR, (f'image.png'))
+                image = os.path.join(FILE_DIR, (f'image.png'))
                 doc.add_picture(image, width=Inches(4), height=Inches(4))
                 if i < len(experiences)-1:
                     next = list(experiences)[i+1]
@@ -112,16 +113,15 @@ def gen_dest(data, name):
                 # else:
                 #     doc.add_paragraph(f"Next we going to departure to Home", style='Intense Quote')
                 doc.add_page_break()
-        output = os.path.join(ROOT_DIR, (f'{dest_name}-{name}.docx'))
+        output = os.path.join(FILE_DIR, (f'{dest_name}-{name}.docx'))
         doc.save(output)
         DOCS.append(output)
 
 
 def doc_compose(files, name):
-    composed = os.path.join(ROOT_DIR, (f'{name}.docx'))
-    pdf = os.path.join(ROOT_DIR, (f'{name}.pdf'))
-    empty = os.path.join(ROOT_DIR, (f'empty.docx'))
-    new_document = Document(empty)
+    composed = os.path.join(DOC_DIR, (f'{name}.docx'))
+    pdf = os.path.join(DOC_DIR, (f'{name}.pdf'))
+    new_document = Document()
     composer = Composer(new_document)
     for i in range(0, len(files)):
         doc = Document(files[i])

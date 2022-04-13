@@ -15,15 +15,14 @@ class CreateCatalog(Resource):
         input = request.get_json(force=True)
         return FSCreateCatalog(input)
 
-@app.route('/pdf.html', methods=['GET'])
-def view_pdf():
+@app.route('/<ext>.html', methods=['GET'])
+def view_pdf(ext):
     doc = request.args.get("doc")
-    return render_template('pdf.html',  doc=doc)
-
-@app.route('/docx.html', methods=['GET'])
-def view_docx():
-    doc = request.args.get("doc")
-    return render_template('docx.html',  doc=doc)
+    if doc is None:
+        doc = "example"
+    template = f"{ext}.html"        
+    return render_template(template,  doc=doc)
+ 
 
 @app.route('/gallery.html', methods=['GET'])
 def view_gallery():
@@ -267,6 +266,13 @@ class NewTour(Resource):
         """
         data = request.get_json(force=True)
         return FSNewTour(data) 
+    
+from src.BUSINESS.Tour.NewId import FSNewId
+@api.route('/Tour/NewId')
+@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+class NewId(Resource):
+    def post(self): 
+        return FSNewId() 
     
 from src.BUSINESS.Tour.ProcessTour import FSProcessTour
 @api.route('/Tour/ProcessTour')

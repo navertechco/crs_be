@@ -65,7 +65,7 @@ def gen_cover_doc(header, name):
 def gen_dest(data, name):
     dest_template = os.path.join(FILE_DIR, ("dest.docx"))
     destinations = data["destinations"]
-    for dest_name in destinations:
+    for dest_id, dest_name in enumerate(destinations):
         destination = destinations[dest_name]
         doc = Document()
         run = doc.add_heading(f'{dest_name.upper()}', 0).add_run()
@@ -73,13 +73,19 @@ def gen_dest(data, name):
         font.name = 'Calibri'
         font.size = Pt(12)
         days = destination["daysData"]
-        for day_name in days:
+        for day_id, day_name in enumerate(days):
             day = days[day_name]
             experiences = day["experiences"]
             meals = day["meals"]
+            type = "Tour"
             if day_name == '0':
-                doc.add_heading(f'Arrival', 1)
+                type = "Arrival"
+                doc.add_heading(f'{type}', 1)
                 meals = 'D/O'
+            elif day_id == len(days)-1 and dest_id == len(destinations)-1:
+                type = "Departure"
+                doc.add_heading(f'{type}', 1)
+                meals = 'B/L'
             else:
                 doc.add_heading(f'Day {day_name}', 1)
             doc.add_heading(f'Experiences', 2)
@@ -102,7 +108,10 @@ def gen_dest(data, name):
                     font.name = 'Calibri'
                     font.size = Pt(12)
                 else:
-                    run = doc.add_paragraph(f"Next we're going back to hotel to rest and take a meal\n").add_run()
+                    if type == "Departure":
+                        run = doc.add_paragraph(f"Take any photos to go back to Home").add_run()
+                    else:
+                        run = doc.add_paragraph(f"Next we're going back to hotel to rest and take a meal\n").add_run()
                     font = run.font
                     font.name = 'Calibri'
                     font.size = Pt(12)

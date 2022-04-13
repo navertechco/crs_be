@@ -5,6 +5,7 @@ except ImportError:
 
 from .NewMatch import *
 from .NewTour import *
+from .NewId import *
 from .ProcessTour import *
 from .PromoteTour import *
 from .UpdateTour import *

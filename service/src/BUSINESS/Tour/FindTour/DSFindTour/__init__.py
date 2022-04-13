@@ -29,7 +29,7 @@ def DSFindTour(input):
         tour_id = getValue(input, 'tour_id')
         table = "TOUR"
         schema = "entities"
-        stm = " SELECT c.contact_name as name, c.client_dni as DNI, t.tour_id as quote, to_char(t.created, 'DD-MM-YYYY')  as date  "
+        stm = " SELECT c.contact_name as name, t.description as travel_code , t.tour_id as quote, to_char(t.created, 'DD-MM-YYYY')  as date  "
         stm += f" FROM {schema}.{table} t"
         stm += f" JOIN {schema}.client c  "
         stm += "  ON t.client_id = c.client_dni"

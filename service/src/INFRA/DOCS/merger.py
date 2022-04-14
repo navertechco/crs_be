@@ -10,8 +10,8 @@ from docx2pdf import convert
 FILE_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.dirname(FILE_DIR)
 DOC_DIR = os.path.join(ROOT_DIR, ("web\\static\\docs"))
-DATA_PATH = os.path.join(FILE_DIR, ("data.json"))
-docs = []
+TMP_DIR = os.path.join(FILE_DIR, (f"tmp\\"))
+DOCS = []
 
 
 def gen_tour_doc(data):
@@ -19,14 +19,14 @@ def gen_tour_doc(data):
     travel_code = header.get("travel_code")
     gen_cover_doc(header, travel_code)
     gen_dest(data, travel_code)
-    doc_compose(docs, travel_code)
+    doc_compose(DOCS, travel_code)
 
 
 def gen_header(data):
     # HEADER
-    customer_data = data["customer"]
-    tour_data = data["tour"]
-    logistic_data = data["logistic"]
+    customer_data = data.get("customer")
+    tour_data = data.get("tour")
+    logistic_data = data.get("logistic")
     header = {**customer_data, **tour_data, **logistic_data}
     return header
 
@@ -52,7 +52,7 @@ def gen_cover_doc(header, name):
     customer = f"{names} {last_names}"
     print(header)
     doc_template = os.path.join(FILE_DIR, (f"cover.docx"))
-    doc_output = os.path.join(FILE_DIR, (f"cover-{name}.docx"))
+    doc_output = os.path.join(TMP_DIR, (f"cover-{name}.docx"))
     document = Document(doc_template)
     replace_word(document, "NIGHTS", f"{nights}")
     replace_word(document, "DAYS", f"{days}")
@@ -61,12 +61,11 @@ def gen_cover_doc(header, name):
     replace_word(document, "PAX", f"{passengers}")
     replace_word(document, "VALID", f'{until.strftime("%Y-%m-%d")}')
     document.save(doc_output)
-    docs.append(doc_output)
+    DOCS.append(doc_output)
 
 
 def gen_dest(data, name):
-    dest_template = os.path.join(FILE_DIR, ("dest.docx"))
-    destinations = data["destinations"]
+    destinations = data.get("destinations")
     for dest_id, dest_name in enumerate(destinations):
         destination = destinations[dest_name]
         doc = Document()
@@ -74,11 +73,11 @@ def gen_dest(data, name):
         font = run.font
         font.name = "Calibri"
         font.size = Pt(12)
-        days = destination["daysData"]
+        days = destination.get("daysData")
         for day_id, day_name in enumerate(days):
             day = days[day_name]
-            experiences = day["experiences"]
-            meals = day["meals"]
+            experiences = day.get("experiences")
+            meals = day.get("meals")
             type = "Tour"
             if day_name == "0":
                 type = "Arrival"
@@ -98,7 +97,7 @@ def gen_dest(data, name):
                 font.name = "Calibri"
                 font.size = Pt(12)
                 run = doc.add_paragraph(
-                    experience["description"].split(".")[1:]
+                    experience.get("description").split(".")[1:]
                 ).add_run()
                 font = run.font
                 font.name = "Calibri"
@@ -132,26 +131,44 @@ def gen_dest(data, name):
                 # else:
                 #     doc.add_paragraph(f"Next we going to departure to Home", style='Intense Quote')
                 doc.add_page_break()
-        output = os.path.join(FILE_DIR, (f"{dest_name}-{name}.docx"))
+        output = os.path.join(TMP_DIR, (f"{dest_name}-{name}.docx"))
         doc.save(output)
-        docs.append(output)
+        DOCS.append(output)
 
 
 def doc_compose(files, name):
-    composed = os.path.join(DOC_DIR, (f"{name}.docx"))
-    pdf = os.path.join(DOC_DIR, (f"{name}.pdf"))
-    new_document = Document()
-    composer = Composer(new_document)
-    for i in range(0, len(files)):
-        doc = Document(files[i])
-        if i != len(files) - 1:
-            doc.add_page_break()
-        composer.append(doc)
-    composer.save(composed)
-    convert(composed, pdf)
+    try:
+        composed = os.path.join(DOC_DIR, (f"{name}.docx"))
+        pdf = os.path.join(DOC_DIR, (f"{name}.pdf"))
+        new_document = Document()
+        composer = Composer(new_document)
+        for i in range(0, len(files)):
+            doc = Document(files[i])
+            if i != len(files) - 1:
+                doc.add_page_break()
+            composer.append(doc)
+        composer.save(composed)
+        convert(composed, pdf)
+    except Exception as e:
+        print(e)
+        pass
+    
 
+
+def empty_tmp():
+    from pathlib import Path
+
+    for f in Path(TMP_DIR).glob('*.*'):
+        try:
+            f.unlink()
+        except OSError as e:
+            print("Error: %s : %s" % (f, e.strerror))
 
 if __name__ == "__main__":
-    G = open(DATA_PATH, "r", encoding="utf8")
-    data = json.load(G)
+    empty_tmp()
+    DATA_PATH = os.path.join(FILE_DIR, ("data.json"))
+    test_data = open(DATA_PATH, "r", encoding="utf8")
+    data = json.load(test_data)
     gen_tour_doc(data)
+    empty_tmp()
+    

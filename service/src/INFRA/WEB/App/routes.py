@@ -1,11 +1,19 @@
 """routes module."""
 from .libs import *
- 
-    
-#region admin
+
+
+# region admin
 from src.business.Admin.CreateCatalog import FSCreateCatalog
-@api.route('/Admin/CreateCatalog')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Admin/CreateCatalog")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class CreateCatalog(Resource):
     def post(self):
         """Método para crear catalogo
@@ -15,42 +23,50 @@ class CreateCatalog(Resource):
         input = request.get_json(force=True)
         return FSCreateCatalog(input)
 
-@app.route('/<ext>.html', methods=['GET'])
+
+@app.route("/<ext>.html", methods=["GET"])
 def view_pdf(ext):
     doc = request.args.get("doc")
     if doc is None:
         doc = "example"
-    template = f"{ext}.html"        
-    return render_template(template,  doc=doc)
- 
+    template = f"{ext}.html"
+    return render_template(template, doc=doc)
 
-@app.route('/gallery.html', methods=['GET'])
+
+@app.route("/video.html", methods=["GET"])
+def view_video():
+    template = f"video.html"
+    return render_template(template)
+
+
+@app.route("/gallery.html", methods=["GET"])
 def view_gallery():
     doc = request.args.get("doc")
-    return render_template('gallery.html',  doc=doc)
-    
-@app.route('/Admin/UploadCatalog', methods=['GET', 'POST'])
+    return render_template("gallery.html", doc=doc)
+
+
+@app.route("/Admin/UploadCatalog", methods=["GET", "POST"])
 def upload_file():
-    if request.method == 'POST':
+    if request.method == "POST":
         # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
+        if "file" not in request.files:
+            flash("No file part")
             return redirect(request.url)
-        file = request.files['file']
+        file = request.files["file"]
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
+        if file.filename == "":
+            flash("No selected file")
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             input = request.get_json(force=True)
-            res =  FSCreateCatalog(input)
-            return render_template('empty.html')
-         
+            res = FSCreateCatalog(input)
+            return render_template("empty.html")
+
     # return render_template('upload.html')
-    return '''
+    return """
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
@@ -58,13 +74,23 @@ def upload_file():
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
-    '''
-#endregion
- 
-#region process
+    """
+
+
+# endregion
+
+# region process
 from src.business.System.ProcessOptions import FSProcessOptions
-@api.route('/System/ProcessOptions')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/System/ProcessOptions")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class ProcessOptions(Resource):
     def post(self):
         """Método para procesar opciones de inclusión
@@ -73,11 +99,21 @@ class ProcessOptions(Resource):
         """
         data = request.get_json(force=True)
         return FSProcessOptions(data)
-#endregion
-#region catalog
+
+
+# endregion
+# region catalog
 from src.business.System.FindCatalog import FSFindCatalog
-@api.route('/System/FindCatalog')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/System/FindCatalog")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class FindCatalog(Resource):
     def post(self):
         """Método para mostrar catálogos
@@ -86,12 +122,22 @@ class FindCatalog(Resource):
         """
         data = request.get_json(force=True)
         return FSFindCatalog(data)
-#endregion
-#region user
+
+
+# endregion
+# region user
 
 from src.business.User.Forgot import FSForgot
-@api.route('/User/Forgot')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/User/Forgot")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class Forgot(Resource):
     def post(self):
         """Método para recuperar contraseña Backend
@@ -100,14 +146,18 @@ class Forgot(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         form = RecoveryForm(request.form)
-        if  form.validate():
+        if form.validate():
             parser = reqparse.RequestParser()
-            parser.add_argument('confirmation')
+            parser.add_argument("confirmation")
             data = parser.parse_args()
-            input = {'password':request.form['password'], 'confirmation':data['confirmation']}
+            input = {
+                "password": request.form["password"],
+                "confirmation": data["confirmation"],
+            }
             FSForgot(input)
-        headers = {'Content-Type': 'text/html'} 
-        return make_response(render_template('success.html'),200,headers) 
+        headers = {"Content-Type": "text/html"}
+        return make_response(render_template("success.html"), 200, headers)
+
     def get(self):
         """Método para recuperar contraseña Frontend
 
@@ -116,15 +166,25 @@ class Forgot(Resource):
         """
         form = RecoveryForm(request.form)
         parser = reqparse.RequestParser()
-        parser.add_argument('confirmation')
+        parser.add_argument("confirmation")
         data = parser.parse_args()
-        headers = {'Content-Type': 'text/html'} 
-        return make_response(render_template('recovery.html', form=form, data=data),200,headers) 
+        headers = {"Content-Type": "text/html"}
+        return make_response(
+            render_template("recovery.html", form=form, data=data), 200, headers
+        )
 
 
 from src.business.User.Confirm import FSConfirm
-@api.route('/User/Confirm')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/User/Confirm")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class Confirm(Resource):
     def get(self):
         """Método para Confirmar un usuario
@@ -132,13 +192,22 @@ class Confirm(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         parser = reqparse.RequestParser()
-        parser.add_argument('confirmation')
+        parser.add_argument("confirmation")
         data = parser.parse_args()
         return FSConfirm(data)
-    
+
+
 from src.business.User.Connect import FSConnect
-@api.route('/User/Connect')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/User/Connect")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class Connect(Resource):
     def head(self):
         """Método Inicial para conectar un usuario
@@ -146,7 +215,8 @@ class Connect(Resource):
             header: {"state":True/False, "data":salt}
         """
         res = FSConnect(None)
-        return True, 201, {'token': removeBytePrefix(str(res))}
+        return True, 201, {"token": removeBytePrefix(str(res))}
+
     # @encrypted
     def post(self):
         """Método para conectar un usuario
@@ -156,15 +226,23 @@ class Connect(Resource):
         try:
             data = request.get_json(force=True)
             # return FSConnect(decryptdata())
-            return FSConnect(data) 
+            return FSConnect(data)
         except Exception as e:
             print(e)
-            return ErrorResponse(e) 
-        
-     
+            return ErrorResponse(e)
+
+
 from src.business.User.Logout import FSLogout
-@api.route('/User/Logout')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/User/Logout")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class Logout(Resource):
     def post(self):
         """Método para salir de session
@@ -172,32 +250,50 @@ class Logout(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSLogout(data) 
-#endregion
-#region Client
+        return FSLogout(data)
+
+
+# endregion
+# region Client
 from src.business.Client.PlayTour import FSPlayTour
 import binascii
- 
-@api.route('/Client/PlayTour/<slug>')
-@api.param('slug', 'video playlist')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Client/PlayTour/<slug>")
+@api.param("slug", "video playlist")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class PlayTour(Resource):
     def get(self, slug):
         """Método para reproducir un tour
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
-        """ 
-        headers = {'Content-Type': 'text/html'} 
-        res = FSPlayTour(slug)     
+        """
+        headers = {"Content-Type": "text/html"}
+        res = FSPlayTour(slug)
         if res is None:
-            return make_response(render_template('empty.html'),200,headers)  
-        # data = json.dumps(res) 
+            return make_response(render_template("empty.html"), 200, headers)
+        # data = json.dumps(res)
         # hash = binascii.hexlify(data.encode('utf-8'))
-        return make_response(render_template('playlist.html',  data=res),200,headers) 
-    
+        return make_response(render_template("playlist.html", data=res), 200, headers)
+
+
 from src.business.Client.ClientEdit import FSClientEdit
-@api.route('/Client/Edit')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Client/Edit")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class ClientEdit(Resource):
     def post(self):
         """Método para Editar un cliente
@@ -205,47 +301,85 @@ class ClientEdit(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSClientEdit(data) 
-#endregion
-#region Tour
+        return FSClientEdit(data)
+
+
+# endregion
+# region Tour
 from src.business.Tour.FindTour import FSFindTour
-@api.route('/Tour/FindTour')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Tour/FindTour")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class FindTour(Resource):
-    def post(self): 
+    def post(self):
         """_summary_
         Returns:
             _type_: _description_
         """
         input = request.get_json(force=True)
-        return FSFindTour(input) 
+        return FSFindTour(input)
+
 
 from src.business.Tour.GenTour import FSGenTour
-@api.route('/Tour/GenTour')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Tour/GenTour")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class GenTour(Resource):
-    def post(self): 
+    def post(self):
         """_summary_
         Returns:
             _type_: _description_
         """
         input = request.get_json(force=True)
-        return FSGenTour(input) 
-       
+        return FSGenTour(input)
+
+
 from src.business.Tour.CalculateNetRate import FSCalculateNetRate
-@api.route('/Tour/CalculateNetRate')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Tour/CalculateNetRate")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class CalculateNetRate(Resource):
-    def post(self): 
+    def post(self):
         """_summary_
         Returns:
             _type_: _description_
         """
         input = request.get_json(force=True)
-        return FSCalculateNetRate(input) 
+        return FSCalculateNetRate(input)
+
+
 from src.business.Tour.TourEdit import FSTourEdit
-@api.route('/Tour/Edit')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Tour/Edit")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class TourEdit(Resource):
     def post(self):
         """Método para Editar un Presupuesto
@@ -253,11 +387,20 @@ class TourEdit(Resource):
             json: {"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         input = request.get_json(force=True)
-        return FSTourEdit(input) 
-    
+        return FSTourEdit(input)
+
+
 from src.business.Tour.NewTour import FSNewTour
-@api.route('/Tour/NewTour')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Tour/NewTour")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class NewTour(Resource):
     def post(self):
         """Método para salir de session
@@ -265,18 +408,36 @@ class NewTour(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSNewTour(data) 
-    
+        return FSNewTour(data)
+
+
 from src.business.Tour.NewId import FSNewId
-@api.route('/Tour/NewId')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Tour/NewId")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class NewId(Resource):
-    def post(self): 
-        return FSNewId() 
-    
+    def post(self):
+        return FSNewId()
+
+
 from src.business.Tour.ProcessTour import FSProcessTour
-@api.route('/Tour/ProcessTour')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Tour/ProcessTour")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class ProcessTour(Resource):
     def post(self):
         """Método para salir de session
@@ -284,10 +445,20 @@ class ProcessTour(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSProcessTour(data) 
+        return FSProcessTour(data)
+
+
 from src.business.Tour.PromoteTour import FSPromoteTour
-@api.route('/Tour/PromoteTour')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Tour/PromoteTour")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class PromoteTour(Resource):
     def post(self):
         """Método para salir de session
@@ -295,11 +466,20 @@ class PromoteTour(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSPromoteTour(data) 
-    
+        return FSPromoteTour(data)
+
+
 from src.business.Tour.UpdateTour import FSUpdateTour
-@api.route('/Tour/UpdateTour')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Tour/UpdateTour")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class UpdateTour(Resource):
     def post(self):
         """Método para salir de session
@@ -307,12 +487,22 @@ class UpdateTour(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSUpdateTour(data) 
-#endregion
-#region File
+        return FSUpdateTour(data)
+
+
+# endregion
+# region File
 from src.business.File.MakeEmail import FSMakeEmail
-@api.route('/Email/MakeEmail')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Email/MakeEmail")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class MakeEmail(Resource):
     def post(self):
         """Método para salir de session
@@ -320,10 +510,20 @@ class MakeEmail(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSMakeEmail(data) 
+        return FSMakeEmail(data)
+
+
 from src.business.File.MakePdf import FSMakePdf
-@api.route('/Email/MakePdf')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Email/MakePdf")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class MakePdf(Resource):
     def post(self):
         """Método para salir de session
@@ -331,11 +531,20 @@ class MakePdf(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSMakePdf(data) 
-    
+        return FSMakePdf(data)
+
+
 from src.business.File.MakePlaylist import FSMakePlaylist
-@api.route('/Email/MakePlaylist')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Email/MakePlaylist")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class MakePlaylist(Resource):
     def post(self):
         """Método para salir de session
@@ -343,13 +552,23 @@ class MakePlaylist(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSMakePlaylist(data) 
-#endregion
- 
-#region Agent
+        return FSMakePlaylist(data)
+
+
+# endregion
+
+# region Agent
 from src.business.Agent.Start import FSStart
-@api.route('/Agent/Start')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Agent/Start")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class Start(Resource):
     def head(self):
         """Método Inicial para conectar un usuario
@@ -357,7 +576,8 @@ class Start(Resource):
             header: {"state":True/False, "data":salt}
         """
         res = FSStart(None)
-        return True, 201, {'token': removeBytePrefix(str(res))}
+        return True, 201, {"token": removeBytePrefix(str(res))}
+
     # @encrypted
     def post(self):
         """Método para conectar un usuario
@@ -367,9 +587,19 @@ class Start(Resource):
         data = request.get_json(force=True)
         # return FSStart(decryptdata())
         return FSStart(data)
+
+
 from src.business.Agent.GetExperience import FSGetExperience
-@api.route('/Agent/GetExperience')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Agent/GetExperience")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class GetExperience(Resource):
     # @encrypted
     def post(self):
@@ -379,10 +609,20 @@ class GetExperience(Resource):
         """
         data = request.get_json(force=True)
         # return FSGetExperience(decryptdata())
-        return FSGetExperience(data)    
+        return FSGetExperience(data)
+
+
 from src.business.Agent.GetDestination import FSGetDestination
-@api.route('/Agent/GetDestination')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Agent/GetDestination")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class GetDestination(Resource):
     # @encrypted
     def post(self):
@@ -392,11 +632,20 @@ class GetDestination(Resource):
         """
         data = request.get_json(force=True)
         # return FSGetDestination(decryptdata())
-        return FSGetDestination(data)    
-    
+        return FSGetDestination(data)
+
+
 from src.business.Agent.Query import FSQuery
-@api.route('/Agent/Query')
-@api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
+
+
+@api.route("/Agent/Query")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
 class Query(Resource):
     # @encrypted
     def post(self):
@@ -406,5 +655,7 @@ class Query(Resource):
         """
         data = request.get_json(force=True)
         # return FSQuery(decryptdata())
-        return FSQuery(data) 
-#endregion6
+        return FSQuery(data)
+
+
+# endregion6

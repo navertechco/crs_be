@@ -4,20 +4,20 @@ import json
 from naver_core import *
 
 
-class TourDto():
+class TourDto:
     def __init__(self, value):
-        #from Frontend
-        tour = value.get('tour') or None
-        logistic = value.get('logistic') or None
-        customer = value.get('customer') or None 
-        promoted = value.get('promoted') or None
-        destinations = value.get('destinations') or None
-        day = promoted.get('day') or None
+        # from Frontend
+        tour = value.get("tour") or None
+        logistic = value.get("logistic") or None
+        customer = value.get("customer") or None
+        promoted = value.get("promoted") or None
+        destinations = value.get("destinations") or None
+        day = promoted.get("day") or None
 
-        #to DataBase
+        # to DataBase
         self.tour_id = tour.get("tour_id")
         self.created = tour.get("created")
-        self.updated = tour.get("updated") 
+        self.updated = tour.get("updated")
         self.match = tour.get("match")
         self.match_type = tour.get("match_type")
         self.destinations = json.dumps(destinations)
@@ -33,13 +33,11 @@ class TourDto():
         self.nights = self.days - 1
         self.description = customer.get("travel_code")
         self.client_id = int(customer.get("dni"))
-        self.detail =  json.dumps(self.__dict__(), indent=4, sort_keys=True, default=str)
+        self.detail = json.dumps(self.__dict__(), indent=4, sort_keys=True, default=str)
 
-    #to DataBase
+    # to DataBase
     def __dict__(self):
         return {
-
- 
             "valid": self.valid,
             "destination_country_id": self.destination_country_id,
             "purpose_id": self.purpose_id,
@@ -55,16 +53,14 @@ class TourDto():
             "match": self.match,
             "match_type": self.match_type,
             "destinations": self.destinations,
-            
-
         }
 
-    #from DataBase
-    def getAllDict(self):
+    # from DataBase
+    def __dict__(self):
         return {
             "tour_id": self.tour_id,
             "created": self.created,
-            "updated": self.updated, 
+            "updated": self.updated,
             "valid": self.valid,
             "destination_country_id": self.destination_country_id,
             "purpose_id": self.purpose_id,
@@ -82,5 +78,4 @@ class TourDto():
             "match": self.match,
             "match_type": self.match_type,
             "destinations": self.destinations,
-
         }

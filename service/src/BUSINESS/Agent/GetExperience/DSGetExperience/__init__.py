@@ -1,9 +1,9 @@
 try:
-    __import__('pkg_resources').declare_namespace(__name__)
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from src.BUSINESS.Dto import ClientDto
-from src.INFRA.WEB.App.routes import app
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
+from src.business.Dto import ClientDto
+from src.infra.web.app.routes import app
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
@@ -15,18 +15,23 @@ nbd = NaverDB(app, config)
 def DSGetExperience(input):
     try:
         table = "EXPERIENCE"
-        destination, experience, key_activities, travel_rhtythms, destination_option = input.get(
-            "data").values()
-        if isinstance(destination, str) and destination !="":
+        (
+            destination,
+            experience,
+            key_activities,
+            travel_rhtythms,
+            destination_option,
+        ) = input.get("data").values()
+        if isinstance(destination, str) and destination != "":
             destination = [destination]
-        if isinstance(destination, list) and len(destination) == 0 :
+        if isinstance(destination, list) and len(destination) == 0:
             destination = None
-            
-        if isinstance(experience, str) and experience !="":
+
+        if isinstance(experience, str) and experience != "":
             experience = [experience]
-        if isinstance(experience, list) and len(experience) == 0 :
+        if isinstance(experience, list) and len(experience) == 0:
             experience = None
-            
+
         stm_ka = ""
         if len(key_activities) > 0:
             stm_ka = f" and (e.key_activity_id   ) in {str(tuple(key_activities)).replace(',)',')')}"
@@ -35,15 +40,15 @@ def DSGetExperience(input):
         if len(travel_rhtythms) > 0:
             stm_tr = f" and (e.travel_ritm_id ) in {str(tuple(travel_rhtythms)).replace(',)',')')}"
         stm_to = ""
-        if (destination_option != None) :
-            stm_to = f" and (e.destination_option_id ) =\'{destination_option}\'"
-        stm_dest=""
-        if (destination != None) :
-            stm_dest = f" and (d.destination_title in {str(tuple(destination)).replace(',)',')').upper()} "   
-        stm_exp=""
-        if (experience != None) :
-            stm_exp = f" and e.experience_title like upper('%{experience}%')) "   
-                 
+        if destination_option != None:
+            stm_to = f" and (e.destination_option_id ) ='{destination_option}'"
+        stm_dest = ""
+        if destination != None:
+            stm_dest = f" and (d.destination_title in {str(tuple(destination)).replace(',)',')').upper()} "
+        stm_exp = ""
+        if experience != None:
+            stm_exp = f" and e.experience_title like upper('%{experience}%')) "
+
         order = """ order by e."order" """
         select = "select distinct"
         columns = """
@@ -61,7 +66,17 @@ def DSGetExperience(input):
                             on e.destination_id =d.destination_id 
                             where true
         """
-        stm =  select+columns+body+stm_ka+stm_tr+stm_to+stm_dest+stm_exp+order
+        stm = (
+            select
+            + columns
+            + body
+            + stm_ka
+            + stm_tr
+            + stm_to
+            + stm_dest
+            + stm_exp
+            + order
+        )
         res = nbd.persistence.getQuery(stm, table)
         return res
     except Exception as e:

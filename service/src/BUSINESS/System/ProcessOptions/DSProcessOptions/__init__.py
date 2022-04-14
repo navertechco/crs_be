@@ -1,16 +1,17 @@
-try: 
-    __import__('pkg_resources').declare_namespace(__name__)
+try:
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.INFRA.WEB.App.routes import app 
+from src.infra.web.app.routes import app
 
 
 config = NaverConfig(app)
-nbd = NaverDB(app,config)
+nbd = NaverDB(app, config)
+
 
 def DSProcessOptions(tour_id):
     """Método para procesar opciones de inclusión
@@ -23,14 +24,16 @@ def DSProcessOptions(tour_id):
 
     Returns:
         res: resultadod de la operación
-    """        
+    """
     try:
-        table="CATALOG"
-        stm="""
+        table = "CATALOG"
+        stm = """
                 select  entities.sp_options({});
-        """.format(tour_id)
-        res = nbd.persistence.getQuery(stm, table)[0]["sp_options"]  
-        return res  
+        """.format(
+            tour_id
+        )
+        res = nbd.persistence.getQuery(stm, table)[0]["sp_options"]
+        return res
 
     except Exception as e:
         raise e

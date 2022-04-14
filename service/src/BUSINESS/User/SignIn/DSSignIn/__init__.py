@@ -1,12 +1,12 @@
 try:
-    __import__('pkg_resources').declare_namespace(__name__)
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.INFRA.WEB.App.routes import app
+from src.infra.web.app.routes import app
 
 config = NaverConfig(app)
 nbd = NaverDB(app, config)
@@ -34,18 +34,18 @@ def DSSignIn(username):
     try:
         table = "USER"
         schema = "entities"
-        stm =  "  SELECT * "
+        stm = "  SELECT * "
         stm += f" FROM {schema}.{table} "
-        stm += f" WHERE USERNAME = \'{username}\' "
+        stm += f" WHERE USERNAME = '{username}' "
         stm += "  AND  (STATE = 5  OR STATE = 2 ) \n"
         user = nbd.persistence.getQuery(stm, table)
-        if(len(user) > 0):
-            stm =  f" UPDATE {schema}.{table} \n"
+        if len(user) > 0:
+            stm = f" UPDATE {schema}.{table} \n"
             stm += "  SET STATE = 6  "
-            stm += f" WHERE USERNAME = \'{username}\' " 
+            stm += f" WHERE USERNAME = '{username}' "
             res = nbd.persistence.setWrite(stm, table)
             if len(res) > 0:
-                res['session'].commit()
+                res["session"].commit()
                 return user
         raise Exception("User Connected")
     except Exception as e:

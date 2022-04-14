@@ -1,26 +1,27 @@
-try: 
-    __import__('pkg_resources').declare_namespace(__name__)
+try:
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.INFRA.WEB.App.routes import app 
+from src.infra.web.app.routes import app
 
 
 config = NaverConfig(app)
-nbd = NaverDB(app,config)
+nbd = NaverDB(app, config)
+
 
 def DSFindCatalog(input):
-           
+
     try:
-        catalogs = str(tuple(input.get("data").get("catalogs"))).replace(",)",")")
+        catalogs = str(tuple(input.get("data").get("catalogs"))).replace(",)", ")")
         table = "CATALOG"
-        and_stm  = " and c.description in {} ".format(catalogs)
+        and_stm = " and c.description in {} ".format(catalogs)
         if "ALL" in catalogs:
             and_stm = ""
-        stm="""
+        stm = """
              
                         select  
                             (c.description)     as  catalog,
@@ -40,12 +41,11 @@ def DSFindCatalog(input):
                             order by cd."order" asc
                              
                     
-        """.format(and_stm)
+        """.format(
+            and_stm
+        )
         res = nbd.persistence.getQuery(stm, table)
- 
-        
-        
-        
+
         return res
     except Exception as e:
         raise e

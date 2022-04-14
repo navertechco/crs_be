@@ -1,15 +1,15 @@
 try:
-    __import__('pkg_resources').declare_namespace(__name__)
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 # from ..DSConnect import DSConnect
 try:
     from naver_core import *
     from naver_config import *
-    from src.INFRA.WEB.App.routes import app
-    from src.BUSINESS.System import ValidateUser, LogConnection, FindCatalog
-    from src.BUSINESS.Agent import GetExperience
-    from src.BUSINESS.User import SignUp, SignIn, Logout, Reset, UpdateProfile
+    from src.infra.web.app.routes import app
+    from src.business.System import ValidateUser, LogConnection, FindCatalog
+    from src.business.Agent import GetExperience
+    from src.business.User import SignUp, SignIn, Logout, Reset, UpdateProfile
 except Exception as e:
     print(e)
     pass
@@ -17,7 +17,7 @@ except Exception as e:
 config = NaverConfig(app)
 
 
-class BS():
+class BS:
     def __init__(self):
         self.LogConnection = LogConnection()
         self.Logout = Logout()
@@ -64,12 +64,13 @@ def BSConnect(input):
                 result = self.SignIn.BSSignIn(input)
                 if len(result) > 0:
                     catalogs = self.FindCatalog.BSFindCatalog(
-                        {"data": {"catalogs": ["ALL"]}})
+                        {"data": {"catalogs": ["ALL"]}}
+                    )
                     return catalogs
             if state == "update":
                 result = self.UpdateProfile.BSUpdateProfile(input)
                 return result
 
-        raise Exception(605, 'Error de Login')
+        raise Exception(605, "Error de Login")
     except Exception as e:
         raise e

@@ -1,13 +1,13 @@
 try:
-    __import__('pkg_resources').declare_namespace(__name__)
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
-from src.BUSINESS.Dto import DestinationListDto
+from src.business.Dto import DestinationListDto
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.INFRA.WEB.App.routes import app
+from src.infra.web.app.routes import app
 import ast
 import json
 
@@ -19,16 +19,16 @@ def DSProcessDestinations(tour_id, input):
 
     try:
         reslist = []
-        destinations = getValue(input, 'destinations')
+        destinations = getValue(input, "destinations")
         jsondata = prepareJsonData(destinations)
         destinations = DestinationListDto(jsondata, tour_id).__dict__()
         destinationsToInsert = str(json.dumps(jsondata))
         table = "TOUR"
         schema = "entities"
-        stm = " UPDATE " + schema+"."+table
-        stm += " SET destinations=\'{}\'".format(destinationsToInsert)
+        stm = " UPDATE " + schema + "." + table
+        stm += " SET destinations='{}'".format(destinationsToInsert)
         stm += ", tour_state_id=4"
-        where = " WHERE tour_id = \'{}\'".format(tour_id)
+        where = " WHERE tour_id = '{}'".format(tour_id)
         stm += " " + where
         res = nbd.persistence.setWrite(stm, table)
         if len(res) > 0:
@@ -39,9 +39,14 @@ def DSProcessDestinations(tour_id, input):
                             INSERT INTO {}.{}(TOUR_ID, DETAIL, DESTINATION_ID)
                             VALUES ({},\'{}\',{})
                 
-                """.format(schema, table, tour_id, str(json.dumps(destination)), destination["destination_id"])
-                res = nbd.persistence.setWrite(
-                    stm, table)
+                """.format(
+                    schema,
+                    table,
+                    tour_id,
+                    str(json.dumps(destination)),
+                    destination["destination_id"],
+                )
+                res = nbd.persistence.setWrite(stm, table)
                 if len(res) > 0:
                     reslist.append(res)
         return reslist

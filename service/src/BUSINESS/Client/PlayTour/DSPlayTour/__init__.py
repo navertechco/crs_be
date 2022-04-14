@@ -1,50 +1,53 @@
-try: 
-    __import__('pkg_resources').declare_namespace(__name__)
+try:
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.INFRA.WEB.App.routes import app 
+from src.infra.web.app.routes import app
 
 
 config = NaverConfig(app)
-nbd = NaverDB(app,config)
+nbd = NaverDB(app, config)
 
-def DSPlayTour	(slug):
+
+def DSPlayTour(slug):
     """Método para reproducir una lista de videos del Tour.
 
     Args:
         slug (str): Slug del Tour.
-        
+
     Returns:
         res: Resultado de la operación.
     """
     try:
         table = "TOUR"
         schema = "entities"
-        
+
         stm = "SELECT "
         stm += f" * FROM {schema}.{table}"
-        stm += f" WHERE playlist_slug = \'{slug}'"
-       
+        stm += f" WHERE playlist_slug = '{slug}'"
+
         tour = nbd.persistence.getQuery(stm, table)
         if len(tour) > 0:
-            reproductions = tour[0]['reproductions']
+            reproductions = tour[0]["reproductions"]
             if reproductions > 0:
                 stm = "UPDATE "
                 stm += f" {schema}.{table}"
                 stm += f" SET reproductions={reproductions-1}"
-                stm += f" WHERE playlist_slug = \'{slug}'" 
+                stm += f" WHERE playlist_slug = '{slug}'"
                 update = nbd.persistence.setWrite(stm, table)
                 if len(update) > 0:
-                    update['session'].commit()
-                    playlist = str(tour[0]['playlist']).replace('"','')
+                    update["session"].commit()
+                    playlist = str(tour[0]["playlist"]).replace('"', "")
                     return playlist
                 raise Exception("No se pudo actualizar la cantidad de reproducciones.")
-            raise Exception("No se puede reproducir el Tour porque ya se ha reproducido 2 veces")
-        raise Exception("No se encontró el Tour")    
+            raise Exception(
+                "No se puede reproducir el Tour porque ya se ha reproducido 2 veces"
+            )
+        raise Exception("No se encontró el Tour")
 
     except Exception as e:
         raise e

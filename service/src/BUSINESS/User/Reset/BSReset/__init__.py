@@ -3,7 +3,7 @@ try:
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSReset import DSReset
-from src.BUSINESS.System import SendEmail
+from src.business.System import SendEmail
 from naver_core import *
  
  

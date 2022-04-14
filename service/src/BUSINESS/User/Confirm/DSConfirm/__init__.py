@@ -1,16 +1,17 @@
-try: 
-    __import__('pkg_resources').declare_namespace(__name__)
+try:
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.INFRA.WEB.App.routes import app 
+from src.infra.web.app.routes import app
 
 
 config = NaverConfig(app)
-nbd = NaverDB(app,config)
+nbd = NaverDB(app, config)
+
 
 def DSConfirm(confirmation):
     """Método de confirmación de usuario
@@ -23,17 +24,19 @@ def DSConfirm(confirmation):
 
     Returns:
         dict: Diccionario con información de confirmación de usuario.
-    """    
+    """
     try:
         stm = """   UPDATE entities.user
                     SET STATE = 2
                     WHERE CONFIRMATION = \'{}\'
                     AND STATE = 1
-                    ;""".format(confirmation)
+                    ;""".format(
+            confirmation
+        )
 
         table = "USER"
         res = nbd.persistence.setWrite(stm, table)
-        return res  
+        return res
 
     except Exception as e:
         raise e

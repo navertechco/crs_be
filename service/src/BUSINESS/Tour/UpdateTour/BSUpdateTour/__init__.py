@@ -22,6 +22,7 @@ def BSUpdateTour(input):
     """
     try:
         state = input.get("state")
+        id = input.get('id')
         if state == 'update':
             result = DSUpdateTour(input)
             if len(result) > 0:
@@ -29,14 +30,12 @@ def BSUpdateTour(input):
                 return True
             raise Exception(605, 'Error de Actualización de Cotización')
         if state == 'cancel':
-            id = getValue(input, 'id')
             result = CancelTour().DSCancelTour(id)
             if len(result) > 0:
                 result['session'].commit()
                 return True
             raise Exception(605, 'Error de Cancelado de Cotización')
         if state == 'promote':
-            id = getValue(input, 'id')
             result = PromoteTour().DSPromoteTour(id)
             if len(result) > 0:
                 result['session'].commit()

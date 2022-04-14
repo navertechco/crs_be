@@ -3,7 +3,7 @@ from .libs import *
  
     
 #region admin
-from src.BUSINESS.Admin.CreateCatalog import FSCreateCatalog
+from src.business.Admin.CreateCatalog import FSCreateCatalog
 @api.route('/Admin/CreateCatalog')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class CreateCatalog(Resource):
@@ -62,7 +62,7 @@ def upload_file():
 #endregion
  
 #region process
-from src.BUSINESS.System.ProcessOptions import FSProcessOptions
+from src.business.System.ProcessOptions import FSProcessOptions
 @api.route('/System/ProcessOptions')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class ProcessOptions(Resource):
@@ -75,7 +75,7 @@ class ProcessOptions(Resource):
         return FSProcessOptions(data)
 #endregion
 #region catalog
-from src.BUSINESS.System.FindCatalog import FSFindCatalog
+from src.business.System.FindCatalog import FSFindCatalog
 @api.route('/System/FindCatalog')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class FindCatalog(Resource):
@@ -89,7 +89,7 @@ class FindCatalog(Resource):
 #endregion
 #region user
 
-from src.BUSINESS.User.Forgot import FSForgot
+from src.business.User.Forgot import FSForgot
 @api.route('/User/Forgot')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class Forgot(Resource):
@@ -122,7 +122,7 @@ class Forgot(Resource):
         return make_response(render_template('recovery.html', form=form, data=data),200,headers) 
 
 
-from src.BUSINESS.User.Confirm import FSConfirm
+from src.business.User.Confirm import FSConfirm
 @api.route('/User/Confirm')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class Confirm(Resource):
@@ -136,7 +136,7 @@ class Confirm(Resource):
         data = parser.parse_args()
         return FSConfirm(data)
     
-from src.BUSINESS.User.Connect import FSConnect
+from src.business.User.Connect import FSConnect
 @api.route('/User/Connect')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class Connect(Resource):
@@ -162,7 +162,7 @@ class Connect(Resource):
             return ErrorResponse(e) 
         
      
-from src.BUSINESS.User.Logout import FSLogout
+from src.business.User.Logout import FSLogout
 @api.route('/User/Logout')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class Logout(Resource):
@@ -175,7 +175,7 @@ class Logout(Resource):
         return FSLogout(data) 
 #endregion
 #region Client
-from src.BUSINESS.Client.PlayTour import FSPlayTour
+from src.business.Client.PlayTour import FSPlayTour
 import binascii
  
 @api.route('/Client/PlayTour/<slug>')
@@ -195,7 +195,7 @@ class PlayTour(Resource):
         # hash = binascii.hexlify(data.encode('utf-8'))
         return make_response(render_template('playlist.html',  data=res),200,headers) 
     
-from src.BUSINESS.Client.ClientEdit import FSClientEdit
+from src.business.Client.ClientEdit import FSClientEdit
 @api.route('/Client/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class ClientEdit(Resource):
@@ -208,7 +208,7 @@ class ClientEdit(Resource):
         return FSClientEdit(data) 
 #endregion
 #region Tour
-from src.BUSINESS.Tour.FindTour import FSFindTour
+from src.business.Tour.FindTour import FSFindTour
 @api.route('/Tour/FindTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class FindTour(Resource):
@@ -220,7 +220,7 @@ class FindTour(Resource):
         input = request.get_json(force=True)
         return FSFindTour(input) 
 
-from src.BUSINESS.Tour.GenTour import FSGenTour
+from src.business.Tour.GenTour import FSGenTour
 @api.route('/Tour/GenTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class GenTour(Resource):
@@ -232,7 +232,7 @@ class GenTour(Resource):
         input = request.get_json(force=True)
         return FSGenTour(input) 
        
-from src.BUSINESS.Tour.CalculateNetRate import FSCalculateNetRate
+from src.business.Tour.CalculateNetRate import FSCalculateNetRate
 @api.route('/Tour/CalculateNetRate')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class CalculateNetRate(Resource):
@@ -243,7 +243,7 @@ class CalculateNetRate(Resource):
         """
         input = request.get_json(force=True)
         return FSCalculateNetRate(input) 
-from src.BUSINESS.Tour.TourEdit import FSTourEdit
+from src.business.Tour.TourEdit import FSTourEdit
 @api.route('/Tour/Edit')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class TourEdit(Resource):
@@ -255,7 +255,7 @@ class TourEdit(Resource):
         input = request.get_json(force=True)
         return FSTourEdit(input) 
     
-from src.BUSINESS.Tour.NewTour import FSNewTour
+from src.business.Tour.NewTour import FSNewTour
 @api.route('/Tour/NewTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class NewTour(Resource):
@@ -267,14 +267,14 @@ class NewTour(Resource):
         data = request.get_json(force=True)
         return FSNewTour(data) 
     
-from src.BUSINESS.Tour.NewId import FSNewId
+from src.business.Tour.NewId import FSNewId
 @api.route('/Tour/NewId')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class NewId(Resource):
     def post(self): 
         return FSNewId() 
     
-from src.BUSINESS.Tour.ProcessTour import FSProcessTour
+from src.business.Tour.ProcessTour import FSProcessTour
 @api.route('/Tour/ProcessTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class ProcessTour(Resource):
@@ -285,7 +285,7 @@ class ProcessTour(Resource):
         """
         data = request.get_json(force=True)
         return FSProcessTour(data) 
-from src.BUSINESS.Tour.PromoteTour import FSPromoteTour
+from src.business.Tour.PromoteTour import FSPromoteTour
 @api.route('/Tour/PromoteTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class PromoteTour(Resource):
@@ -297,7 +297,7 @@ class PromoteTour(Resource):
         data = request.get_json(force=True)
         return FSPromoteTour(data) 
     
-from src.BUSINESS.Tour.UpdateTour import FSUpdateTour
+from src.business.Tour.UpdateTour import FSUpdateTour
 @api.route('/Tour/UpdateTour')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class UpdateTour(Resource):
@@ -310,7 +310,7 @@ class UpdateTour(Resource):
         return FSUpdateTour(data) 
 #endregion
 #region File
-from src.BUSINESS.File.MakeEmail import FSMakeEmail
+from src.business.File.MakeEmail import FSMakeEmail
 @api.route('/Email/MakeEmail')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class MakeEmail(Resource):
@@ -321,7 +321,7 @@ class MakeEmail(Resource):
         """
         data = request.get_json(force=True)
         return FSMakeEmail(data) 
-from src.BUSINESS.File.MakePdf import FSMakePdf
+from src.business.File.MakePdf import FSMakePdf
 @api.route('/Email/MakePdf')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class MakePdf(Resource):
@@ -333,7 +333,7 @@ class MakePdf(Resource):
         data = request.get_json(force=True)
         return FSMakePdf(data) 
     
-from src.BUSINESS.File.MakePlaylist import FSMakePlaylist
+from src.business.File.MakePlaylist import FSMakePlaylist
 @api.route('/Email/MakePlaylist')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class MakePlaylist(Resource):
@@ -347,7 +347,7 @@ class MakePlaylist(Resource):
 #endregion
  
 #region Agent
-from src.BUSINESS.Agent.Start import FSStart
+from src.business.Agent.Start import FSStart
 @api.route('/Agent/Start')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class Start(Resource):
@@ -367,7 +367,7 @@ class Start(Resource):
         data = request.get_json(force=True)
         # return FSStart(decryptdata())
         return FSStart(data)
-from src.BUSINESS.Agent.GetExperience import FSGetExperience
+from src.business.Agent.GetExperience import FSGetExperience
 @api.route('/Agent/GetExperience')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class GetExperience(Resource):
@@ -380,7 +380,7 @@ class GetExperience(Resource):
         data = request.get_json(force=True)
         # return FSGetExperience(decryptdata())
         return FSGetExperience(data)    
-from src.BUSINESS.Agent.GetDestination import FSGetDestination
+from src.business.Agent.GetDestination import FSGetDestination
 @api.route('/Agent/GetDestination')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class GetDestination(Resource):
@@ -394,7 +394,7 @@ class GetDestination(Resource):
         # return FSGetDestination(decryptdata())
         return FSGetDestination(data)    
     
-from src.BUSINESS.Agent.Query import FSQuery
+from src.business.Agent.Query import FSQuery
 @api.route('/Agent/Query')
 @api.doc(body=resource_fields, responses={400:"Error: BAD REQUEST",200:'{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}'})
 class Query(Resource):

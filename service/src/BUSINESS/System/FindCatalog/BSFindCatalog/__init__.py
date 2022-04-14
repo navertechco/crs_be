@@ -6,7 +6,7 @@ from ..DSFindCatalog import DSFindCatalog
 from ..DSFindTableCatalog import DSFindTableCatalog
 from naver_core import *
 from naver_core import *
-from src.BUSINESS.Dto import CatalogDetailDto
+from src.business.Dto import CatalogDetailDto
 
 
 def BSFindCatalog(input):

@@ -1,12 +1,12 @@
 try:
-    __import__('pkg_resources').declare_namespace(__name__)
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
-from src.INFRA.WEB.App.routes import app
+from src.infra.web.app.routes import app
 
 
 config = NaverConfig(app)
@@ -22,14 +22,16 @@ def DSSendEmail(email, type):
 
     Returns:
         parentdb: Objeto de la clase NaverDB.
-    """    
+    """
     try:
-        state = (lambda x: 6 if (x == 'buycredits') else 1)(type)
+        state = (lambda x: 6 if (x == "buycredits") else 1)(type)
         parentdb = []
         stm = """UPDATE entities.user
                     SET STATE = {}, CONFIRMATION = django.uuid_generate_v1()
                     WHERE EMAIL = \'{}\'
-                    """.format(state, email)
+                    """.format(
+            state, email
+        )
 
         table = "USER"
         res = nbd.persistence.setWrite(stm, table)
@@ -39,7 +41,9 @@ def DSSendEmail(email, type):
 
             stm = """SELECT * from entities.user 
                         WHERE EMAIL = \'{}\'
-                        """.format(email)
+                        """.format(
+                email
+            )
 
             table = "USER"
             res = nbd.persistence.getQuery(stm, table)

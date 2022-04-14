@@ -1,14 +1,12 @@
 try:
-    __import__('pkg_resources').declare_namespace(__name__)
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
-from service.src.BUSINESS.Dto.tour import TourDto
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
+from service.src.business.Dto.tour import TourDto
 from ..DSTourEdit import DSTourEdit
 from naver_core import *
 from ... import NewTour, ProcessTour, UpdateTour, CalculateNetRate
-import yaml
-import json
-import ast
+
 
 def BSTourEdit(input):
     """Método que se encarga de ejecutar el comando edit.
@@ -24,24 +22,18 @@ def BSTourEdit(input):
     """
     try:
         state = input.get("state")
-        
-        if state == 'new':
+        if state == "new":
             valid = DSTourEdit(input)
             if valid:
-                tour_id,session = NewTour().BSNewTour(input)
+                tour_id, session = NewTour().BSNewTour(input)
                 if tour_id is not None:
-                    return ProcessTour().BSProcessTour(tour_id,session, input)
-                raise Exception('Error al crear el tour')
-            raise Exception('Ya tiene un tour activo')
-
-        if state == 'update':
+                    return ProcessTour().BSProcessTour(tour_id, session, input)
+                raise Exception("Error al crear el tour")
+            raise Exception("Ya tiene un tour activo")
+        if state == "update":
             return UpdateTour().BSUpdateTour(input)
-        if state == 'calculate':
+        if state == "calculate":
             return CalculateNetRate.BSCalculateNetRate(input)
-        if state == 'www':
-            yaml_in = input.get("data")
-            yaml_object = dict(yaml.safe_load(yaml_in))
-            tour = TourDto(yaml_object)
-        raise Exception(605, 'Error de Edición')
+        raise Exception(605, "Error de Edición")
     except Exception as e:
         raise e

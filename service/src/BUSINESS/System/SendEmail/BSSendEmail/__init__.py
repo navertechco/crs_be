@@ -1,33 +1,34 @@
 try:
-    __import__('pkg_resources').declare_namespace(__name__)
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 from ..DSSendEmail import DSSendEmail
 from naver_core import *
 import os
-# from src.INFRA.NET import Net
 
 
-emailtype = dict({
-    'confirmation': {
-        'template': 'confirmation',
-        'subject': 'CRS: REGISTRO CON CONFIRMACIÓN',
-        'server': 'http://uiodesign.fortiddns.com:9999/User/Confirm',
-        'code': 'confirmation'
-    },
-    'buycredits': {
-        'template': 'buycredits',
-        'subject': 'CRS: REGISTRO DE COMPRAS',
-        'server': 'http://uiodesign.fortiddns.com:9999/User/Confirm',
-        'code': 'username'
-    },
-    'forgot': {
-        'template': 'forgot',
-        'subject': 'CRS: RECUPERACIÓN DE USUARIO',
-        'server': 'http://uiodesign.fortiddns.com:9999/User/Forgot',
-        'code': 'confirmation'
+emailtype = dict(
+    {
+        "confirmation": {
+            "template": "confirmation",
+            "subject": "CRS: REGISTRO CON CONFIRMACIÓN",
+            "server": "http://uiodesign.fortiddns.com:9999/User/Confirm",
+            "code": "confirmation",
+        },
+        "buycredits": {
+            "template": "buycredits",
+            "subject": "CRS: REGISTRO DE COMPRAS",
+            "server": "http://uiodesign.fortiddns.com:9999/User/Confirm",
+            "code": "username",
+        },
+        "forgot": {
+            "template": "forgot",
+            "subject": "CRS: RECUPERACIÓN DE USUARIO",
+            "server": "http://uiodesign.fortiddns.com:9999/User/Forgot",
+            "code": "confirmation",
+        },
     }
-})
+)
 
 
 def BSSendEmail(input, type):
@@ -45,7 +46,7 @@ def BSSendEmail(input, type):
     """
     result = []
     try:
-        email = getValue(input, 'email')
+        email = getValue(input, "email")
         result = DSSendEmail(email, type)
         if len(result) > 0:
             data = result[1][0] if len(result[1]) > 0 else {}
@@ -75,17 +76,19 @@ def EmailSender(data, type):
     """
     try:
         import codecs
-        from src.INFRA.WEB.App.routes import TEMPLATE_FOLDER 
-        TEMPLATE = os.path.join(TEMPLATE_FOLDER, type.get('template')+'.html')
-        f = codecs.open(TEMPLATE, 'r')
+        from src.infra.web.app.routes import TEMPLATE_FOLDER
+
+        TEMPLATE = os.path.join(TEMPLATE_FOLDER, type.get("template") + ".html")
+        f = codecs.open(TEMPLATE, "r")
         body = f.read()
-        body = body.replace('SERVER', type.get('server'))
-        body = body.replace('CODE', data.get(type.get('code')))
+        body = body.replace("SERVER", type.get("server"))
+        body = body.replace("CODE", data.get(type.get("code")))
         f.close()
         email = str(data.get("email")).strip()
-        subject = type.get('subject')
-        from src.INFRA.WEB.App.routes import app 
+        subject = type.get("subject")
+        from src.infra.web.app.routes import app
         from naver_net import NaverNet
+
         Net = NaverNet(app)
         Net.sender.sendmail(email, subject, body)
         return True

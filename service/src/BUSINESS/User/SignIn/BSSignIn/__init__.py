@@ -4,8 +4,8 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSSignIn import DSSignIn
 from naver_core import *
-from src.BUSINESS.Dto import *
-from src.BUSINESS.System.ValidatePassword import BSValidatePassword
+from src.business.Dto import *
+from src.business.System.ValidatePassword import BSValidatePassword
  
 
 

@@ -1,12 +1,13 @@
 try:
-    __import__('pkg_resources').declare_namespace(__name__)
+    __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
-    __path__ = __import__('pkgutil').extend_path(__path__, __name__)
+    __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 from ..DSProcessTour import DSProcessTour
 from ...NewMatch import NewMatch
 from ...ProcessDestinations import ProcessDestinations
 from ...ProcessDays import ProcessDays
-from src.BUSINESS.System.GetNextVal import GetNextVal
+from src.business.System.GetNextVal import GetNextVal
+from src.infra.docs.merger import gen_tour_doc
 from naver_core import *
 
 
@@ -28,20 +29,22 @@ def BSProcessTour(tour_id, session, input):
         bool: [description]
     """
     try:
+        data = dict(yaml.safe_load(input.get("data")))
+
         def finalProccess():
             processed = DSProcessTour(tour_id)
             if len(processed) > 0:
                 processed["session"].commit()
+                gen_tour_doc(data)
                 return True
             raise Exception(605, "Error de Procesamiento de tour")
 
-        value = getValue(input, 'value')
-        destinations = value.get('destinations')
+        destinations = data.get("destinations")
         keys = list(destinations)
         first = keys[0]
         keyActivities = destinations[first]["keyActivities"]
-        tour = value.get('tour')
-        purpose = tour.get('purpose')
+        tour = data.get("tour")
+        purpose = tour.get("purpose")
         match = [purpose, keyActivities]
         if match is not None:
             session.commit()
@@ -49,14 +52,22 @@ def BSProcessTour(tour_id, session, input):
                 res_match = NewMatch().BSNewMatch(tour_id, match)
                 if len(res_match) > 0:
                     res_match["session"].commit()
-                    res_destinations = ProcessDestinations().BSProcessDestinations(tour_id, input)
+                    res_destinations = ProcessDestinations().BSProcessDestinations(
+                        tour_id, input
+                    )
                     if len(res_destinations) > 0:
                         index = 0
                         destination_indexes = []
                         for res_destination in res_destinations:
                             res_destination["session"].commit()
-                            last_row_id = GetNextVal().BSGetNextVal("TOUR_DETAIL", "tour_detail_id") - \
-                                len(res_destinations)+1+index
+                            last_row_id = (
+                                GetNextVal().BSGetNextVal(
+                                    "TOUR_DETAIL", "tour_detail_id"
+                                )
+                                - len(res_destinations)
+                                + 1
+                                + index
+                            )
                             if index > 0:
                                 destination_indexes.append(last_row_id)
                             index += 1
@@ -65,12 +76,11 @@ def BSProcessTour(tour_id, session, input):
                             destination["tour_detail_id"] = destination_index
                             days = ProcessDays().BSProcessDays(tour_id, destination)
                             if days is False:
-                                raise Exception(
-                                    605, "Error de Procesamiento de días")
+                                raise Exception(605, "Error de Procesamiento de días")
                         return finalProccess()
                     raise Exception(605, "Error de Procesamiento de destinos")
-                raise Exception(605, 'Error de Procesamiento de match')
-            raise Exception(605, 'No tiene destinos el tour')
-        raise Exception(605, 'No tiene match el tour')
+                raise Exception(605, "Error de Procesamiento de match")
+            raise Exception(605, "No tiene destinos el tour")
+        raise Exception(605, "No tiene match el tour")
     except Exception as e:
         raise e

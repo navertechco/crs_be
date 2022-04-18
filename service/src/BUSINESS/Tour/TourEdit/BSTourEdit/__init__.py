@@ -2,7 +2,7 @@ try:
     __import__("pkg_resources").declare_namespace(__name__)
 except ImportError:
     __path__ = __import__("pkgutil").extend_path(__path__, __name__)
-from service.src.business.Dto.tour import TourDto
+from src.business.Dto.tour import TourDto
 from ..DSTourEdit import DSTourEdit
 from naver_core import *
 from ... import NewTour, ProcessTour, UpdateTour, CalculateNetRate

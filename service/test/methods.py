@@ -59,6 +59,16 @@ def takeCommand():
 
     return query
 
+def print(msg):
+	mysocket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)         
+	host = "192.168.100.50" 
+	port = 9100   
+	try:           
+		mysocket.connect((host, port)) #connecting to host
+		mysocket.send(b"^XA^A0N,50,50^FO50,50^{0}^FS^XZ".format(msg))#using bytes
+		mysocket.close () #closing connection
+	except:
+		print("Error with the connection")
 
 def sendEmail(to, content):
     server = smtplib.SMTP('smtp.gmail.com', 587)

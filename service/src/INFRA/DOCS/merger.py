@@ -6,12 +6,15 @@ from docx.shared import Inches
 from docx.shared import Pt
 from datetime import datetime
 from docx2pdf import convert
+from datetime import timedelta
 
 FILE_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.dirname(FILE_DIR)
 DOC_DIR = os.path.join(ROOT_DIR, ("web\\static\\docs"))
 TMP_DIR = os.path.join(FILE_DIR, (f"tmp\\"))
 DOCS = []
+ARRIVAL = datetime.now()
+DEPARTURE = ARRIVAL + timedelta(days=1)
 
 
 def gen_tour_doc(data):
@@ -44,10 +47,10 @@ def gen_cover_doc(header, name):
     names = header.get("names").upper()
     last_names = header.get("last_names").upper()
     until_date = header.get("until_date")
-    arrival = datetime.strptime(arrival_date, "%Y-%m-%d %H:%M:%S")
-    departure = datetime.strptime(departure_date, "%Y-%m-%d %H:%M:%S")
+    ARRIVAL = datetime.strptime(arrival_date, "%Y-%m-%d %H:%M:%S")
+    DEPARTURE = datetime.strptime(departure_date, "%Y-%m-%d %H:%M:%S")
     until = datetime.strptime(until_date, "%Y-%m-%d %H:%M:%S.%f")
-    days = (departure - arrival).days
+    days = (DEPARTURE - ARRIVAL).days
     nights = days - 1
     customer = f"{names} {last_names}"
     print(header)
@@ -88,7 +91,8 @@ def gen_dest(data, name):
                 doc.add_heading(f"{type}", 1)
                 meals = "B/L"
             else:
-                doc.add_heading(f"Day {day_name}", 1)
+                doc.add_heading(
+                    f"Day {day_name} {ARRIVAL + timedelta(days = int(day_name))} ", 1)
             doc.add_heading(f"Experiences", 2)
             for i, exp_name in enumerate(experiences):
                 experience = experiences[exp_name]
@@ -152,7 +156,6 @@ def doc_compose(files, name):
     except Exception as e:
         print(e)
         pass
-    
 
 
 def empty_tmp():
@@ -164,6 +167,7 @@ def empty_tmp():
         except OSError as e:
             print("Error: %s : %s" % (f, e.strerror))
 
+
 if __name__ == "__main__":
     empty_tmp()
     DATA_PATH = os.path.join(FILE_DIR, ("data.json"))
@@ -171,4 +175,3 @@ if __name__ == "__main__":
     data = json.load(test_data)
     gen_tour_doc(data)
     empty_tmp()
-    

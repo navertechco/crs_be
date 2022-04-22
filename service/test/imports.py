@@ -25,3 +25,4 @@ from clint.textui import progress
 from bs4 import BeautifulSoup
 import win32com.client as wincl
 from urllib.request import urlopen
+import socket

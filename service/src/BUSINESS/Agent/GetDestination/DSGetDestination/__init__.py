@@ -12,6 +12,18 @@ config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
+def DSGetDestination(destination, type):
+    try:
+        table = "DESTINATION"
+        schema = "entities"
+        stm = f"select * from {schema}.{table}"
+        stm += f" where destination_name = upper('{destination}')"
+        res = nbd.persistence.getQuery(stm, table)
+        return res[type]
+    except Exception as e:
+        raise e
+
+
 def DSGetDestination(input):
     try:
         destination_id = getValue(input, "destination_id")

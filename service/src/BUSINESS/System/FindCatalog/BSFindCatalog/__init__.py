@@ -18,22 +18,19 @@ def BSFindCatalog(input):
             for result in results:
                 catalogDto = CatalogDetailDto(result)
                 if catalogDto.catalog not in list(catalog_list["catalogs"]):
-                    catalog_list["catalogs"][catalogDto.catalog]=[]
-                catalog_list["catalogs"][catalogDto.catalog].append(catalogDto.__dict__())
-        
-        
+                    catalog_list["catalogs"][catalogDto.catalog] = []
+                catalog_list["catalogs"][catalogDto.catalog].append(
+                    catalogDto.__dict__())
+
         tables = getValue(input, 'tables')
         if tables is not None:
             for table in tables:
                 name = table.get('name')
                 result = DSFindTableCatalog(table)
                 # catalogDto = CatalogDetailDto(result)
-                catalog_list["catalogs"][name]=(result)
+                catalog_list["catalogs"][name] = (result)
             pass
-            
-        
-        
-                   
+
         return catalog_list
 
     except Exception as e:

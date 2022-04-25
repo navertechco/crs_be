@@ -242,8 +242,8 @@ class Tour(models.Model):
     valid = models.DateField(null=True)
     destination_country_id = models.IntegerField(
         choices=CatalogField("destination_country", Catalog, CatalogDetail))
-    purpose_id = models.IntegerField(
-        choices=CatalogField("purpose", Catalog, CatalogDetail))
+    purposes = models.IntegerField(
+        choices=CatalogField("purposes", Catalog, CatalogDetail))
     accomodation_type_id = models.IntegerField(
         choices=CatalogField("budget", Catalog, CatalogDetail))
     arrival_date = models.DateField(null=True)

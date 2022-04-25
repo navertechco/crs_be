@@ -138,3 +138,4 @@ share
 **/obj
 **/.vs
 node_modules
+*.docx

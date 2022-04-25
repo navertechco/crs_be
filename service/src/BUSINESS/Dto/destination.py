@@ -1,43 +1,34 @@
 import json
 import ast
-import json 
+import json
 from naver_core import *
 
- 
+
 class DestinationDto():
     def __init__(self, data):
-        self.destination_id = data.get("destination_id") or None
-        self.created = data.get("created") or None
-        self.updated = data.get("updated") or None
-        self.port = data.get("port") or None
-        self.destination_name = data.get("destination_name") or None
-        self.destination_title = data.get("destination_title") or None
-        self.hotel_id = data.get("hotel_id") or None
-        self.airport_id = data.get("airport_id") or None
-        self.has_airport = data.get("has_airport") or False
-        self.description = data.get("description") or None
-        self.previous = data.get("previous") or None
-        self.next = data.get("next") or None
-        self.days = json.dumps(prepareJsonData(data.get("days"))) or None
+        self.explorationDay = data.get("explorationDay") or None
+        self.arrival_hour = data.get("arrival_hour") or None
+        self.key_activities = data.get("key_activities") or None
+        self.travel_rhythm = data.get("travel_rhythm") or None
+        self.type = data.get("type") or None
+        self.index = data["index"]
+        self.destination = data.get("destination") or None
+        self.daysData = json.dumps(
+            prepareJsonData(data.get("daysData"))) or None
 
     def set(self, attr):
         setattr(self, attr, attr)
 
     def __dict__(self):
         return {
-            "destination_id": self.destination_id,
-            "created": self.created,
-            "updated": self.updated,
-            "port": self.port,
-            "destination_name": self.destination_name,
-            "destination_title": self.destination_title,
-            "hotel_id": self.hotel_id,
-            "airport_id": self.airport_id,
-            "has_airport": self.has_airport,
-            "description": self.description,
-            "previous": self.previous,
-            "next": self.next,
-            "days": self.days,
+            "explorationDay": self.explorationDay,
+            "arrival_hour": self.arrival_hour,
+            "key_activities": self.key_activities,
+            "travel_rhythm": self.travel_rhythm,
+            "type": self.type,
+            "index": self.index,
+            "destination": self.destination,
+            "daysData": self.daysData,
         }
 
 
@@ -51,7 +42,6 @@ class DestinationListDto():
 
     def __dict__(self):
         return self.destination_list
-        
 
     def __list__(self):
         return self.destination_list

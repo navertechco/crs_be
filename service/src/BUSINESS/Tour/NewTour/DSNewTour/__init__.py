@@ -29,6 +29,7 @@ def DSNewTour(input):
         data = input.get("data")
         yaml_object = dict(yaml.safe_load(data))
         tour = TourDto(yaml_object)
+        data = tour.toDict()
         table = "TOUR"
         schema = "entities"
         res = nbd.persistence.insertDto(tour, table, schema)

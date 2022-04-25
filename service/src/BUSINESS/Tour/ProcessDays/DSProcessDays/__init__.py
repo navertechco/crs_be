@@ -24,6 +24,7 @@ def DSProcessDays(tour_id, destination):
         res: resultado de la operación
     """
     try:
+        return True
         table = "EXPERIENCE"
         select_stm = " SELECT DISTINCT EXPE.experience_id, SRV.service_id"
         from_stm = "    FROM entities.EXPERIENCE EXPE"
@@ -46,7 +47,8 @@ def DSProcessDays(tour_id, destination):
                 last_row_id = DSGetNextVal("DAY", "day_id")
                 last_row_id += 1 + index
                 day_dto = DayDto(day)
-                day_dto.set("tour_detail_id", destination.get("tour_detail_id"))
+                day_dto.set("tour_detail_id",
+                            destination.get("tour_detail_id"))
                 day_dto.set("day_id", last_row_id)
                 index += 1
                 table = "DAY"
@@ -66,7 +68,8 @@ def DSProcessDays(tour_id, destination):
                         if int(x["experience_id"]) == int(experience_id)
                     ]
                     for service in experience_services:
-                        day_detail_dto = DayDetailDto({**day_dto.__dict__(), **service})
+                        day_detail_dto = DayDetailDto(
+                            {**day_dto.__dict__(), **service})
                         print(day_detail_dto.__dict__())
                         table = "DAY_DETAIL"
                         res = nbd.persistence.insertDto(day_detail_dto, table)

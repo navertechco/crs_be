@@ -343,7 +343,7 @@ class Tour(models.Model):
     partner = models.CharField(max_length=-1, blank=True, null=True)
     valid = models.DateField(blank=True, null=True)
     destination_country_id = models.IntegerField(blank=True, null=True)
-    purpose_id = models.IntegerField(blank=True, null=True)
+    purposes = models.CharField(max_length=-1, blank=True, null=True)
     accomodation_type_id = models.IntegerField(blank=True, null=True)
     arrival_date = models.DateField(blank=True, null=True)
     departure_date = models.DateField(blank=True, null=True)

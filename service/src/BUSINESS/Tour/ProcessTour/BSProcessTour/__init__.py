@@ -42,10 +42,10 @@ def BSProcessTour(tour_id, session, input):
         destinations = data.get("destinations")
         keys = list(destinations)
         first = keys[0]
-        keyActivities = destinations[first]["keyActivities"]
+        keyActivities = destinations[first]["key_activities"]
         tour = data.get("tour")
-        purpose = tour.get("purpose")
-        match = [purpose, keyActivities]
+        purposes = tour.get("purposes")
+        match = [purposes, keyActivities]
         if match is not None:
             session.commit()
             if destinations is not None:
@@ -72,11 +72,13 @@ def BSProcessTour(tour_id, session, input):
                                 destination_indexes.append(last_row_id)
                             index += 1
                         for destination in destinations:
+                            destination = destinations[destination]
                             destination_index = destination_indexes[0]
                             destination["tour_detail_id"] = destination_index
                             days = ProcessDays().BSProcessDays(tour_id, destination)
                             if days is False:
-                                raise Exception(605, "Error de Procesamiento de días")
+                                raise Exception(
+                                    605, "Error de Procesamiento de días")
                         return finalProccess()
                     raise Exception(605, "Error de Procesamiento de destinos")
                 raise Exception(605, "Error de Procesamiento de match")

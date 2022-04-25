@@ -18,12 +18,11 @@ class TourDto:
         self.tour_id = tour.get("tour_id")
         self.created = tour.get("created")
         self.updated = tour.get("updated")
-        self.match = tour.get("match")
-        self.match_type = tour.get("match_type")
+        self.match = tour.get("match") 
         self.destinations = json.dumps(destinations)
         self.valid = tour.get("valid_until")
         self.destination_country_id = tour.get("country")
-        self.purpose_id = tour.get("purpose")
+        self.purposes = (tour.get("purposes"))
         self.accomodation_type_id = tour.get("accomodation_type")
         self.arrival_date = logistic.get("arrival_date")
         self.departure_date = logistic.get("departure_date")
@@ -40,7 +39,7 @@ class TourDto:
         return {
             "valid": self.valid,
             "destination_country_id": self.destination_country_id,
-            "purpose_id": self.purpose_id,
+            "purposes": self.purposes,
             "accomodation_type_id": self.accomodation_type_id,
             "arrival_date": self.arrival_date,
             "departure_date": self.departure_date,
@@ -51,7 +50,6 @@ class TourDto:
             "description": self.description,
             "client_id": self.client_id,
             "match": self.match,
-            "match_type": self.match_type,
             "destinations": self.destinations,
         }
 
@@ -63,7 +61,7 @@ class TourDto:
             "updated": self.updated,
             "valid": self.valid,
             "destination_country_id": self.destination_country_id,
-            "purpose_id": self.purpose_id,
+            "purposes": self.purposes,
             "accomodation_type_id": self.accomodation_type_id,
             "arrival_date": self.arrival_date,
             "departure_date": self.departure_date,
@@ -75,6 +73,5 @@ class TourDto:
             "client_id": self.client_id,
             "detail": self.detail,
             "match": self.match,
-            "match_type": self.match_type,
             "destinations": self.destinations,
         }

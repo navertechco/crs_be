@@ -3,6 +3,8 @@ try:
 except ImportError:
     __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
+from src.business.System.FindCatalog import BSFindCatalog
+from src.business.Dto.tour import TourDto
 from src.business.Dto import DestinationListDto
 from naver_db import NaverDB
 from naver_config import NaverConfig
@@ -19,10 +21,12 @@ def DSProcessDestinations(tour_id, input):
 
     try:
         reslist = []
-        destinations = getValue(input, "destinations")
-        jsondata = prepareJsonData(destinations)
-        destinations = DestinationListDto(jsondata, tour_id).__dict__()
-        destinationsToInsert = str(json.dumps(jsondata))
+        data = dict(yaml.safe_load(input.get("data")))
+        tour = TourDto(data).__dict__()
+        destinations = dict(yaml.safe_load(tour["destinations"])).values()
+        # jsondata = prepareJsonData(destinations)
+        destinations = DestinationListDto(destinations, tour_id).__dict__()
+        destinationsToInsert = str(json.dumps(destinations))
         table = "TOUR"
         schema = "entities"
         stm = " UPDATE " + schema + "." + table
@@ -34,18 +38,25 @@ def DSProcessDestinations(tour_id, input):
         if len(res) > 0:
             reslist.append(res)
             table = "TOUR_DETAIL"
+            destination_catalog = BSFindCatalog({
+                "data": {
+
+                    "catalogs": ["destinations"]
+
+                }
+            })
+
+            destination_catalog = destination_catalog["catalogs"]["destinations"]
             for destination in destinations:
-                stm = """
-                            INSERT INTO {}.{}(TOUR_ID, DETAIL, DESTINATION_ID)
-                            VALUES ({},\'{}\',{})
-                
-                """.format(
-                    schema,
-                    table,
-                    tour_id,
-                    str(json.dumps(destination)),
-                    destination["destination_id"],
-                )
+                dest_code = [
+                    x for x in destination_catalog if str(x["description"]).lower() == str(destination["destination"]).lower()]
+                dest_code = dest_code[0]["code"]
+                exp_days = destination["explorationDay"]
+                dest_index = destination["index"]
+                stm = f"""
+                            INSERT INTO {schema}.{table}(TOUR_ID, DETAIL, DESTINATION_ID, EXPLORATION_DAYS, DESTINATION_INDEX)
+                            VALUES ({tour_id},\'{str(json.dumps(destination))}\',{dest_code},{exp_days},{dest_index})
+                """
                 res = nbd.persistence.setWrite(stm, table)
                 if len(res) > 0:
                     reslist.append(res)

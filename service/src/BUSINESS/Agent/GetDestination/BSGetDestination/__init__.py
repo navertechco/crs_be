@@ -6,6 +6,17 @@ from ..DSGetDestination import DSGetDestination
 from naver_core import *
 
 
+
+
+def BSGetDestination(destination, type):
+    try:
+        res = DSGetDestination(destination, type)
+        return res
+
+    except Exception as e:
+        raise e
+
+
 def BSGetDestination(input):
     try:
         

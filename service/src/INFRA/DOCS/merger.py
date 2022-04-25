@@ -130,7 +130,7 @@ def gen_dest(data, name):
                     font = run.font
                     font.name = "Calibri"
                     font.size = Pt(12)
-                    image = os.path.join(FILE_DIR, (f"image.png"))
+                    image = os.path.join(FILE_DIR, (f"{dest_name}.png"))
                     doc.add_picture(image, width=Inches(4), height=Inches(4))
                     if i < len(experiences) - 1:
                         next = list(experiences)[i + 1]

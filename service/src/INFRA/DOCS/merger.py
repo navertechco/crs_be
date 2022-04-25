@@ -15,6 +15,8 @@ TMP_DIR = os.path.join(FILE_DIR, (f"tmp\\"))
 DOCS = []
 ARRIVAL = datetime.now()
 DEPARTURE = ARRIVAL + timedelta(days=1)
+WEEK = ["Monday", "Tuesday",
+        "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 
 def gen_tour_doc(data):
@@ -106,17 +108,22 @@ def gen_dest(data, name):
                 experiences = day.get("experiences")
                 meals = day.get("meals")
                 type = "Tour"
-                if str(day_name) == "0":
-                    type = "Arrival"
-                    doc.add_heading(f"{type}", 1)
+                date = (ARRIVAL + timedelta(days=int(day_name))
+                        )
+                date_string = date.strftime("%Y-%m-%d")
+                weekday = WEEK[date.weekday()]
+                if (day_id) == 0:
+                    type = f"Arrival"
+                    doc.add_heading(f" {date_string} {weekday}", 1)
                     meals = "D/O"
                 elif day_id == len(days) - 1 and dest_id == len(destinations) - 1:
                     type = "Departure"
-                    doc.add_heading(f"{type}", 1)
+                    doc.add_heading(f" {date_string} {weekday}", 1)
                     meals = "B/L"
                 else:
+                    type = "Tour"
                     doc.add_heading(
-                        f"Day {day_name} {ARRIVAL + timedelta(days = int(day_name))} ", 1)
+                        f"Day {day_name} {date_string} {weekday}", 1)
                 doc.add_heading(f"Experiences", 2)
                 for i, exp_name in enumerate(experiences):
                     experience = experiences[exp_name]
@@ -130,7 +137,8 @@ def gen_dest(data, name):
                     font = run.font
                     font.name = "Calibri"
                     font.size = Pt(12)
-                    image = os.path.join(FILE_DIR, (f"{dest_name}.png"))
+                    image = os.path.join(
+                        FILE_DIR, (f"images\\{dest_name}.png"))
                     doc.add_picture(image, width=Inches(4), height=Inches(4))
                     if i < len(experiences) - 1:
                         next = list(experiences)[i + 1]
@@ -158,8 +166,9 @@ def gen_dest(data, name):
                         font.size = Pt(12)
                     # else:
                     #     doc.add_paragraph(f"Next we going to departure to Home", style='Intense Quote')
-                    doc.add_page_break()
-            output = os.path.join(TMP_DIR, (f"{dest_name}-{name}.docx"))
+                doc.add_page_break()
+            output = os.path.join(
+                TMP_DIR, (f"{dest_name}-{name}-{dest_id}.docx"))
             doc.save(output)
             DOCS.append(output)
     except Exception as e:

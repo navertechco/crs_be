@@ -3,6 +3,8 @@ import os
 import json
 import pandas as pd
 import requests
+from naver_core import *
+any_module(__file__, 3)
 from src.infra.web.app.libs import app
 
 

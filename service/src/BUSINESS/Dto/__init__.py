@@ -19,3 +19,4 @@ from .tour_detail import TourDetailDto, TourDetailListDto
 from .transport import TransportDto, TransportListDto
 from .user import UserDto, UserListDto
 from .profile import ProfileDto
+from .any import AnyDto, AnyListDto

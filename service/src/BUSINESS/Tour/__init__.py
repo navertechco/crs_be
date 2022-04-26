@@ -13,4 +13,5 @@ from .ProcessDestinations import *
 from .TourEdit import *
 from .CalculateNetRate import *
 from .FindTour import *
+from .FindCruise import *
 from .GenTour import *

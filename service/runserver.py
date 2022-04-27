@@ -14,7 +14,7 @@ def main():
         print("PORT: ", str(PORT))
         SECRET_KEY = os.urandom(32)
         app.config['SECRET_KEY'] = SECRET_KEY
-        app.run(host=HOST, port=PORT)
+        app.run(host=HOST, port=PORT, ssl_context='adhoc')
     except Exception as error:
         print(error)
 

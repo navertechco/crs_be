@@ -1,79 +1,63 @@
 #!/usr/bin/python
 
 import httplib2
-import os
-import sys
-
-from apiclient.discovery import build
-from apiclient.errors import HttpError
+import sys, os
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client.tools import argparser, run_flow
 
-POST https://www.googleapis.com/youtube/v3/playlists
-# The CLIENT_SECRETS_FILE variable specifies the name of a file that contains
-# the OAuth 2.0 information for this application, including its client_id and
-# client_secret. You can acquire an OAuth 2.0 client ID and client secret from
-# the Google API Console at
-# https://console.developers.google.com/.
-# Please ensure that you have enabled the YouTube Data API for your project.
-# For more information about using OAuth2 to access the YouTube Data API, see:
-#   https://developers.google.com/youtube/v3/guides/authentication
-# For more information about the client_secrets.json file format, see:
-#   https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
-CLIENT_SECRETS_FILE = "client_secrets.json"
-
-# This variable defines a message to display if the CLIENT_SECRETS_FILE is
-# missing.
-MISSING_CLIENT_SECRETS_MESSAGE = """
-WARNING: Please configure OAuth 2.0
-
-To make this sample run you will need to populate the client_secrets.json file
-found at:
-
-   %s
-
-with information from the API Console
-https://console.developers.google.com/
-
-For more information about the client_secrets.json file format, please visit:
-https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
-""" % os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                   CLIENT_SECRETS_FILE))
-
-# This OAuth 2.0 access scope allows for full read/write access to the
-# authenticated user's account.
+ROUTES_PATH = os.path.abspath(__file__)
+APP_DIR = os.path.dirname(ROUTES_PATH)
+web_DIR = os.path.dirname(APP_DIR)
+infra_DIR = os.path.dirname(web_DIR)
+SRC_DIR = os.path.dirname(infra_DIR)
+ROOT_DIR = os.path.dirname(SRC_DIR)
+STATIC = os.path.join(web_DIR, ("static/"))
+TEMPLATE_FOLDER = os.path.join(STATIC, ("templates/"))
+UPLOAD_FOLDER = os.path.join(STATIC, ("uploads/"))
+ALLOWED_EXTENSIONS = {"xlsx", "csv"}
+ENV_PATH = os.path.join(ROOT_DIR, (".env"))
+ 
+CLIENT_SECRETS_FILE = "client_secrets.json" 
+MISSING_CLIENT_SECRETS_MESSAGE = ""  
 YOUTUBE_READ_WRITE_SCOPE = "https://www.googleapis.com/auth/youtube"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
-flow = flow_from_clientsecrets(CLIENT_SECRETS_FILE,
-  message=MISSING_CLIENT_SECRETS_MESSAGE,
-  scope=YOUTUBE_READ_WRITE_SCOPE)
 
-storage = Storage("%s-oauth2.json" % sys.argv[0])
-credentials = storage.get()
+def initialize_api():
+    flow = flow_from_clientsecrets(CLIENT_SECRETS_FILE,
+                                   message=MISSING_CLIENT_SECRETS_MESSAGE,
+                                   scope=YOUTUBE_READ_WRITE_SCOPE)
 
-if credentials is None or credentials.invalid:
-  flags = argparser.parse_args()
-  credentials = run_flow(flow, storage, flags)
+    storage = Storage("%s-oauth2.json" % sys.argv[0])
+    credentials = storage.get()
 
-youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-  http=credentials.authorize(httplib2.Http()))
+    if credentials is None or credentials.invalid:
+        flags = argparser.parse_args()
+        credentials = run_flow(flow, storage, flags)
 
-# This code creates a new, private playlist in the authorized user's channel.
-playlists_insert_response = youtube.playlists().insert(
-  part="snippet,status",
-  body=dict(
-    snippet=dict(
-      title="Test Playlist",
-      description="A private playlist created with the YouTube API v3"
-    ),
-    status=dict(
-      privacyStatus="private"
-    )
-  )
-).execute()
+    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+                    http=credentials.authorize(httplib2.Http()))
+    return youtube
 
 
-print(f"New playlist id: {playlists_insert_response['id']}")
+def create_playlist(title, description):
+    youtube = initialize_api()
+    # This code creates a new, private playlist in the authorized user's channel.
+    playlists_insert_response = youtube.playlists().insert(
+        part="snippet,status",
+        body=dict(
+            snippet=dict(
+                title=f"{title}",
+                description=f"{description}"
+            ),
+            status=dict(
+                privacyStatus="private"
+            )
+        )
+    ).execute()
+
+    print(f"New playlist id: {playlists_insert_response['id']}")

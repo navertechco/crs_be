@@ -84,7 +84,7 @@ def create_playlist(title, description):
                     "description": f"{description}"
                 },
                 "status": {
-                    "privacyStatus": "public"
+                    "privacyStatus": "private"
                 }
             }
         )

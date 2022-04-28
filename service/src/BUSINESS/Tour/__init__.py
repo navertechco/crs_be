@@ -9,6 +9,7 @@ from .NewId import *
 from .ProcessTour import *
 from .PromoteTour import *
 from .UpdateTour import *
+from .UpdatePlaylist import *
 from .ProcessDestinations import *
 from .TourEdit import *
 from .CalculateNetRate import *

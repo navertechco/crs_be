@@ -7,7 +7,7 @@ from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
 from src.infra.web.app.routes import app
-
+from src.infra.video.youtube import *
 
 config = NaverConfig(app)
 nbd = NaverDB(app, config)
@@ -41,9 +41,9 @@ def DSPlayTour(slug):
                 update = nbd.persistence.setWrite(stm, table)
                 if len(update) > 0:
                     update["session"].commit()
-                    playlist = str(tour[0]["playlist"]).replace('"', "")
-                    return playlist
+                    return slug
                 raise Exception("No se pudo actualizar la cantidad de reproducciones.")
+            delete_playlist(slug)
             raise Exception(
                 "No se puede reproducir el Tour porque ya se ha reproducido 2 veces"
             )

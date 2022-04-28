@@ -24,7 +24,7 @@ def BSEditVideo(input):
                 "tour_id": getValue(input, 'tour_id')
             }
             res = BSUpdatePlaylist(playlist)
-            return res
+            return playlistId
         if state == 'delete':
             playlistId = getValue(input, 'playlistId')
             delete_playlist(playlistId)

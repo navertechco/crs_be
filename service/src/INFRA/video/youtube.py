@@ -45,19 +45,47 @@ scopes = ["https://www.googleapis.com/auth/youtube",
           "https://www.googleapis.com/auth/youtube.readonly",
           "https://www.googleapis.com/auth/youtubepartner"]
 
-
-def list_playlist_items(playlistId):
-    youtube = initialize_api()
-    request = youtube.playlistItems().list(part="id, snippet, contentDetails, status",
-                                           playlistId=f"{playlistId}", maxResults=50)
-    response = request.execute()
-    print(response)
+# ////////////////////////////////////////////////////////////////////////////// PLAYLIST //////////////////////////////////////////////////////////////////////////////
 
 
 def list_playlist():
     youtube = initialize_api()
     request = youtube.playlists().list(part="id, snippet, status",
                                        channelId="UCmePd2U1QGDYQysI8xqe1XA", maxResults=50)
+    response = request.execute()
+    print(response)
+
+
+def delete_playlist(id):
+    youtube = initialize_api()
+    request = youtube.playlists().delete(id=id)
+    response = request.execute()
+    print(response)
+
+
+def create_playlist(title, description):
+    youtube = initialize_api()
+    response = youtube.playlists().insert(
+        part="snippet,status",
+        body=dict(
+            snippet=dict(
+                title=f"{title}",
+                description=f"{description}"
+            ),
+            status=dict(
+                privacyStatus="private"
+            )
+        )
+    ).execute()
+    print(response['id'])
+
+# ////////////////////////////////////////////////////////////////////////////// PLAYLIST ITEMS //////////////////////////////////////////////////////////////////////////////
+
+
+def list_playlist_items(playlistId):
+    youtube = initialize_api()
+    request = youtube.playlistItems().list(part="id, snippet, contentDetails, status",
+                                           playlistId=f"{playlistId}", maxResults=50)
     response = request.execute()
     print(response)
 
@@ -79,23 +107,29 @@ def insert_playlist_items(videoId, playlistId):
     print(response)
 
 
-def create_playlist(title, description):
+def update_playlist_items(videoId, playlistId):
     youtube = initialize_api()
-    response = youtube.playlists().insert(
-        part="snippet,status",
-        body=dict(
-            snippet=dict(
-                title=f"{title}",
-                description=f"{description}"
-            ),
-            status=dict(
-                privacyStatus="private"
-            )
-        )
-    ).execute()
-    print(response['id'])
+    request = youtube.playlistItems().update(
+        part="snippet",
+        body={
+            "snippet": {
+                "playlistId": f"{playlistId}",
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": f"{videoId}"
+                }}}
+    )
+
+    response = request.execute()
+    print(response)
+
+
+def delete_playlist_items(id):
+    youtube = initialize_api()
+    request = youtube.playlistItems().delete(id=id)
+    response = request.execute()
+    print(response)
 
 
 if __name__ == '__main__':
-    insert_playlist_items(
-        "xbg3hp57xx8", "PLb-GU5He_5yM-0NLtx0hVRAPV0wL951cO")
+    pass

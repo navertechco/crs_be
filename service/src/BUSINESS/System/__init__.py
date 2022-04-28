@@ -47,6 +47,7 @@ from .ValidateUser import ValidateUser
 from .LogPoll import LogPoll
 from .ValidatePoll import ValidatePoll 
 from .LogConnection import LogConnection
+from .EditVideo import EditVideo
 
 try:
     __import__('pkg_resources').declare_namespace(__name__)

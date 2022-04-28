@@ -2,6 +2,31 @@
 from .libs import *
 
 
+
+# region video
+from src.business.System.EditVideo import FSEditVideo
+
+
+@api.route("/System/EditVideo")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
+class EditVideo(Resource):
+    def post(self):
+        """Método para procesar opciones de inclusión
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        data = request.get_json(force=True)
+        return FSEditVideo(data)
+# endregion
+
+
+
 # region admin
 from src.business.Admin.CreateCatalog import FSCreateCatalog
 

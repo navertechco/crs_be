@@ -43,7 +43,7 @@ def DSPlayTour(slug):
                     update["session"].commit()
                     return slug
                 raise Exception("No se pudo actualizar la cantidad de reproducciones.")
-            delete_playlist(slug)
+            # delete_playlist(slug)
             raise Exception(
                 "No se puede reproducir el Tour porque ya se ha reproducido 2 veces"
             )

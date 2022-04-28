@@ -52,7 +52,7 @@ def initialize_api():
     except Exception as e:
         raise e
 
- 
+
 # ////////////////////////////////////////////////////////////////////////////// PLAYLIST //////////////////////////////////////////////////////////////////////////////
 
 
@@ -84,7 +84,7 @@ def create_playlist(title, description):
                     "description": f"{description}"
                 },
                 "status": {
-                    "privacyStatus": "private"
+                    "privacyStatus": "unlisted"
                 }
             }
         )

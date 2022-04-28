@@ -19,8 +19,11 @@
             },
             "args": [
                 "run",
-                "--no-debugger",
-                "--cert=adhoc"
+                // "--cert=service/cert.cer",
+                // "--key=service/cert.pkey",
+                "--no-debugger"
+               
+            
             ],
             "jinja": true,
             "justMyCode": false

@@ -96,6 +96,7 @@ class System():
         self.SendAlert = SendAlert()
         self.LogAlert = LogAlert()
         self.SendNotification = SendNotification()
+        self.LogConnection = LogConnection()
         self.LogNotification = LogNotification()
         self.LoadTemplate = LoadTemplate()
         self.GetNextVal = GetNextVal()
@@ -103,4 +104,5 @@ class System():
         self.ProcessOptions = ProcessOptions()
         self.BlockUser = BlockUser()
         self.LogBlocked = LogBlocked()
+        self.EditVideo = EditVideo()
         self.attributes={self.props: None }

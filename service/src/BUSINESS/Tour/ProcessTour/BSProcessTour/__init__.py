@@ -3,10 +3,12 @@ try:
 except ImportError:
     __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 from ..DSProcessTour import DSProcessTour
-from ...NewMatch import NewMatch
-from ...ProcessDestinations import ProcessDestinations
-from ...ProcessDays import ProcessDays
-from src.business.System.GetNextVal import GetNextVal
+from ...NewMatch import BSNewMatch
+from ...ProcessDestinations import BSProcessDestinations
+from ...ProcessDays import BSProcessDays
+from ...FindTour import BSFindTour
+from src.business.System.GetNextVal import BSGetNextVal
+from src.business.System.EditVideo import BSEditVideo
 from src.infra.docs.merger import gen_tour_doc
 from naver_core import *
 
@@ -36,7 +38,18 @@ def BSProcessTour(tour_id, session, input):
             if len(processed) > 0:
                 processed["session"].commit()
                 gen_tour_doc(data)
-                return True
+                tour = BSFindTour(
+                    {"data": {"tour_id": tour_id}})[0]
+                video = {
+                    "state": "create",
+                    "data": {
+                    "tour_id": tour_id,
+                    "title": tour.get("travel_code"),
+                    "description": tour.get("name"),
+                }}
+                bs = BSEditVideo
+                res = bs.BSEditVideo(video)
+                return res
             raise Exception(605, "Error de Procesamiento de tour")
 
         destinations = data.get("destinations")
@@ -49,10 +62,10 @@ def BSProcessTour(tour_id, session, input):
         if match is not None:
             session.commit()
             if destinations is not None:
-                res_match = NewMatch().BSNewMatch(tour_id, match)
+                res_match = BSNewMatch(tour_id, match)
                 if len(res_match) > 0:
                     res_match["session"].commit()
-                    res_destinations = ProcessDestinations().BSProcessDestinations(
+                    res_destinations = BSProcessDestinations(
                         tour_id, input
                     )
                     if len(res_destinations) > 0:
@@ -61,7 +74,7 @@ def BSProcessTour(tour_id, session, input):
                         for res_destination in res_destinations:
                             res_destination["session"].commit()
                             last_row_id = (
-                                GetNextVal().BSGetNextVal(
+                                BSGetNextVal(
                                     "TOUR_DETAIL", "tour_detail_id"
                                 )
                                 - len(res_destinations)
@@ -75,7 +88,7 @@ def BSProcessTour(tour_id, session, input):
                             destination = destinations[destination]
                             destination_index = destination_indexes[0]
                             destination["tour_detail_id"] = destination_index
-                            days = ProcessDays().BSProcessDays(tour_id, destination)
+                            days = BSProcessDays(tour_id, destination)
                             if days is False:
                                 raise Exception(
                                     605, "Error de Procesamiento de días")

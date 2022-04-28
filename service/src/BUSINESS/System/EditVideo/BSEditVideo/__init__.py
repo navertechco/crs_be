@@ -5,7 +5,7 @@ except ImportError:
 from ..DSEditVideo import DSEditVideo
 from naver_core import *
 from src.infra.video.youtube import *
-from src.business.Tour import BSFindTour, BSUpdateTour, BSUpdatePlaylist
+from src.business.Tour import BSUpdatePlaylist
 
 
 def BSEditVideo(input):

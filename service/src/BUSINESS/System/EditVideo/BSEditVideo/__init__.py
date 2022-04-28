@@ -10,9 +10,9 @@ from src.infra.video.youtube import *
 def BSEditVideo(input):
     try:
         state = input.get('state')
-        resources = DSEditVideo(input)
 
         if state == 'create':
+            resources = DSEditVideo(input)
             title = getValue(input, 'title')
             description = getValue(input, 'description')
             playlistId = create_playlist(title, description)["id"]

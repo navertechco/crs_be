@@ -17,34 +17,42 @@ INFRA_DIR = os.path.dirname(VIDEO_DIR)
 SRC_DIR = os.path.dirname(INFRA_DIR)
 ROOT_DIR = os.path.dirname(SRC_DIR)
 CLIENT_SECRETS_FILE = os.path.join(ROOT_DIR, ("client_secrets.json"))
-MISSING_CLIENT_SECRETS_MESSAGE = ""
+OAUTH_DIR = os.path.join(VIDEO_DIR, ("oauth2.json"))
+MISSING_CLIENT_SECRETS_MESSAGE = """
+WARNING: Please configure OAuth 2.0
+
+To make this sample run you will need to populate the client_secrets.json file
+found at:
+
+   %s
+
+with information from the API Console
+https://console.developers.google.com/
+
+For more information about the client_secrets.json file format, please visit:
+https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
+""" % CLIENT_SECRETS_FILE
+
 YOUTUBE_READ_WRITE_SCOPE = "https://www.googleapis.com/auth/youtube"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
 
 def initialize_api():
-    flow = flow_from_clientsecrets(CLIENT_SECRETS_FILE,
-                                   message=MISSING_CLIENT_SECRETS_MESSAGE,
-                                   scope=YOUTUBE_READ_WRITE_SCOPE)
+    try:
+        flow = flow_from_clientsecrets(CLIENT_SECRETS_FILE,
+                                       scope=YOUTUBE_READ_WRITE_SCOPE,
+                                       message=MISSING_CLIENT_SECRETS_MESSAGE)
+        storage = Storage(OAUTH_DIR)
+        credentials = storage.get()
+        if credentials is None or credentials.invalid:
+            credentials = run_flow(flow, storage, argparser.parse_args())
+        return build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+                     http=credentials.authorize(httplib2.Http()))
+    except Exception as e:
+        raise e
 
-    storage = Storage("%s-oauth2.json" % sys.argv[0])
-    credentials = storage.get()
-
-    if credentials is None or credentials.invalid:
-        flags = argparser.parse_args()
-        credentials = run_flow(flow, storage, flags)
-
-    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                    http=credentials.authorize(httplib2.Http()))
-    return youtube
-
-
-scopes = ["https://www.googleapis.com/auth/youtube",
-          "https://www.googleapis.com/auth/youtube.force-ssl",
-          "https://www.googleapis.com/auth/youtube.readonly",
-          "https://www.googleapis.com/auth/youtubepartner"]
-
+ 
 # ////////////////////////////////////////////////////////////////////////////// PLAYLIST //////////////////////////////////////////////////////////////////////////////
 
 
@@ -54,6 +62,7 @@ def list_playlist():
                                        channelId="UCmePd2U1QGDYQysI8xqe1XA", maxResults=50)
     response = request.execute()
     print(response)
+    return response
 
 
 def delete_playlist(id):
@@ -61,23 +70,30 @@ def delete_playlist(id):
     request = youtube.playlists().delete(id=id)
     response = request.execute()
     print(response)
+    return response
 
 
 def create_playlist(title, description):
-    youtube = initialize_api()
-    response = youtube.playlists().insert(
-        part="snippet,status",
-        body=dict(
-            snippet=dict(
-                title=f"{title}",
-                description=f"{description}"
-            ),
-            status=dict(
-                privacyStatus="private"
-            )
+    try:
+        youtube = initialize_api()
+        request = youtube.playlists().insert(
+            part="snippet, status",
+            body={
+                "snippet": {
+                    "title": f"{title}",
+                    "description": f"{description}"
+                },
+                "status": {
+                    "privacyStatus": "public"
+                }
+            }
         )
-    ).execute()
-    print(response['id'])
+        response = request.execute()
+        print(response)
+        return response
+    except Exception as e:
+        raise Exception("An HTTP error %d occurred:\n%s" %
+                        (e.resp.status, e.content))
 
 # ////////////////////////////////////////////////////////////////////////////// PLAYLIST ITEMS //////////////////////////////////////////////////////////////////////////////
 
@@ -88,6 +104,7 @@ def list_playlist_items(playlistId):
                                            playlistId=f"{playlistId}", maxResults=50)
     response = request.execute()
     print(response)
+    return response
 
 
 def insert_playlist_items(videoId, playlistId):
@@ -105,6 +122,7 @@ def insert_playlist_items(videoId, playlistId):
 
     response = request.execute()
     print(response)
+    return response
 
 
 def update_playlist_items(videoId, playlistId):
@@ -122,6 +140,7 @@ def update_playlist_items(videoId, playlistId):
 
     response = request.execute()
     print(response)
+    return response
 
 
 def delete_playlist_items(id):
@@ -129,7 +148,8 @@ def delete_playlist_items(id):
     request = youtube.playlistItems().delete(id=id)
     response = request.execute()
     print(response)
+    return response
 
 
 if __name__ == '__main__':
-    pass
+    create_playlist("culo", "teta")

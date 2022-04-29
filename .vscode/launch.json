@@ -19,8 +19,8 @@
             },
             "args": [
                 "run",
-                // "--cert=service/cert.cer",
-                // "--key=service/cert.pkey",
+                "--cert=service/certificate.crt",
+                "--key=service/private.key",
                 "--no-debugger"
                
             

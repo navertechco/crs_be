@@ -131,8 +131,9 @@ def gen_dest(data, name):
                     font = run.font
                     font.name = "Calibri"
                     font.size = Pt(12)
+                    description = experience.get("description").split(".")[1:]
                     run = doc.add_paragraph(
-                        experience.get("description").split(".")[1:]
+                        description
                     ).add_run()
                     font = run.font
                     font.name = "Calibri"
@@ -142,8 +143,9 @@ def gen_dest(data, name):
                     doc.add_picture(image, width=Inches(4), height=Inches(4))
                     if i < len(experiences) - 1:
                         next = list(experiences)[i + 1]
+                        next_description = experiences[next]['description'].split('.')[0]
                         run = doc.add_paragraph(
-                            f"Next we're going to get, {experiences[next]['description'].split('.')[0]}"
+                            f"Next we're going to get, {next_description}"
                         ).add_run()
                         font = run.font
                         font.name = "Calibri"

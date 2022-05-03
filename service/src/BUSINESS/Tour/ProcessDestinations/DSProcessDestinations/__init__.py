@@ -25,7 +25,7 @@ def DSProcessDestinations(tour_id, input):
         tour = TourDto(data).__dict__()
         destinations = dict(yaml.safe_load(tour["destinations"])).values()
         # jsondata = prepareJsonData(destinations)
-        destinations = DestinationListDto(destinations, tour_id).__dict__()
+        destinations = AnyListDto(destinations).__dict__["children"]
         destinationsToInsert = str(json.dumps(destinations))
         table = "TOUR"
         schema = "entities"

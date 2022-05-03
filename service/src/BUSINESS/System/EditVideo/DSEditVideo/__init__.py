@@ -44,7 +44,10 @@ def DSEditVideo(input):
                 destination = dict(destination)
                 dest_name = destination.get('destination')
                 playlist_request.append([dest_name, 37])
-                days = json.loads(destination.get('daysData'))
+                try:
+                    days = json.loads(destination.get('daysData'))
+                except:
+                    days = (destination.get('daysData'))
                 for day_id in days:
                     day = days[day_id]
                     experiences = day.get('experiences')

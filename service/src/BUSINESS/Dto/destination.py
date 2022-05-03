@@ -4,7 +4,7 @@ import json
 from naver_core import *
 
 
-class DestinationDto():
+class DestinationDto(object):
     def __init__(self, data):
         self.explorationDay = data.get("explorationDay") or None
         self.arrival_hour = data.get("arrival_hour") or None
@@ -32,13 +32,13 @@ class DestinationDto():
         }
 
 
-class DestinationListDto():
+class DestinationListDto(object):
     def __init__(self, data, id):
         self.destination_list = []
         for d in data:
             destinationDto = None
             destinationDto = DestinationDto(d)
-            self.destination_list.append(destinationDto.__dict__())
+            self.destination_list.append(destinationDto.__dict__)
 
     def __dict__(self):
         return self.destination_list

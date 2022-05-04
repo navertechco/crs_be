@@ -63,10 +63,8 @@ def BSConnect(input):
             if state == "signin":
                 result = self.SignIn.BSSignIn(input)
                 if len(result) > 0:
-                    catalogs = self.FindCatalog.BSFindCatalog(
-                        {"data": {"catalogs": ["ALL"]}}
-                    )
-                    return catalogs
+                    return True
+                   
             if state == "update":
                 result = self.UpdateProfile.BSUpdateProfile(input)
                 return result

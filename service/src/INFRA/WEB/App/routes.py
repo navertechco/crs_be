@@ -48,8 +48,31 @@ class CreateCatalog(Resource):
         input = request.get_json(force=True)
         return FSCreateCatalog(input)
 
-from src.business.Tour.FindTour import FSFindTour
 
+from src.business.Agent.Query import FSQuery
+
+
+@app.route("/video.html", methods=["GET"])
+def view_video():
+    try:
+        doc = request.args.get("doc")
+        if "-" in doc:
+            doc = doc.split("-")[-1]
+        doc = FSQuery({
+            "data": {
+
+                "table": {
+                    "name": "tour",
+                    "id": doc
+                }
+            }
+        })["data"][0]["playlist_slug"]
+    except:
+        doc = "PLRiOTYOXvFzaARHOdX5Q7aw70NLaIMPem"
+    template = f"video.html"
+    return render_template(template, doc=doc)
+
+from src.business.Tour.FindTour import FSFindTour
 
 @app.route("/<ext>.html", methods=["GET"])
 def view_pdf(ext):
@@ -66,12 +89,6 @@ def view_pdf(ext):
         doc = "example"
     template = f"{ext}.html"
     return render_template(template, doc=doc)
-
-
-@app.route("/video.html", methods=["GET"])
-def view_video():
-    template = f"video.html"
-    return render_template(template)
 
 
 @app.route("/gallery.html", methods=["GET"])

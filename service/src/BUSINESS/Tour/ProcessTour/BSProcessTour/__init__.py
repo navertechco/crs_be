@@ -12,6 +12,24 @@ from src.business.System.EditVideo import BSEditVideo
 from src.infra.docs.merger import gen_tour_doc
 from naver_core import *
 
+def finalProccess(data, tour_id):
+    processed = DSProcessTour(tour_id)
+    if len(processed) > 0:
+        processed["session"].commit()
+        gen_tour_doc(data)
+        tour = BSFindTour(
+            {"data": {"tour_id": tour_id}})[0]
+        video = {
+            "state": "create",
+            "data": {
+            "tour_id": tour_id,
+            "title": tour.get("travel_code"),
+            "description": tour.get("name"),
+        }}
+        bs = BSEditVideo
+        res = bs.BSEditVideo(video)
+        return res
+    raise Exception(605, "Error de Procesamiento de tour")
 
 def BSProcessTour(tour_id, session, input):
     """Método de Procesamiento Tour
@@ -32,26 +50,6 @@ def BSProcessTour(tour_id, session, input):
     """
     try:
         data = dict(yaml.safe_load(input.get("data")))
-
-        def finalProccess():
-            processed = DSProcessTour(tour_id)
-            if len(processed) > 0:
-                processed["session"].commit()
-                gen_tour_doc(data)
-                tour = BSFindTour(
-                    {"data": {"tour_id": tour_id}})[0]
-                video = {
-                    "state": "create",
-                    "data": {
-                    "tour_id": tour_id,
-                    "title": tour.get("travel_code"),
-                    "description": tour.get("name"),
-                }}
-                bs = BSEditVideo
-                res = bs.BSEditVideo(video)
-                return res
-            raise Exception(605, "Error de Procesamiento de tour")
-
         destinations = data.get("destinations")
         keys = list(destinations)
         first = keys[0]
@@ -92,7 +90,7 @@ def BSProcessTour(tour_id, session, input):
                             if days is False:
                                 raise Exception(
                                     605, "Error de Procesamiento de días")
-                        return finalProccess()
+                    return finalProccess(data, tour_id)
                     raise Exception(605, "Error de Procesamiento de destinos")
                 raise Exception(605, "Error de Procesamiento de match")
             raise Exception(605, "No tiene destinos el tour")

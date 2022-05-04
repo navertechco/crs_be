@@ -17,9 +17,11 @@ def DSUpdateTour(input):
 
     try:
         data = dict(yaml.safe_load(input.get("data")))
-        tour = TourDto(data).__dict__()
+        id = input.get("id")
+        data["tour_id"] = id
+        tour = AnyDto(**data)
         table = "TOUR"
-        res = nbd.persistence.updateDto(tour, table)
+        res = nbd.persistence.updateDto(tour, table, "tour_id")
         return res
 
     except Exception as e:

@@ -22,7 +22,7 @@ def BSTourEdit(input):
     """
     try:
         state = input.get("state")
-        if state == "new":
+        if state == "new" or state == "update":
             valid = DSTourEdit(input)
             if valid:
                 tour_id, session = NewTour().BSNewTour(input)
@@ -30,8 +30,6 @@ def BSTourEdit(input):
                     return ProcessTour().BSProcessTour(tour_id, session, input)
                 raise Exception("Error al crear el tour")
             raise Exception("Ya tiene un tour activo")
-        if state == "update":
-            return UpdateTour().BSUpdateTour(input)
         if state == "calculate":
             return CalculateNetRate.BSCalculateNetRate(input)
         raise Exception(605, "Error de Edición")

@@ -4,7 +4,7 @@ import json
 from naver_core import *
 
 
-class TourDto:
+class TourDto(object):
     def __init__(self, value):
         # from Frontend
         tour = value.get("tour") or None

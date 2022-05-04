@@ -16,6 +16,12 @@ def BSEditVideo(input):
             resources = DSEditVideo(input)
             title = getValue(input, 'title')
             description = getValue(input, 'description')
+            playlists = list_playlist()["items"]
+
+            for playlist in playlists:
+                if playlist["snippet"]["title"] == title:
+                    delete_playlist(playlist["id"])
+
             playlistId = create_playlist(title, description)["id"]
             for resourceId in resources:
                 insert_playlist_items(resourceId, playlistId)

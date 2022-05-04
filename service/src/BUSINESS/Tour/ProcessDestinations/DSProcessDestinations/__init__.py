@@ -29,37 +29,39 @@ def DSProcessDestinations(tour_id, input):
         destinationsToInsert = str(json.dumps(destinations))
         table = "TOUR"
         schema = "entities"
-        stm = " UPDATE " + schema + "." + table
-        stm += " SET destinations='{}'".format(destinationsToInsert)
-        stm += ", tour_state_id=4"
-        where = " WHERE tour_id = '{}'".format(tour_id)
-        stm += " " + where
-        res = nbd.persistence.setWrite(stm, table)
-        if len(res) > 0:
-            reslist.append(res)
-            table = "TOUR_DETAIL"
-            destination_catalog = BSFindCatalog({
-                "data": {
+        next = nbd.persistence.getNextVal("tour_id", table, schema)
+        if int(tour_id) == int(next):
+            stm = " UPDATE " + schema + "." + table
+            stm += " SET destinations='{}'".format(destinationsToInsert)
+            stm += ", tour_state_id=4"
+            where = " WHERE tour_id = '{}'".format(tour_id)
+            stm += " " + where
+            res = nbd.persistence.setWrite(stm, table)
+            if len(res) > 0:
+                reslist.append(res)
+                
+                table = "TOUR_DETAIL"
+                destination_catalog = BSFindCatalog({
+                    "data": {
 
-                    "catalogs": ["destinations"]
+                        "catalogs": ["destinations"]
 
-                }
-            })
-
-            destination_catalog = destination_catalog["catalogs"]["destinations"]
-            for destination in destinations:
-                dest_code = [
-                    x for x in destination_catalog if str(x["description"]).lower() == str(destination["destination"]).lower()]
-                dest_code = dest_code[0]["code"]
-                exp_days = destination["explorationDay"]
-                dest_index = destination["index"]
-                stm = f"""
-                            INSERT INTO {schema}.{table}(TOUR_ID, DETAIL, DESTINATION_ID, EXPLORATION_DAYS, DESTINATION_INDEX)
-                            VALUES ({tour_id},\'{str(json.dumps(destination))}\',{dest_code},{exp_days},{dest_index})
-                """
-                res = nbd.persistence.setWrite(stm, table)
-                if len(res) > 0:
-                    reslist.append(res)
+                    }
+                })
+                destination_catalog = destination_catalog["catalogs"]["destinations"]
+                for destination in destinations:
+                    dest_code = [
+                        x for x in destination_catalog if str(x["description"]).lower() == str(destination["destination"]).lower()]
+                    dest_code = dest_code[0]["code"]
+                    exp_days = destination["explorationDay"]
+                    dest_index = destination["index"]
+                    stm = f"""
+                                INSERT INTO {schema}.{table}(TOUR_ID, DETAIL, DESTINATION_ID, EXPLORATION_DAYS, DESTINATION_INDEX)
+                                VALUES ({tour_id},\'{str(json.dumps(destination))}\',{dest_code},{exp_days},{dest_index})
+                    """
+                    res = nbd.persistence.setWrite(stm, table)
+                    if len(res) > 0:
+                        reslist.append(res)
         return reslist
     except Exception as e:
         raise e

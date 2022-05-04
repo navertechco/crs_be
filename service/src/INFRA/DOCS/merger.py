@@ -75,6 +75,8 @@ def gen_cover_doc(header, name):
         nights = days - 1
         customer = f"{names} {last_names}"
         print(header)
+        composed = os.path.join(DOC_DIR, (f"{name}.docx"))
+        validate_docx(composed)
         doc_template = os.path.join(FILE_DIR, (f"cover.docx"))
         doc_output = os.path.join(TMP_DIR, (f"cover-{name}.docx"))
         document = Document(doc_template)
@@ -168,7 +170,7 @@ def gen_dest(data, name):
                         font.size = Pt(12)
                     # else:
                     #     doc.add_paragraph(f"Next we going to departure to Home", style='Intense Quote')
-                doc.add_page_break()
+                # doc.add_page_break()
             output = os.path.join(
                 TMP_DIR, (f"{dest_name}-{name}-{dest_id}.docx"))
             doc.save(output)
@@ -177,10 +179,17 @@ def gen_dest(data, name):
         print(e)
         raise e
 
+def validate_docx(file):
+    try:
+        if os.path.exists(file):
+            os.remove(file)
+    except Exception as e:
+        return False
 
 def doc_compose(files, name):
     try:
         composed = os.path.join(DOC_DIR, (f"{name}.docx"))
+        validate_docx(composed)
         pdf = os.path.join(DOC_DIR, (f"{name}.pdf"))
         new_document = Document()
         composer = Composer(new_document)
@@ -210,10 +219,10 @@ def empty_tmp():
         raise e
 
 
-if __name__ == "__main__":
-    empty_tmp()
-    DATA_PATH = os.path.join(FILE_DIR, ("data.json"))
-    test_data = open(DATA_PATH, "r", encoding="utf8")
-    data = json.load(test_data)
-    gen_tour_doc(data)
-    empty_tmp()
+# if __name__ == "__main__":
+#     empty_tmp()
+#     DATA_PATH = os.path.join(FILE_DIR, ("data.json"))
+#     test_data = open(DATA_PATH, "r", encoding="utf8")
+#     data = json.load(test_data)
+#     gen_tour_doc(data)
+#     empty_tmp()

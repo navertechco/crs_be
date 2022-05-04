@@ -311,8 +311,8 @@ from src.business.Client.PlayTour import FSPlayTour
 import binascii
 
 
-@api.route("/Client/PlayTour/<slug>")
-@api.param("slug", "video playlist")
+@api.route("/Client/PlayTour/<doc>")
+@api.param("doc", "Documento del cliente")
 @api.doc(
     body=resource_fields,
     responses={
@@ -321,18 +321,19 @@ import binascii
     },
 )
 class PlayTour(Resource):
-    def get(self, slug):
+    def get(self, doc):
         """Método para reproducir un tour
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         headers = {"Content-Type": "text/html"}
-        res = FSPlayTour(slug)
-        if res is None:
-            return make_response(render_template("empty.html"), 200, headers)
-        # data = json.dumps(res)
-        # hash = binascii.hexlify(data.encode('utf-8'))
-        return make_response(render_template("playlist.html", data=res), 200, headers)
+        try:
+            if "-" in doc:
+                doc = doc.split("-")[-1]
+            doc = FSPlayTour(doc)
+        except:
+            doc = "PLRiOTYOXvFzaARHOdX5Q7aw70NLaIMPem" 
+        return make_response(render_template("video.html", doc=doc), 200, headers)
 
 
 from src.business.Client.ClientEdit import FSClientEdit

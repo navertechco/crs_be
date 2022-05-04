@@ -13,11 +13,11 @@ config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
-def DSPlayTour(slug):
+def DSPlayTour(doc):
     """Método para reproducir una lista de videos del Tour.
 
     Args:
-        slug (str): Slug del Tour.
+        doc (str): travel_code del Tour.
 
     Returns:
         res: Resultado de la operación.
@@ -28,7 +28,7 @@ def DSPlayTour(slug):
 
         stm = "SELECT "
         stm += f" * FROM {schema}.{table}"
-        stm += f" WHERE playlist_slug = '{slug}'"
+        stm += f" WHERE tour_id = '{doc}'"
 
         tour = nbd.persistence.getQuery(stm, table)
         if len(tour) > 0:
@@ -37,17 +37,13 @@ def DSPlayTour(slug):
                 stm = "UPDATE "
                 stm += f" {schema}.{table}"
                 stm += f" SET reproductions={reproductions-1}"
-                stm += f" WHERE playlist_slug = '{slug}'"
+                stm += f" WHERE tour_id = '{doc}'"
                 update = nbd.persistence.setWrite(stm, table)
                 if len(update) > 0:
                     update["session"].commit()
-                    return slug
-                raise Exception("No se pudo actualizar la cantidad de reproducciones.")
-            # delete_playlist(slug)
-            raise Exception(
-                "No se puede reproducir el Tour porque ya se ha reproducido 2 veces"
-            )
-        raise Exception("No se encontró el Tour")
+            else:
+                return ErrorResponse("No hay videos para reproducir")
+        return tour[0]["playlist_slug"]
 
     except Exception as e:
         raise e

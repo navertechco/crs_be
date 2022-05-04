@@ -5,20 +5,20 @@ except ImportError:
 from ..BSPlayTour import BSPlayTour
 from naver_core import *
 
-def FSPlayTour(slug):
+def FSPlayTour(doc):
     """Método para reproducir una lista de reproduccion de Tour.
     Args:
-        slug (str): Slug de la lista de reproduccion de Tour.
+        doc (str): documento de entrada.
 
     Returns:
         json: Resultado del API.
     """
     try:
  
-        result = BSPlayTour(slug)
+        result = BSPlayTour(doc)
         return result
 
             
         
     except Exception as e:
-        return ErrorResponse(e) 
+        raise e

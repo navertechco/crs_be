@@ -48,11 +48,21 @@ class CreateCatalog(Resource):
         input = request.get_json(force=True)
         return FSCreateCatalog(input)
 
+from src.business.Tour.FindTour import FSFindTour
+
 
 @app.route("/<ext>.html", methods=["GET"])
 def view_pdf(ext):
-    doc = request.args.get("doc")
-    if doc is None:
+    try:
+        doc = request.args.get("doc")
+        if "-" in doc:
+            doc = doc.split("-")[-1]
+        doc = FSFindTour({
+            "data": {
+                "tour_id": doc
+            }
+        })["data"][0]["travel_code"]
+    except:
         doc = "example"
     template = f"{ext}.html"
     return render_template(template, doc=doc)

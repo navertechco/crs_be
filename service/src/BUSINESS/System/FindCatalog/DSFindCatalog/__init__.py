@@ -16,14 +16,15 @@ nbd = NaverDB(app, config)
 def DSFindCatalog(input):
 
     try:
-        catalogs = str(tuple(input.get("data").get("catalogs"))).replace(",)", ")")
+        catalogs = str(tuple(input.get("data").get("catalogs"))
+                       ).replace(",)", ")")
         table = "CATALOG"
         and_stm = " and c.description in {} ".format(catalogs)
         if "ALL" in catalogs:
             and_stm = ""
-        stm = """
+        stm = f"""
              
-                        select  
+                        select  distinct
                             (c.description)     as  catalog,
                             (cd."order")        as  order,
                             (cd.description)    as  description,
@@ -36,14 +37,12 @@ def DSFindCatalog(input):
                             join entities."catalog" c 
                                 on c.catalog_id = cd.catalog_id 
                                 where true
-                            {}
+                            {and_stm}
                             and cd.is_active is true  
                             order by cd."order" asc
                              
                     
-        """.format(
-            and_stm
-        )
+        """
         res = nbd.persistence.getQuery(stm, table)
 
         return res

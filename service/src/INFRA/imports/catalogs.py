@@ -8,6 +8,30 @@ any_module(__file__, 3)
 from src.infra.web.app.libs import app
 
 
+def upload_catalogs(**kwargs):
+    """_summary_
+
+    Raises:
+        e: _description_
+
+    Returns:
+        _type_: _description_
+    """
+    server = os.environ.get("SERVER")
+    catalogs = get_catalogs(**kwargs)
+    print(catalogs[0])
+    for catalog in catalogs:
+        try:
+            data = {}
+            data = {"data": catalog}
+            res = requests.post(
+                f"{server}/Admin/CreateCatalog", data=json.dumps(data))
+            print(res.json())
+        except Exception as error:
+            print(error)
+            raise error
+
+
 def get_catalogs(**kwargs):
     """_summary_
 
@@ -86,33 +110,10 @@ def get_tag(row, tags):
     return res
 
 
-def upload_catalogs(**kwargs):
-    """_summary_
-
-    Raises:
-        e: _description_
-
-    Returns:
-        _type_: _description_
-    """
-    server = os.environ.get("SERVER")
-    catalogs = get_catalogs(**kwargs)
-    print(catalogs[0])
-    for catalog in catalogs:
-        try:
-            data = {}
-            data = {"data": catalog}
-            res = requests.post(f"{server}/Admin/CreateCatalog", data=json.dumps(data))
-            print(res.json())
-        except Exception as error:
-            print(error)
-            raise error
-
-
 if __name__ == "__main__":
     upload_catalogs(
-        filename="cruises.xlsx",
+        filename="ab.xlsx",
         page=0,
-        cid=36,
-        tags=["ship_name", "cruise_format", "cabine_type"],
+        cid=49,
+        tags=["abname", "products"],
     )

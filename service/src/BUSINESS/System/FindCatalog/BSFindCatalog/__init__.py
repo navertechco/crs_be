@@ -16,7 +16,7 @@ def BSFindCatalog(input):
         catalogs = getValue(input, 'catalogs')
         for catalog in catalogs:
             for result in results:
-                if result["catalog"] == catalog:
+                if result["catalog"] == catalog or catalog == "ALL":
                     catalogDto = CatalogDetailDto(result)
                     if catalogDto.catalog not in list(catalog_list["catalogs"]):
                         catalog_list["catalogs"][catalogDto.catalog] = []

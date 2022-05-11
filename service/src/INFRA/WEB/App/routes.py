@@ -272,14 +272,13 @@ from src.business.User.Connect import FSConnect
     },
 )
 class Connect(Resource):
-    @secure_method
     def head(self):
         """Método Inicial para conectar un usuario
         Returns:
             header: {"state":True/False, "data":salt}
         """
-        res = FSConnect(None)
-        return True, 201, {"token": removeBytePrefix(str(res))}
+        # res = FSConnect(None)
+        return True, 201, {"token": TOKEN}
 
     # @encrypted
     @secure_method

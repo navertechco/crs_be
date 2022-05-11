@@ -41,7 +41,6 @@ from src.business.Admin.CreateCatalog import FSCreateCatalog
     },
 )
 class CreateCatalog(Resource):
-    @secure_method
     def post(self):
         """Método para crear catalogo
         Returns:
@@ -55,7 +54,6 @@ from src.business.Agent.Query import FSQuery
 
 
 @app.route("/video.html", methods=["GET"])
-@secure_method
 def view_video():
     try:
         doc = request.args.get("doc")
@@ -78,7 +76,6 @@ def view_video():
 from src.business.Tour.FindTour import FSFindTour
 
 @app.route("/<ext>.html", methods=["GET"])
-@secure_method
 def view_pdf(ext):
     try:
         doc = request.args.get("doc")
@@ -96,7 +93,6 @@ def view_pdf(ext):
 
 
 @app.route("/gallery.html", methods=["GET"])
-@secure_method
 def view_gallery():
     doc = request.args.get("doc")
     return render_template("gallery.html", doc=doc)
@@ -334,7 +330,6 @@ import binascii
     },
 )
 class PlayTour(Resource):
-    @secure_method
     def get(self, doc):
         """Método para reproducir un tour
         Returns:

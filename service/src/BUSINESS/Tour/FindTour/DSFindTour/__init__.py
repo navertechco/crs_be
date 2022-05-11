@@ -27,9 +27,12 @@ def DSFindTour(input):
     """
     try:
         tour_id = getValue(input, "tour_id")
+        detail = getValue(input, "detail")
         table = "TOUR"
         schema = "entities"
         stm = " SELECT c.contact_name as name, t.description as travel_code , t.tour_id as quote, to_char(t.created, 'DD-MM-YYYY')  as date , t.tour_state_id as state  "
+        if detail:
+            stm = " SELECT c.*, t.*  "
         stm += f" FROM {schema}.{table} t"
         stm += f" JOIN {schema}.client c  "
         stm += "  ON t.client_id = c.client_dni"

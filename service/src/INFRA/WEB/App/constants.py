@@ -12,3 +12,6 @@ TEMPLATE_FOLDER = os.path.join(STATIC, ("templates/"))
 UPLOAD_FOLDER = os.path.join(STATIC, ("uploads/"))
 ALLOWED_EXTENSIONS = {"xlsx", "csv"}
 ENV_PATH = os.path.join(ROOT_DIR, (".env"))
+TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv("TOKEN")
+MAINTENANCE = Exception("Sorry, We are in maintenance")

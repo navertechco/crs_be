@@ -16,6 +16,7 @@ from src.business.System.EditVideo import FSEditVideo
     },
 )
 class EditVideo(Resource):
+    @secure_method
     def post(self):
         """Método para procesar opciones de inclusión
         Returns:
@@ -40,6 +41,7 @@ from src.business.Admin.CreateCatalog import FSCreateCatalog
     },
 )
 class CreateCatalog(Resource):
+    @secure_method
     def post(self):
         """Método para crear catalogo
         Returns:
@@ -53,6 +55,7 @@ from src.business.Agent.Query import FSQuery
 
 
 @app.route("/video.html", methods=["GET"])
+@secure_method
 def view_video():
     try:
         doc = request.args.get("doc")
@@ -75,6 +78,7 @@ def view_video():
 from src.business.Tour.FindTour import FSFindTour
 
 @app.route("/<ext>.html", methods=["GET"])
+@secure_method
 def view_pdf(ext):
     try:
         doc = request.args.get("doc")
@@ -92,12 +96,14 @@ def view_pdf(ext):
 
 
 @app.route("/gallery.html", methods=["GET"])
+@secure_method
 def view_gallery():
     doc = request.args.get("doc")
     return render_template("gallery.html", doc=doc)
 
 
 @app.route("/Admin/UploadCatalog", methods=["GET", "POST"])
+@secure_method
 def upload_file():
     if request.method == "POST":
         # check if the post request has the file part
@@ -144,6 +150,7 @@ from src.business.System.ProcessOptions import FSProcessOptions
     },
 )
 class ProcessOptions(Resource):
+    @secure_method
     def post(self):
         """Método para procesar opciones de inclusión
         Returns:
@@ -167,6 +174,7 @@ from src.business.System.FindCatalog import FSFindCatalog
     },
 )
 class FindCatalog(Resource):
+    @secure_method
     def post(self):
         """Método para mostrar catálogos
         Returns:
@@ -191,6 +199,7 @@ from src.business.User.Forgot import FSForgot
     },
 )
 class Forgot(Resource):
+    @secure_method
     def post(self):
         """Método para recuperar contraseña Backend
 
@@ -210,6 +219,7 @@ class Forgot(Resource):
         headers = {"Content-Type": "text/html"}
         return make_response(render_template("success.html"), 200, headers)
 
+    @secure_method
     def get(self):
         """Método para recuperar contraseña Frontend
 
@@ -238,6 +248,7 @@ from src.business.User.Confirm import FSConfirm
     },
 )
 class Confirm(Resource):
+    @secure_method
     def get(self):
         """Método para Confirmar un usuario
         Returns:
@@ -261,6 +272,7 @@ from src.business.User.Connect import FSConnect
     },
 )
 class Connect(Resource):
+    @secure_method
     def head(self):
         """Método Inicial para conectar un usuario
         Returns:
@@ -270,6 +282,7 @@ class Connect(Resource):
         return True, 201, {"token": removeBytePrefix(str(res))}
 
     # @encrypted
+    @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:
@@ -296,6 +309,7 @@ from src.business.User.Logout import FSLogout
     },
 )
 class Logout(Resource):
+    @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -321,6 +335,7 @@ import binascii
     },
 )
 class PlayTour(Resource):
+    @secure_method
     def get(self, doc):
         """Método para reproducir un tour
         Returns:
@@ -348,6 +363,7 @@ from src.business.Client.ClientEdit import FSClientEdit
     },
 )
 class ClientEdit(Resource):
+    @secure_method
     def post(self):
         """Método para Editar un cliente
         Returns:
@@ -371,6 +387,7 @@ from src.business.Tour.FindCruise import FSFindCruise
     },
 )
 class FindCruise(Resource):
+    @secure_method
     def post(self):
         """_summary_
         Returns:
@@ -393,6 +410,7 @@ from src.business.Tour.FindTour import FSFindTour
     },
 )
 class FindTour(Resource):
+    @secure_method
     def post(self):
         """_summary_
         Returns:
@@ -414,6 +432,7 @@ from src.business.Tour.GenTour import FSGenTour
     },
 )
 class GenTour(Resource):
+    @secure_method
     def post(self):
         """_summary_
         Returns:
@@ -435,6 +454,7 @@ from src.business.Tour.CalculateNetRate import FSCalculateNetRate
     },
 )
 class CalculateNetRate(Resource):
+    @secure_method
     def post(self):
         """_summary_
         Returns:
@@ -456,6 +476,7 @@ from src.business.Tour.TourEdit import FSTourEdit
     },
 )
 class TourEdit(Resource):
+    @secure_method
     def post(self):
         """Método para Editar un Presupuesto
         Returns:
@@ -477,6 +498,7 @@ from src.business.Tour.NewTour import FSNewTour
     },
 )
 class NewTour(Resource):
+    @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -498,6 +520,7 @@ from src.business.Tour.NewId import FSNewId
     },
 )
 class NewId(Resource):
+    @secure_method
     def post(self):
         return FSNewId()
 
@@ -514,6 +537,7 @@ from src.business.Tour.ProcessTour import FSProcessTour
     },
 )
 class ProcessTour(Resource):
+    @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -535,6 +559,7 @@ from src.business.Tour.PromoteTour import FSPromoteTour
     },
 )
 class PromoteTour(Resource):
+    @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -556,6 +581,7 @@ from src.business.Tour.UpdateTour import FSUpdateTour
     },
 )
 class UpdateTour(Resource):
+    @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -579,6 +605,7 @@ from src.business.File.MakeEmail import FSMakeEmail
     },
 )
 class MakeEmail(Resource):
+    @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -600,6 +627,7 @@ from src.business.File.MakePdf import FSMakePdf
     },
 )
 class MakePdf(Resource):
+    @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -621,6 +649,7 @@ from src.business.File.MakePlaylist import FSMakePlaylist
     },
 )
 class MakePlaylist(Resource):
+    @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -645,6 +674,7 @@ from src.business.Agent.Start import FSStart
     },
 )
 class Start(Resource):
+    @secure_method
     def head(self):
         """Método Inicial para conectar un usuario
         Returns:
@@ -654,6 +684,7 @@ class Start(Resource):
         return True, 201, {"token": removeBytePrefix(str(res))}
 
     # @encrypted
+    @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:
@@ -677,6 +708,7 @@ from src.business.Agent.GetExperience import FSGetExperience
 )
 class GetExperience(Resource):
     # @encrypted
+    @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:
@@ -700,6 +732,7 @@ from src.business.Agent.GetDestination import FSGetDestination
 )
 class GetDestination(Resource):
     # @encrypted
+    @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:
@@ -723,6 +756,7 @@ from src.business.Agent.Query import FSQuery
 )
 class Query(Resource):
     # @encrypted
+    @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:

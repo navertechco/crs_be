@@ -20,8 +20,8 @@ def BSCancelTour(input):
         boolean: True si el usuario se confirma, False si no
     """
     try:
-        confirmation= input.get('confirmation')
-        result =  DSCancelTour(confirmation)
+        tour_id = input.get('tour_id')
+        result = DSCancelTour(tour_id)
         if len(result) > 0:
             result['session'].commit()
             return True

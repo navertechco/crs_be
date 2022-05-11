@@ -20,8 +20,8 @@ def BSMakePdf(input):
         boolean: True si el usuario se confirma, False si no
     """
     try:
-        confirmation= input.get('confirmation')
-        result =  DSMakePdf(confirmation)
+        tour_id = input.get('tour_id')
+        result = DSMakePdf(tour_id)
         if len(result) > 0:
             result['session'].commit()
             return True

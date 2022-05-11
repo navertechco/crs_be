@@ -24,7 +24,7 @@ def DSLogConnection(data):
     """
     try:
         stm = "SELECT 1"
-        table = "GAMER"
+        table = "TOUR"
         res = nbd.persistence.getQuery(stm, table)
         return res
 

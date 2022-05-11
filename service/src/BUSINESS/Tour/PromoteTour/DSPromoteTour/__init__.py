@@ -13,11 +13,11 @@ config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
-def DSPromoteTour(confirmation):
+def DSPromoteTour(tour_id):
     """Método de confirmación de usuario
 
     Args:
-        confirmation (str): Código UUID enviado por correo electrónico para confirmar cuenta de usuario.
+        tour_id (str): Código UUID enviado por correo electrónico para confirmar cuenta de usuario.
 
     Raises:
         e: Error de conexión a base de datos.
@@ -27,11 +27,11 @@ def DSPromoteTour(confirmation):
     """
     try:
         stm = """   UPDATE USER
-                    SET STATE = 2
-                    WHERE CONFIRMATION = \'{}\'
-                    AND STATE = 1
+                    SET tour_state_id = 2
+                    WHERE tour_id = \'{}\'
+                    AND tour_state_id = 1
                     ;""".format(
-            confirmation
+            tour_id
         )
 
         table = "USER"

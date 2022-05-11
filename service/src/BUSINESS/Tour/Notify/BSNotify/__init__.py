@@ -20,8 +20,8 @@ def BSNotify(input):
         boolean: True si el usuario se confirma, False si no
     """
     try:
-        confirmation= input.get('confirmation')
-        result =  DSNotify(confirmation)
+        tour_id = input.get('tour_id')
+        result = DSNotify(tour_id)
         if len(result) > 0:
             result['session'].commit()
             return True

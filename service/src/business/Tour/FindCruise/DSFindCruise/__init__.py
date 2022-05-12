@@ -28,13 +28,14 @@ def DSFindCruise(input):
     try:
         cruise_id = getValue(input, "cruise_id")
         table = "cruise"
+        table2 = "cruise_detail"
         schema = "entities"
-        stm = " SELECT t.* "
-        stm += f" FROM {schema}.{table} t"
-
+        stm = " SELECT t.*, json_agg(td.*) as cabins "
+        stm += f" FROM {schema}.{table} t, {schema}.{table2} td "
+        stm += f" WHERE t.cruise_id = td.cruise_id "
         if cruise_id != 0:
-            stm += f" WHERE cruise_id='{cruise_id}'"
-
+            stm += f" AND cruise_id='{cruise_id}'"
+        stm += "  GROUP BY t.cruise_id "
         stm += "  ORDER BY t.cruise_id DESC"
         res = nbd.persistence.getQuery(stm, table)
         return res

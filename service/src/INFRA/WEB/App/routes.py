@@ -368,6 +368,28 @@ class ClientEdit(Resource):
 
 # endregion
 # region Tour
+from src.business.Tour.FindHotel import FSFindHotel
+
+
+@api.route("/Tour/FindHotel")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
+class FindHotel(Resource):
+    @secure_method
+    def post(self):
+        """_summary_
+        Returns:
+            _type_: _description_
+        """
+        input = request.get_json(force=True)
+        return FSFindHotel(input)
+
+        
 from src.business.Tour.FindCruise import FSFindCruise
 
 

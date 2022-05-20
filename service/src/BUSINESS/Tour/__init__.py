@@ -15,4 +15,5 @@ from .TourEdit import *
 from .CalculateNetRate import *
 from .FindTour import *
 from .FindCruise import *
+from .FindHotel import *
 from .GenTour import *

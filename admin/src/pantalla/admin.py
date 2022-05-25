@@ -3,13 +3,14 @@ from django.contrib.postgres import fields  # if django < 3.1
 from django.db import models
 from django_json_widget.widgets import JSONEditorWidget
 from .models import *
-from django.apps import apps 
+from django.apps import apps
 
- 
-class ModelAdmin(admin.ModelAdmin): 
+
+class ModelAdmin(admin.ModelAdmin):
     search_fields = (
-            "description", 
-        )
+        "description",
+    )
+
     def has_add_permission(self, request, obj=None):
         if request.user.is_superuser:
             return True
@@ -49,6 +50,7 @@ class ListAdminMixin(object):
     formfield_overrides = {
         models.TextField: {'widget': JSONEditorWidget},
     }
+    
 
 modellist = apps.get_models()
 for model in modellist:
@@ -59,4 +61,3 @@ for model in modellist:
         admin.site.register(model, admin_class_perm)
     except Exception as e:
         pass
- 

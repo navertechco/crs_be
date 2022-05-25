@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os.path
 from pathlib import Path
 # from .urls import *
- 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,9 +43,9 @@ INSTALLED_APPS = [
     'django_json_widget',
     'codemirror',
     'codemirror2',
-    'prettyjson', 
+    'prettyjson',
     'src.pantalla',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -102,7 +102,7 @@ DATABASES = {
 
         'PASSWORD': 'postgres',
 
-        'HOST': '172.16.0.129',
+        'HOST': '192.168.101.5',
 
         'PORT': '5432',
 

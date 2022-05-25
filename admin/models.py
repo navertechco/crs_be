@@ -97,10 +97,13 @@ class CatalogDetail(models.Model):
     description = models.CharField(max_length=-1)
     code = models.IntegerField()
     is_active = models.BooleanField()
+    value = models.JSONField(blank=True, null=True)
+    relation = models.JSONField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'catalog_detail'
+        unique_together = (('catalog', 'order', 'code', 'description'),)
 
 
 class Client(models.Model):
@@ -110,7 +113,7 @@ class Client(models.Model):
     contact_name = models.CharField(max_length=64)
     legal_client_type_id = models.BigIntegerField()
     client_type_id = models.BigIntegerField()
-    client_dni = models.CharField(max_length=32)
+    client_dni = models.CharField(unique=True, max_length=32)
     is_owner = models.BooleanField()
     contact_name_2 = models.CharField(max_length=64, blank=True, null=True)
     email = models.CharField(max_length=64)
@@ -118,11 +121,61 @@ class Client(models.Model):
     phone = models.CharField(max_length=64)
     address = models.CharField(max_length=64)
     description = models.CharField(max_length=-1)
-    brith_date = models.DateField()
+    birth_date = models.DateField()
+    tax_id = models.CharField(unique=True, max_length=-1, blank=True, null=True)
+    city_id = models.IntegerField(blank=True, null=True)
+    travel_code = models.CharField(max_length=-1, blank=True, null=True)
+    lead_passenger = models.CharField(max_length=-1, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'client'
+
+
+class Cruise(models.Model):
+    cruise_id = models.BigIntegerField(primary_key=True)
+    cruise_name = models.CharField(max_length=-1)
+    cruise_type = models.CharField(max_length=-1)
+    cruise_category = models.CharField(max_length=-1)
+    description = models.CharField(max_length=-1, blank=True, null=True)
+    owner_name = models.CharField(max_length=-1)
+    operator_name = models.CharField(max_length=-1, blank=True, null=True)
+    comercial_name = models.CharField(max_length=-1)
+    arrival_port = models.CharField(max_length=-1)
+    modality = models.CharField(max_length=-1)
+    pax = models.CharField(max_length=-1)
+    web_page = models.CharField(max_length=-1, blank=True, null=True)
+    included = models.CharField(max_length=-1, blank=True, null=True)
+    information = models.CharField(max_length=-1, blank=True, null=True)
+    guide_number = models.CharField(max_length=-1)
+    staff_number = models.CharField(max_length=-1, blank=True, null=True)
+    medic = models.CharField(max_length=-1)
+    tc = models.CharField(max_length=-1)
+    internet = models.CharField(max_length=-1)
+    wetsuites = models.CharField(max_length=-1)
+    additional_services = models.CharField(max_length=-1, blank=True, null=True)
+    restrictions = models.CharField(max_length=-1, blank=True, null=True)
+    cruise_format = models.CharField(max_length=-1)
+    cruise_itinerary = models.CharField(max_length=-1)
+    cost = models.CharField(max_length=-1)
+    image = models.CharField(max_length=-1, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'cruise'
+
+
+class CruiseDetail(models.Model):
+    cruise_detail_id = models.BigIntegerField(primary_key=True)
+    cruise = models.ForeignKey(Cruise, models.DO_NOTHING)
+    cabine_type = models.CharField(max_length=-1)
+    cabine_spec = models.CharField(max_length=-1, blank=True, null=True)
+    quantity = models.CharField(max_length=-1)
+    net_rate = models.CharField(max_length=-1)
+
+    class Meta:
+        managed = False
+        db_table = 'cruise_detail'
 
 
 class Day(models.Model):
@@ -133,13 +186,15 @@ class Day(models.Model):
     day_name = models.CharField(max_length=-1, blank=True, null=True)
     day_description = models.CharField(max_length=-1, blank=True, null=True)
     day_previous = models.CharField(max_length=-1, blank=True, null=True)
-    detail = models.TextField(blank=True, null=True)  # This field type is a guess.
+    experiences = models.TextField(blank=True, null=True)  # This field type is a guess.
     description = models.CharField(max_length=-1, blank=True, null=True)
-    transport = models.ForeignKey('Transport', models.DO_NOTHING)
+    transport_id = models.IntegerField()
     day_observation = models.CharField(max_length=-1, blank=True, null=True)
     day_next = models.CharField(max_length=-1, blank=True, null=True)
     meals = models.CharField(max_length=-1, blank=True, null=True)
     tour_detail = models.ForeignKey('TourDetail', models.DO_NOTHING)
+    props = models.TextField(blank=True, null=True)  # This field type is a guess.
+    option_id = models.IntegerField()
 
     class Meta:
         managed = False
@@ -148,35 +203,19 @@ class Day(models.Model):
 
 class DayDetail(models.Model):
     day_detail_id = models.IntegerField(primary_key=True)
-    service = models.ForeignKey('Service', models.DO_NOTHING)
-    experience = models.ForeignKey('Experience', models.DO_NOTHING)
+    service_id = models.IntegerField()
+    experience_id = models.IntegerField()
     created = models.DateTimeField()
     updated = models.DateTimeField()
     day = models.ForeignKey(Day, models.DO_NOTHING)
+    destination_id = models.IntegerField()
+    tour_id = models.IntegerField()
+    service_type = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'day_detail'
-        unique_together = (('day', 'experience', 'service'),)
-
-
-class Destination(models.Model):
-    destination_id = models.IntegerField(primary_key=True)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    port = models.BooleanField()
-    destination_name = models.CharField(max_length=-1)
-    destination_title = models.CharField(max_length=-1)
-    hotel_id = models.IntegerField()
-    airport_id = models.IntegerField()
-    has_airport = models.BooleanField()
-    description = models.CharField(max_length=-1, blank=True, null=True)
-    previous = models.CharField(max_length=-1, blank=True, null=True)
-    next = models.CharField(max_length=-1, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'destination'
+        unique_together = (('day', 'experience_id', 'service_id'),)
 
 
 class DjangoAdminLog(models.Model):
@@ -224,42 +263,16 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class Experience(models.Model):
-    experience_id = models.IntegerField(primary_key=True)
-    destination = models.ForeignKey(Destination, models.DO_NOTHING)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    key_activity_id = models.BigIntegerField()
-    budget_id = models.BigIntegerField()
-    delimiter_id = models.BigIntegerField()
-    travel_ritm_id = models.BigIntegerField()
-    experience_title = models.CharField(max_length=-1, blank=True, null=True)
-    experience_photo = models.CharField(max_length=-1, blank=True, null=True)
-    description = models.CharField(max_length=-1, blank=True, null=True)
-    experience_previous = models.CharField(max_length=-1, blank=True, null=True)
-    experience_next = models.CharField(max_length=-1, blank=True, null=True)
-    detail = models.TextField(blank=True, null=True)  # This field type is a guess.
-    destination_option_id = models.IntegerField()
-    key_activity2_id = models.BigIntegerField()
-    supplier = models.ForeignKey('Supplier', models.DO_NOTHING)
+class Media(models.Model):
+    media_id = models.BigIntegerField()
+    resource_id = models.CharField(max_length=-1)
+    business_type = models.BigIntegerField()
+    buisness_id = models.BigIntegerField(blank=True, null=True)
+    media_type = models.BigIntegerField()
 
     class Meta:
         managed = False
-        db_table = 'experience'
-
-
-class IncludedOption(models.Model):
-    included_option_id = models.IntegerField(primary_key=True)
-    tour = models.ForeignKey('Tour', models.DO_NOTHING)
-    option_id = models.IntegerField()
-    is_included = models.BooleanField()
-    description = models.CharField(max_length=-1, blank=True, null=True)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'included_option'
+        db_table = 'media'
 
 
 class NetRate(models.Model):
@@ -276,74 +289,11 @@ class NetRate(models.Model):
         db_table = 'net_rate'
 
 
-class Service(models.Model):
-    service_id = models.IntegerField(primary_key=True)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    me = models.BooleanField()
-    open_days = models.CharField(max_length=16)
-    close_time = models.TimeField()
-    open_time = models.TimeField()
-    cost = models.FloatField()
-    selling_price = models.FloatField()
-    name = models.CharField(max_length=16)
-    description = models.CharField(max_length=64)
-    duration = models.BigIntegerField()
-    age_friendly_range_id = models.BigIntegerField()
-    child_frendly = models.BooleanField()
-    infant_friendly = models.BooleanField()
-    observation = models.CharField(max_length=64, blank=True, null=True)
-    max_capacity = models.BigIntegerField()
-    pet_friendly = models.BooleanField()
-    props = models.TextField()  # This field type is a guess.
-    supplier = models.ForeignKey('Supplier', models.DO_NOTHING)
-    destination = models.ForeignKey(Destination, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'service'
-
-
-class Supplier(models.Model):
-    supplier_id = models.IntegerField(primary_key=True)
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    supplier_type_id = models.BigIntegerField()
-    supplier_rule_id = models.BigIntegerField()
-    props = models.TextField(blank=True, null=True)  # This field type is a guess.
-    tax_id = models.BigIntegerField()
-    legal_name = models.CharField(max_length=32)
-    city_id = models.BigIntegerField(blank=True, null=True)
-    commercial_name = models.CharField(max_length=32)
-    contact_name = models.CharField(max_length=32)
-    website = models.CharField(max_length=32, blank=True, null=True)
-    payment_type_id = models.BigIntegerField(blank=True, null=True)
-    credit_days = models.CharField(max_length=32, blank=True, null=True)
-    finance_email = models.CharField(max_length=32, blank=True, null=True)
-    commercial_email = models.CharField(max_length=32, blank=True, null=True)
-    finance_phone = models.BigIntegerField(blank=True, null=True)
-    commercial_phone = models.BigIntegerField(blank=True, null=True)
-    sector = models.CharField(max_length=32, blank=True, null=True)
-    principal_street = models.CharField(max_length=32, blank=True, null=True)
-    secondary_street = models.CharField(max_length=32, blank=True, null=True)
-    building_number = models.CharField(max_length=32, blank=True, null=True)
-    lat = models.FloatField(blank=True, null=True)
-    long = models.FloatField(blank=True, null=True)
-    description = models.CharField(max_length=-1, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'supplier'
-
-
 class Tour(models.Model):
     tour_id = models.IntegerField(primary_key=True)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    partner = models.CharField(max_length=-1, blank=True, null=True)
-    valid = models.DateField(blank=True, null=True)
     destination_country_id = models.IntegerField(blank=True, null=True)
-    purposes = models.CharField(max_length=-1, blank=True, null=True)
     accomodation_type_id = models.IntegerField(blank=True, null=True)
     arrival_date = models.DateField(blank=True, null=True)
     departure_date = models.DateField(blank=True, null=True)
@@ -353,8 +303,14 @@ class Tour(models.Model):
     nights = models.IntegerField(blank=True, null=True)
     description = models.CharField(max_length=-1, blank=True, null=True)
     client = models.ForeignKey(Client, models.DO_NOTHING)
-    detail = models.TextField(blank=True, null=True)  # This field type is a guess.
-    cover_title = models.CharField(max_length=-1, blank=True, null=True)
+    detail = models.JSONField(blank=True, null=True)
+    match = models.CharField(max_length=-1, blank=True, null=True)
+    tour_state_id = models.IntegerField()
+    destinations = models.JSONField()
+    rooms = models.CharField(max_length=-1)
+    playlist_slug = models.CharField(max_length=-1, blank=True, null=True)
+    reproductions = models.BigIntegerField(blank=True, null=True)
+    services = models.JSONField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -365,28 +321,16 @@ class TourDetail(models.Model):
     tour = models.ForeignKey(Tour, models.DO_NOTHING)
     created = models.DateTimeField()
     updated = models.DateTimeField()
-    detail = models.TextField(blank=True, null=True)  # This field type is a guess.
+    detail = models.TextField()  # This field type is a guess.
     tour_detail_id = models.IntegerField(primary_key=True)
-    destination = models.ForeignKey(Destination, models.DO_NOTHING)
+    destination_id = models.IntegerField()
+    exploration_days = models.IntegerField()
+    destination_index = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'tour_detail'
-        unique_together = (('tour', 'destination'),)
-
-
-class Transport(models.Model):
-    transport_id = models.BigIntegerField(primary_key=True)
-    transport_range_id = models.BigIntegerField()
-    transport_service_id = models.BigIntegerField()
-    rate = models.FloatField()
-    created = models.DateTimeField()
-    updated = models.DateTimeField()
-    description = models.CharField(max_length=-1, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'transport'
+        unique_together = (('tour', 'destination_id', 'destination_index'),)
 
 
 class User(models.Model):

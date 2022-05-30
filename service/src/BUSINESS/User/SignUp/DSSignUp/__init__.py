@@ -24,20 +24,12 @@ def DSSignUp(data):
     """
     try:
         user = UserDto(data)
-        stm = """
+        stm = f"""
         INSERT INTO entities.user
-        (identification, username, surname, lastname, email, phone, state,  created, updated, "password")
-        VALUES('{}', '{}', '{}', '{}', '{}', '{}',  0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '{}')
+        (identification, username,   lastname, email, phone, state,  created, updated, "password")
+        VALUES('{user.identification}', '{user.username}', '{user.lastname}',   '{user.email}', '{user.phone}',  0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '{user.password}')
     
-        """.format(
-            user.identification,
-            user.username,
-            user.surname,
-            user.lastname,
-            user.email,
-            user.phone,
-            user.password,
-        )
+        """
         table = "USER"
         res = nbd.persistence.setWrite(stm, table)
         return res

@@ -214,7 +214,6 @@ class Forgot(Resource):
         headers = {"Content-Type": "text/html"}
         return make_response(render_template("success.html"), 200, headers)
 
-    @secure_method
     def get(self):
         """Método para recuperar contraseña Frontend
 
@@ -243,7 +242,6 @@ from src.business.User.Confirm import FSConfirm
     },
 )
 class Confirm(Resource):
-    @secure_method
     def get(self):
         """Método para Confirmar un usuario
         Returns:

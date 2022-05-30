@@ -169,7 +169,7 @@ from src.business.System.FindCatalog import FSFindCatalog
     },
 )
 class FindCatalog(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para mostrar catálogos
         Returns:

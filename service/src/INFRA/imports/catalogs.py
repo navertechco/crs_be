@@ -7,6 +7,11 @@ from naver_core import *
 any_module(__file__, 3)
 from src.infra.web.app.libs import app
 
+IMPORT_DIR = os.path.dirname(__file__)
+INFRA_DIR = os.path.dirname(IMPORT_DIR)
+SRC_DIR = os.path.dirname(INFRA_DIR)
+ROOT_DIR = os.path.dirname(SRC_DIR)
+CERT_FILE = os.path.join(ROOT_DIR, ("ca_bundle.cert"))
 
 def upload_catalogs(**kwargs):
     """_summary_
@@ -25,7 +30,8 @@ def upload_catalogs(**kwargs):
             data = {}
             data = {"data": catalog}
             res = requests.post(
-                f"{server}/Admin/CreateCatalog", data=json.dumps(data))
+                url=f"{server}/Admin/CreateCatalog", data=json.dumps(data)
+            )
             print(res.json())
         except Exception as error:
             print(error)
@@ -112,8 +118,8 @@ def get_tag(row, tags):
 
 if __name__ == "__main__":
     upload_catalogs(
-        filename="ab.xlsx",
-        page=0,
-        cid=49,
-        tags=["abname", "products"],
+        filename="cruises2.xlsx",
+        page=2,
+        cid=53,
+        tags=["itinerary_format"],
     )

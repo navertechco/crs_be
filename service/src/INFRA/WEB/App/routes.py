@@ -98,7 +98,6 @@ def view_gallery():
 
 
 @app.route("/Admin/UploadCatalog", methods=["GET", "POST"])
-@secure_method
 def upload_file():
     if request.method == "POST":
         # check if the post request has the file part

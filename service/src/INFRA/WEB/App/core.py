@@ -10,6 +10,7 @@ api = Api(app, doc=False)
 config = NaverConfig(app)
 pksalt = config.core.myVariables["PKSALT"]
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+# cors = CORS(app)
 db = SQLAlchemy()
 resource_fields = api.model('Resource', {
     'data': fields.Raw,

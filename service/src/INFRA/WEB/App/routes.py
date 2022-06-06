@@ -270,10 +270,17 @@ class Connect(Resource):
             header: {"state":True/False, "data":salt}
         """
         # res = FSConnect(None)
-        return True, 201, {"token": TOKEN}
+        return True, 200, {"token": "gAAAAABhjtSOlFafpsgJ70Sx11gM7Iv_6RuTpnOs1UWf4ELEnYC1gsvx7E2OZjRAUkkflPMXqR7ua7MtC7Y3LCWoB8uo5lmBV-Sns1lIpIy0YPuPXhdPx96We9xqbRcEylp8Fz91PAQf"}
+    def options(self):
+        """Método Inicial para conectar un usuario
+        Returns:
+            header: {"state":True/False, "data":salt}
+        """
+        # res = FSConnect(None)
+        return True, 200
 
     # @encrypted
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:
@@ -686,15 +693,6 @@ from src.business.Agent.Start import FSStart
     },
 )
 class Start(Resource):
-    @secure_method
-    def head(self):
-        """Método Inicial para conectar un usuario
-        Returns:
-            header: {"state":True/False, "data":salt}
-        """
-        res = FSStart(None)
-        return True, 201, {"token": removeBytePrefix(str(res))}
-
     # @encrypted
     @secure_method
     def post(self):

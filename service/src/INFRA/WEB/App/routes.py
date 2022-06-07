@@ -541,7 +541,9 @@ from src.business.Tour.NewId import FSNewId
 class NewId(Resource):
     @secure_method
     def post(self):
-        return FSNewId()
+        data = request.get_json(force=True)
+        res = FSNewId()
+        return res
 
 
 from src.business.Tour.ProcessTour import FSProcessTour

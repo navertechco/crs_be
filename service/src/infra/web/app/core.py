@@ -1,6 +1,6 @@
 """core module."""
-from .libs import *
-
+from .deps import *
+ 
 dotenv_path = Path(ENV_PATH)
 load_dotenv(dotenv_path=dotenv_path)
 app = Flask(__name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC)

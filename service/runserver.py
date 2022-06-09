@@ -1,5 +1,5 @@
 import os
-from src import app
+from src.infra.web.app.routes import app
 from werkzeug.serving import WSGIRequestHandler
 WSGIRequestHandler.protocol_version = "HTTP/1.1"
 

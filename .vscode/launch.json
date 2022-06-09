@@ -4,10 +4,28 @@
     // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-  
         {
-            "name": "Python: Flask",
+            "name": "Python: Flask Prod",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "service/runserver.py",
+                "FLASK_ENV": "development",
+                "FLASK_RUN_PORT": "9999",
+                "FLASK_RUN_HOST": "0.0.0.0"
+            },
+            "args": [
+                "run",
+                // "--cert=service/certificate.crt",
+                // "--key=service/private.key",
+                "--no-debugger"
+            ],
+            "jinja": true,
+            "justMyCode": false
+        },
+        {
+            "name": "Python: Flask Dev",
             "type": "python",
             "request": "launch",
             "module": "flask",
@@ -22,8 +40,6 @@
                 "--cert=service/certificate.crt",
                 "--key=service/private.key",
                 "--no-debugger"
-               
-            
             ],
             "jinja": true,
             "justMyCode": false

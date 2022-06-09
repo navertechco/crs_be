@@ -111,7 +111,6 @@ protocol==0.1.0
 psycopg2==2.9.2
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
-PyAudio @ file:///C:/Users/Jose%20Cuevas/pipwin/PyAudio-0.2.11-cp310-cp310-win_amd64.whl
 pycodestyle==2.8.0
 pycparser==2.21
 pydocstyle==6.1.1

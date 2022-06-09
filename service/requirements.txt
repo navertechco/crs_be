@@ -151,7 +151,6 @@ requirements-detector==0.7
 rfc3986==1.5.0
 rsa==4.8
 Rx==1.6.1
-scikit-learn @ file:///C:/Users/Jose%20Cuevas/Downloads/scikit_learn-0.24.2-cp310-cp310-win_amd64.whl
 scipy==1.8.0
 serpent==1.40
 setoptconf-tmp==0.3.1

@@ -1,5 +1,5 @@
 """routes module."""
-from .libs import *
+from .dependencies import *
  
 
 # region video

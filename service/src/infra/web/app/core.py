@@ -1,5 +1,5 @@
 """core module."""
-from .libs import *
+from .dependencies import *
 
 dotenv_path = Path(ENV_PATH)
 load_dotenv(dotenv_path=dotenv_path)

@@ -1,5 +1,5 @@
 """utils module."""
-from .libs import *
+from .dependencies import *
 
 
 def removeBytePrefix(value):

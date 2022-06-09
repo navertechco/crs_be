@@ -1,5 +1,7 @@
 """routes module."""
-from .dependencies import *
+
+from .deps import *
+
  
 
 # region video
@@ -200,6 +202,7 @@ class Forgot(Resource):
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
+        data = request.get_json(force=True)
         form = RecoveryForm(request.form)
         if form.validate():
             parser = reqparse.RequestParser()
@@ -219,13 +222,14 @@ class Forgot(Resource):
         Returns:
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
+        # data = request.get_json(force=True)
         form = RecoveryForm(request.form)
         parser = reqparse.RequestParser()
         parser.add_argument("confirmation")
-        data = parser.parse_args()
+        confirmation = request.args.get("confirmation")
         headers = {"Content-Type": "text/html"}
         return make_response(
-            render_template("recovery.html", form=form, data=data), 200, headers
+            render_template("recovery.html", form=form, data=confirmation), 200, headers
         )
 
 

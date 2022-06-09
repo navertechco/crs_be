@@ -14,13 +14,13 @@
             "env": {
                 "FLASK_APP": "service/runserver.py",
                 "FLASK_ENV": "development",
-                "FLASK_RUN_PORT": "9999",
+                "FLASK_RUN_PORT": "7777",
                 "FLASK_RUN_HOST": "0.0.0.0"
             },
             "args": [
                 "run",
-                "--cert=service/certificate.crt",
-                "--key=service/private.key",
+                // "--cert=service/certificate.crt",
+                // "--key=service/private.key",
                 "--no-debugger"
                
             

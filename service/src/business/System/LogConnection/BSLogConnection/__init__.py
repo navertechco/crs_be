@@ -4,7 +4,7 @@ except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
 from ..DSLogConnection import DSLogConnection
 from naver_core import *
-from naver_web import *
+# from naver_web import *
 
 def BSLogConnection	(config):
     """Método para Controlar una nueva Sesión.
@@ -17,7 +17,8 @@ def BSLogConnection	(config):
     """
     try:
         pksalt = config.core.myVariables['PKSALT']
-        result = sendsalt(pksalt)
+        # result = sendsalt(pksalt)
+        result = (pksalt)
         return result
 
     except Exception as e:

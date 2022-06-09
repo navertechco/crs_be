@@ -1,7 +1,7 @@
 FROM python:3.9-buster
 # Install dependencies:
 COPY requirements.txt .
-COPY runserver.py .
+COPY serve.py .
 COPY .env .
 COPY src ./src
 RUN apt -y update
@@ -10,4 +10,4 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 EXPOSE 9999
 # Run the application:
-CMD ["python", "runserver.py"]
+CMD ["python", "serve.py"]

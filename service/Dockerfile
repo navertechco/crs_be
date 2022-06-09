@@ -2,6 +2,7 @@ FROM python:3.9-buster
 # Install dependencies:
 COPY requirements.txt .
 COPY runserver.py .
+COPY .env .
 COPY src ./src
 RUN apt -y update
 RUN apt -y install build-essential libpq-dev python3-dev

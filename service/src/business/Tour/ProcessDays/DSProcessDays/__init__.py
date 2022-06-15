@@ -24,7 +24,7 @@ def DSProcessDays(tour_id, destination):
         res: resultado de la operación
     """
     try:
-        return True
+        # return True
         table = "EXPERIENCE"
         select_stm = " SELECT DISTINCT EXPE.experience_id, SRV.service_id"
         from_stm = "    FROM entities.EXPERIENCE EXPE"
@@ -40,6 +40,7 @@ def DSProcessDays(tour_id, destination):
         stm = select_stm + from_stm + join_stm + where_stm
         services = nbd.persistence.getQuery(stm, table)
         index = 0
+        return services
         if len(services) > 0:
             days = prepareJsonData(destination.get("days"))
             index = 0

@@ -1,4 +1,4 @@
-try: 
+try:
     __import__('pkg_resources').declare_namespace(__name__)
 except ImportError:
     __path__ = __import__('pkgutil').extend_path(__path__, __name__)
@@ -6,19 +6,19 @@ from ..BSProcessDestinations import BSProcessDestinations
 from naver_core import *
 from flask import render_template, make_response
 
-def FSProcessDestinations	(data):
+
+def FSProcessDestinations(input):
     """Método para crear un nuevo Reporte.
 
     Args:
-        data (dict): Diccionario con los datos del Reporte.
+        input (dict): Diccionario con los datos del Reporte.
 
     Returns:
         json: Resultado del API.
     """
     try:
-        result = BSProcessDestinations(data)
-        headers = {'Content-Type': 'text/html'}
-        return make_response(render_template('success.html'),200,headers) 
-
+        tour_id = getValue(input, "tour_id")
+        result = BSProcessDestinations(tour_id, input)
+        return Ok(result)
     except Exception as e:
-        return ErrorResponse(e) 
+        return ErrorResponse(e)

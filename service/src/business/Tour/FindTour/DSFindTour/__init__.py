@@ -28,6 +28,8 @@ def DSFindTour(input):
     try:
         tour_id = getValue(input, "tour_id")
         detail = getValue(input, "detail")
+        offset = getValue(input, "offset") or 0
+        limit = getValue(input, "limit") or 10
         table = "TOUR"
         schema = "entities"
         stm = " SELECT c.contact_name as name, t.description as travel_code , t.tour_id as quote, to_char(t.created, 'DD-MM-YYYY')  as date , t.tour_state_id as state  "
@@ -41,6 +43,7 @@ def DSFindTour(input):
             stm += f" WHERE tour_id='{tour_id}'"
 
         stm += "  ORDER BY t.created DESC"
+        stm += f" LIMIT {limit} OFFSET {offset}"
         res = nbd.persistence.getQuery(stm, table)
         return res
 

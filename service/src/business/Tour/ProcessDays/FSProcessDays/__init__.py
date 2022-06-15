@@ -6,19 +6,20 @@ from ..BSProcessDays import BSProcessDays
 from naver_core import *
 from flask import render_template, make_response
 
-def FSProcessDays	(data):
+def FSProcessDays	(input):
     """Método para crear un nuevo Reporte.
 
     Args:
-        data (dict): Diccionario con los datos del Reporte.
+        input (dict): Diccionario con los datos del Reporte.
 
     Returns:
         json: Resultado del API.
     """
     try:
-        result = BSProcessDays(data)
-        headers = {'Content-Type': 'text/html'}
-        return make_response(render_template('success.html'),200,headers) 
+        tour_id = getValue(input, "tour_id")
+        destination = getValue(input, "destination")
+        result = BSProcessDays(tour_id, destination)
+        return Ok(result)
 
     except Exception as e:
         return ErrorResponse(e) 

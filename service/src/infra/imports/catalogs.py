@@ -5,13 +5,14 @@ import pandas as pd
 import requests
 from naver_core import *
 any_module(__file__, 3)
-from src.infra.web.app.libs import app
+from src.infra.web.app.routes import app
 
 IMPORT_DIR = os.path.dirname(__file__)
 INFRA_DIR = os.path.dirname(IMPORT_DIR)
 SRC_DIR = os.path.dirname(INFRA_DIR)
 ROOT_DIR = os.path.dirname(SRC_DIR)
 CERT_FILE = os.path.join(ROOT_DIR, ("ca_bundle.cert"))
+
 
 def upload_catalogs(**kwargs):
     """_summary_
@@ -24,13 +25,15 @@ def upload_catalogs(**kwargs):
     """
     server = os.environ.get("SERVER")
     catalogs = get_catalogs(**kwargs)
+    relation = kwargs.get("relation") or '{}'
+    update = kwargs.get("update") or False
     print(catalogs[0])
     for catalog in catalogs:
         try:
             data = {}
-            data = {"data": catalog}
+            data = {"data": catalog, "relation": relation, "update": update}
             res = requests.post(
-                url=f"{server}/Admin/CreateCatalog", data=json.dumps(data)
+                url=f"{server}/Admin/CreateCatalog", data=json.dumps(data), verify=False
             )
             print(res.json())
         except Exception as error:
@@ -54,7 +57,7 @@ def get_catalogs(**kwargs):
         catalog = {
             "catalog_id": cid,
             "order": 0,
-            "description": f"{tag}-{i}",
+            "description": f"{tag}",
             "is_active": True,
             "code": i,
             "value": row,
@@ -112,7 +115,7 @@ def get_tag(row, tags):
     """
     res = ""
     for tag in tags:
-        res += row.get(tag) + "-"
+        res += row.get(tag) 
     return res
 
 
@@ -122,4 +125,11 @@ if __name__ == "__main__":
         page=2,
         cid=53,
         tags=["itinerary_format"],
+        relation={
+            "type": "all",
+            "country": "Ecuador",
+            "destination": "galapagos"
+        },
+        update=True
+
     )

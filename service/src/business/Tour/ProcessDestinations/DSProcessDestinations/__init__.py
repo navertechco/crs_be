@@ -3,6 +3,7 @@ try:
 except ImportError:
     __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
+import yaml
 from src.business.System.FindCatalog import BSFindCatalog
 from src.business.Dto.tour import TourDto
 from src.business.Dto import DestinationListDto

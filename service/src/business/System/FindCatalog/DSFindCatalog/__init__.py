@@ -3,6 +3,7 @@ try:
 except ImportError:
     __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
+from tkinter import N
 from naver_db import NaverDB
 from naver_config import NaverConfig
 from naver_core import *
@@ -16,12 +17,14 @@ nbd = NaverDB(app, config)
 def DSFindCatalog(input):
 
     try:
-        catalogs = str(tuple(input.get("data").get("catalogs"))
-                       ).replace(",)", ")")
         table = "CATALOG"
-        and_stm = " and c.description in {} ".format(catalogs)
-        if "ALL" in catalogs:
-            and_stm = ""
+        and_stm = ""
+        if(isinstance(input, dict)):
+            catalogs = str(tuple(input.get("data").get("catalogs"))
+                           ).replace(",)", ")")
+            and_stm = " and c.description in {} ".format(catalogs)
+            if "ALL" in catalogs:
+                and_stm = ""
         stm = f"""
              
                         select  distinct
@@ -43,7 +46,7 @@ def DSFindCatalog(input):
                              
                     
         """
-        res = nbd.persistence.getQuery(stm, table)
+        res = nbd.persistence.getQuery(stm, table, False)
 
         return res
     except Exception as e:

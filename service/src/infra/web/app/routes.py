@@ -177,8 +177,15 @@ class FindCatalog(Resource):
             json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         data = request.get_json(force=True)
-        return FSFindCatalog(data)
-
+        res = FSFindCatalog(data)
+        return res
+    def get(self):
+        """Método para mostrar catálogos
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        res = FSFindCatalog("")
+        return res
 
 # endregion
 # region user
@@ -543,9 +550,9 @@ from src.business.Tour.NewId import FSNewId
     },
 )
 class NewId(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
-        data = request.get_json(force=True)
+        # data = request.get_json(force=True)
         res = FSNewId()
         return res
 

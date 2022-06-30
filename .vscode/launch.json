@@ -37,8 +37,8 @@
             },
             "args": [
                 "run",
-                "--cert=service/certificate.crt",
-                "--key=service/private.key",
+                // "--cert=service/certificate.crt",
+                // "--key=service/private.key",
                 "--no-debugger"
             ],
             "jinja": true,

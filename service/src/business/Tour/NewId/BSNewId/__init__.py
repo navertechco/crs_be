@@ -12,10 +12,10 @@ def BSNewId():
     try:
         res =  DSNewId()
         fc = FindCatalog()
-        catalogs = fc.BSFindCatalog(
-                    {"data": {"catalogs": ["ALL"]}}
-                )
-        res = {"id": res, **catalogs}
+        # catalogs = fc.BSFindCatalog(
+        #             {"data": {"catalogs": ["ALL"]}}
+        #         )
+        res = {"id": res}
         return res
     except Exception as e:
         raise e

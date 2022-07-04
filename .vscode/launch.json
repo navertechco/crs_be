@@ -5,32 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Flask Prod",
+            "name": "Python: Flask Waitress",
             "type": "python",
             "request": "launch",
             "module": "flask",
             "env": {
                 "FLASK_APP": "service/serve.py",
-                "FLASK_ENV": "production",
-                "FLASK_RUN_PORT": "9999",
-                "FLASK_RUN_HOST": "0.0.0.0"
-            },
-            "args": [
-                "run",
-                // "--cert=service/certificate.crt",
-                // "--key=service/private.key",
-                "--no-debugger"
-            ],
-            "jinja": true,
-            "justMyCode": false
-        },
-        {
-            "name": "Python: Flask Dev",
-            "type": "python",
-            "request": "launch",
-            "module": "flask",
-            "env": {
-                "FLASK_APP": "service/runserver.py",
                 "FLASK_ENV": "development",
                 "FLASK_RUN_PORT": "9999",
                 "FLASK_RUN_HOST": "0.0.0.0"
@@ -39,7 +19,7 @@
                 "run",
                 // "--cert=service/certificate.crt",
                 // "--key=service/private.key",
-                "--no-debugger"
+                // "--no-debugger"
             ],
             "jinja": true,
             "justMyCode": false

@@ -1,7 +1,7 @@
 """routes module."""
 
 from .deps import *
-
+WSGIRequestHandler.protocol_version = "HTTP/1.1"
  
 
 # region video

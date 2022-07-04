@@ -8,7 +8,7 @@ HOST = os.environ.get('SERVER_HOST', '0.0.0.0')
 # FILE_DIR = os.path.dirname(os.path.abspath(__file__))
 # CERT_DIR = os.path.join(FILE_DIR, "certificate.crt")
 # KEY_DIR = os.path.join(FILE_DIR, "private.key")
-# SECRET_KEY = os.urandom(32)
-# app.config['SECRET_KEY'] = SECRET_KEY
+SECRET_KEY = os.urandom(32)
+app.config['SECRET_KEY'] = SECRET_KEY
 print(f"RUNNING SERVER ON HOST HTTP://{HOST}:{PORT}")
 serve(app, host=HOST, port=PORT, threads=100) #WAITRESS!

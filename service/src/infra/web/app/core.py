@@ -1,6 +1,6 @@
 """core module."""
 from .deps import *
- 
+WSGIRequestHandler.protocol_version = "HTTP/1.1"
 dotenv_path = Path(ENV_PATH)
 load_dotenv(dotenv_path=dotenv_path)
 app = Flask(__name__, template_folder=TEMPLATE_FOLDER, static_folder=STATIC)

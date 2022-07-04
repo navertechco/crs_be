@@ -13,6 +13,7 @@ try:
     from naver_core import *
     from dotenv import load_dotenv
     from pathlib import Path
+    from werkzeug.serving import WSGIRequestHandler
     from .constants import *
     from .utils import *
     from .core import *

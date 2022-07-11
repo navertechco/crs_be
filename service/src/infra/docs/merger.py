@@ -66,8 +66,8 @@ def gen_cover_doc(header, name):
         arrival_date = header.get("arrival_date")
         departure_date = header.get("departure_date")
         until_date = header.get("until_date")
-        names = header.get("names").upper()
-        last_names = header.get("last_names").upper()
+        names = str(header.get("names")).upper()
+        last_names = str(header.get("last_names")).upper()
         ARRIVAL = check_date(arrival_date, "%Y-%m-%d %H:%M:%S")
         DEPARTURE = check_date(departure_date, "%Y-%m-%d %H:%M:%S")
         until = check_date(until_date, "%Y-%m-%d %H:%M:%S.%f")
@@ -82,8 +82,8 @@ def gen_cover_doc(header, name):
         document = Document(doc_template)
         replace_word(document, "NIGHTS", f"{nights}")
         replace_word(document, "DAYS", f"{days}")
-        replace_word(document, "CUSTOMER", f"{customer.upper()}")
-        replace_word(document, "LEGAL_NAME", f"{customer.upper()}")
+        replace_word(document, "CUSTOMER", f"{str(customer).upper()}")
+        replace_word(document, "LEGAL_NAME", f"{str(customer).upper()}")
         replace_word(document, "PAX", f"{passengers}")
         replace_word(document, "VALID", f'{until.strftime("%Y-%m-%d")}')
         document.save(doc_output)
@@ -100,7 +100,7 @@ def gen_dest(data, name):
             destination = destinations[dest_name]
             dest_name = destination["destination"]
             doc = Document()
-            run = doc.add_heading(f"{dest_name.upper()}", 0).add_run()
+            run = doc.add_heading(f"{str(dest_name).upper()}", 0).add_run()
             font = run.font
             font.name = "Calibri"
             font.size = Pt(12)

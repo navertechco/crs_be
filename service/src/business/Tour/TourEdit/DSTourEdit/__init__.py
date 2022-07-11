@@ -30,4 +30,5 @@ def DSTourEdit(input):
         tour = TourDto(data).__dict__()
         return True if tour.get("tour_id") is None or "NULL" or "" else False
     except Exception as e:
+        print(e)
         return True

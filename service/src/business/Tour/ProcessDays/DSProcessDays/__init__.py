@@ -24,20 +24,15 @@ def DSProcessDays(tour_id, destination):
         res: resultado de la operación
     """
     try:
-        # return True
-        table = "EXPERIENCE"
-        select_stm = " SELECT DISTINCT EXPE.experience_id, SRV.service_id"
-        from_stm = "    FROM entities.EXPERIENCE EXPE"
-        join_stm = """
-                            JOIN entities.SERVICE SRV
-                                ON EXPE.DESTINATION_ID = SRV.DESTINATION_ID
-                            JOIN entities.DESTINATION DEST
-                                ON DEST.DESTINATION_ID = EXPE.DESTINATION_ID
-                            JOIN entities.TOUR_DETAIL TDTL
-                                ON TDTL.DESTINATION_ID = DEST.DESTINATION_ID
+        return True
+        table = "CATALOG_DETAIL"
+        schema = "entities"
+        stm = " SELECT DISTINCT "
+        stm += f"    FROM {schema}.{table} EXPE"
+        stm += """
+                         
         """
-        where_stm = "   WHERE TDTL.TOUR_ID = '{}'".format(tour_id)
-        stm = select_stm + from_stm + join_stm + where_stm
+        stm += f"   WHERE TDTL.TOUR_ID = '{tour_id}'"
         services = nbd.persistence.getQuery(stm, table)
         index = 0
         return services

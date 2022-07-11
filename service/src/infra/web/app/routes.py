@@ -385,7 +385,7 @@ class PlayTour(Resource):
         except:
             doc = "PLRiOTYOXvFzaARHOdX5Q7aw70NLaIMPem" 
         return make_response(render_template("video.html", doc=doc), 200, headers)
-        
+
 from src.business.Tour.FindHotel import FSFindHotel
 
 
@@ -516,7 +516,8 @@ class TourEdit(Resource):
             json: {"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         input = request.get_json(force=True)
-        return FSTourEdit(input)
+        res = FSTourEdit(input)
+        return res
 
 
 from src.business.Tour.NewTour import FSNewTour

@@ -91,7 +91,6 @@ def BSProcessTour(tour_id, session, input):
                                 raise Exception(
                                     605, "Error de Procesamiento de días")
                     return finalProccess(data, tour_id)
-                    raise Exception(605, "Error de Procesamiento de destinos")
                 raise Exception(605, "Error de Procesamiento de match")
             raise Exception(605, "No tiene destinos el tour")
         raise Exception(605, "No tiene match el tour")

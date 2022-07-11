@@ -330,33 +330,7 @@ class Logout(Resource):
 
 # endregion
 # region Client
-from src.business.Client.PlayTour import FSPlayTour
-import binascii
 
-
-@api.route("/Client/PlayTour/<doc>")
-@api.param("doc", "Documento del cliente")
-@api.doc(
-    body=resource_fields,
-    responses={
-        400: "Error: BAD REQUEST",
-        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
-    },
-)
-class PlayTour(Resource):
-    def get(self, doc):
-        """Método para reproducir un tour
-        Returns:
-            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
-        """
-        headers = {"Content-Type": "text/html"}
-        try:
-            if "-" in doc:
-                doc = doc.split("-")[-1]
-            doc = FSPlayTour(doc)
-        except:
-            doc = "PLRiOTYOXvFzaARHOdX5Q7aw70NLaIMPem" 
-        return make_response(render_template("video.html", doc=doc), 200, headers)
 
 
 from src.business.Client.ClientEdit import FSClientEdit
@@ -383,6 +357,35 @@ class ClientEdit(Resource):
 
 # endregion
 # region Tour
+
+from src.business.Tour.PlayTour import FSPlayTour
+import binascii
+
+
+@api.route("/Tour/PlayTour/<doc>")
+@api.param("doc", "Documento del cliente")
+@api.doc(
+    body=resource_fields,
+    responses={
+        400: "Error: BAD REQUEST",
+        200: '{"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}',
+    },
+)
+class PlayTour(Resource):
+    def get(self, doc):
+        """Método para reproducir un tour
+        Returns:
+            json: {"state":True/False, "data":any, "message":if error ? str : None , "code":if error ? str : None}
+        """
+        headers = {"Content-Type": "text/html"}
+        try:
+            if "-" in doc:
+                doc = doc.split("-")[-1]
+            doc = FSPlayTour(doc)
+        except:
+            doc = "PLRiOTYOXvFzaARHOdX5Q7aw70NLaIMPem" 
+        return make_response(render_template("video.html", doc=doc), 200, headers)
+        
 from src.business.Tour.FindHotel import FSFindHotel
 
 

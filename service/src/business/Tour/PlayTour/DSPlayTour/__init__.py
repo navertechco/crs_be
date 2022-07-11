@@ -13,11 +13,11 @@ config = NaverConfig(app)
 nbd = NaverDB(app, config)
 
 
-def DSPlayTour(doc):
+def DSPlayTour(tour_id):
     """Método para reproducir una lista de videos del Tour.
 
     Args:
-        doc (str): travel_code del Tour.
+        tour_id (str): travel_code del Tour.
 
     Returns:
         res: Resultado de la operación.
@@ -28,7 +28,9 @@ def DSPlayTour(doc):
 
         stm = "SELECT "
         stm += f" * FROM {schema}.{table}"
-        stm += f" WHERE tour_id = '{doc}'"
+        if tour_id == 'null':
+            tour_id = 0
+        stm += f" WHERE tour_id = '{tour_id}'"
 
         tour = nbd.persistence.getQuery(stm, table)
         if len(tour) > 0:
@@ -37,7 +39,7 @@ def DSPlayTour(doc):
                 stm = "UPDATE "
                 stm += f" {schema}.{table}"
                 stm += f" SET reproductions={reproductions-1}"
-                stm += f" WHERE tour_id = '{doc}'"
+                stm += f" WHERE tour_id = '{tour_id}'"
                 update = nbd.persistence.setWrite(stm, table)
                 if len(update) > 0:
                     update["session"].commit()

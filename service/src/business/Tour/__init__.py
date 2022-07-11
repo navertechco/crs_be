@@ -17,3 +17,4 @@ from .FindTour import *
 from .FindCruise import *
 from .FindHotel import *
 from .GenTour import *
+from .PlayTour import *

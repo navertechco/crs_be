@@ -40,7 +40,8 @@ def DSFindTour(input):
         stm += f" FROM {schema}.{table} t"
         stm += f" JOIN {schema}.client c  "
         stm += "  ON t.client_id = c.client_dni"
-
+        if tour_id == 'null':
+            tour_id = 0
         if tour_id != 0:
             stm += f" WHERE tour_id='{tour_id}'"
 

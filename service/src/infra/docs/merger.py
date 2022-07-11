@@ -12,7 +12,7 @@ FILE_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.dirname(FILE_DIR)
 DOC_DIR = os.path.join(ROOT_DIR, ("web\\static\\docs"))
 TMP_DIR = os.path.join(FILE_DIR, (f"tmp\\"))
-DOCS = []
+DOCS = set()
 ARRIVAL = datetime.now()
 DEPARTURE = ARRIVAL + timedelta(days=1)
 WEEK = ["Monday", "Tuesday",
@@ -87,7 +87,7 @@ def gen_cover_doc(header, name):
         replace_word(document, "PAX", f"{passengers}")
         replace_word(document, "VALID", f'{until.strftime("%Y-%m-%d")}')
         document.save(doc_output)
-        DOCS.append(doc_output)
+        DOCS.add(doc_output)
     except Exception as e:
         print(e)
         raise e
@@ -174,7 +174,7 @@ def gen_dest(data, name):
             output = os.path.join(
                 TMP_DIR, (f"{dest_name}-{name}-{dest_id}.docx"))
             doc.save(output)
-            DOCS.append(output)
+            DOCS.add(output)
     except Exception as e:
         print(e)
         raise e
@@ -194,7 +194,7 @@ def doc_compose(files, name):
         new_document = Document()
         composer = Composer(new_document)
         for i in range(0, len(files)):
-            doc = Document(files[i])
+            doc = Document(list(files)[i])
             if i != len(files) - 1:
                 doc.add_page_break()
             composer.append(doc)

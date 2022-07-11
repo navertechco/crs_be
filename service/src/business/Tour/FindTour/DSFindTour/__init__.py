@@ -33,6 +33,8 @@ def DSFindTour(input):
         table = "TOUR"
         schema = "entities"
         stm = " SELECT c.contact_name as name, t.description as travel_code , t.tour_id as quote, to_char(t.created, 'DD-MM-YYYY')  as date , t.tour_state_id as state  "
+        if tour_id == 'null':
+            tour_id = 0
         if detail:
             stm = " SELECT c.*, t.*  "
         stm += f" FROM {schema}.{table} t"

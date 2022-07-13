@@ -33,7 +33,7 @@ def upload_catalogs(**kwargs):
             data = {}
             data = {"data": catalog, "relation": relation, "update": update}
             res = requests.post(
-                url=f"{server}/Admin/CreateCatalog", data=json.dumps(data), verify=False
+                url=f"{server}/Admin/CreateCatalog", data=json.dumps(data)
             )
             print(res.json())
         except Exception as error:
@@ -121,15 +121,12 @@ def get_tag(row, tags):
 
 if __name__ == "__main__":
     upload_catalogs(
-        filename="cruises2.xlsx",
-        page=2,
-        cid=53,
-        tags=["itinerary_format"],
-        relation={
-            "type": "all",
-            "country": "Ecuador",
-            "destination": "galapagos"
+        filename="countries.xlsx",
+        page=0,
+        cid=56,
+        tags=["name"],
+        relation={ 
         },
-        update=True
+        update=False
 
     )

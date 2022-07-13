@@ -48,8 +48,8 @@ class CreateCatalog(Resource):
             json: {"state":True/False, "input":any, "message":if error ? str : None , "code":if error ? str : None}
         """
         input = request.get_json(force=True)
-        return FSCreateCatalog(input)
-
+        res = FSCreateCatalog(input)
+        return res
 
 from src.business.Agent.Query import FSQuery
 

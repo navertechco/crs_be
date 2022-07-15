@@ -90,7 +90,8 @@ def view_pdf(ext):
     except:
         doc = "example"
     template = f"{ext}.html"
-    return render_template(template, doc=doc)
+    SERVER = os.environ.get('SERVER')
+    return render_template(template, doc=doc, server=SERVER)
 
 
 @app.route("/gallery.html", methods=["GET"])

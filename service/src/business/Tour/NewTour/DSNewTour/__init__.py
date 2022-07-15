@@ -27,18 +27,15 @@ def DSNewTour(input):
     """
     try:
         data = input.get("data")
-        id = input.get("id")
+        state = input.get("state")
         yaml_object = dict(yaml.safe_load(data))
         tour = TourDto(yaml_object)
         table = "TOUR"
-        schema = "entities"
-        next = nbd.persistence.getNextVal("tour_id", table, schema)
-        if int(id) != int(next):
-            tour = tour.toDict()
-            tour["tour_id"] = id
-            res = nbd.persistence.updateDto(tour, table, "tour_id", schema)
-        else:
+        schema = "entities" 
+        if state == "new":
             res = nbd.persistence.insertDto(tour, table, schema)
+        else:
+            res = nbd.persistence.updateDto(tour, table, "tour_id", schema)
         return res
 
     except Exception as e:

@@ -7,6 +7,10 @@ from docx.shared import Pt
 from datetime import datetime
 from docx2pdf import convert
 from datetime import timedelta
+from src.infra.web.app.routes import app
+from naver_net import NaverNet
+
+Net = NaverNet(app)
 
 FILE_DIR = os.path.dirname(__file__)
 ROOT_DIR = os.path.dirname(FILE_DIR)
@@ -15,8 +19,10 @@ TMP_DIR = os.path.join(FILE_DIR, (f"tmp\\"))
 DOCS = set()
 ARRIVAL = datetime.now()
 DEPARTURE = ARRIVAL + timedelta(days=1)
-WEEK = ["Monday", "Tuesday",
+WEEK_DAYS = ["Monday", "Tuesday",
         "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+EMAIL = os.environ.get('EMAIL')
+
 
 
 def gen_tour_doc(data):
@@ -113,7 +119,7 @@ def gen_dest(data, name):
                 date = (ARRIVAL + timedelta(days=int(day_name))
                         )
                 date_string = date.strftime("%Y-%m-%d")
-                weekday = WEEK[date.weekday()]
+                weekday = WEEK_DAYS[date.weekday()]
                 if (day_id) == 0:
                     type = f"Arrival"
                     doc.add_heading(f" {date_string} {weekday}", 1)
@@ -199,6 +205,8 @@ def doc_compose(files, name):
                 doc.add_page_break()
             composer.append(doc)
         composer.save(composed)
+        Net.sender.connect()
+        Net.sender.sendmail(EMAIL, f"Quote {name}", "", [composed])
         # convert(composed, pdf)
     except Exception as e:
         print(e)

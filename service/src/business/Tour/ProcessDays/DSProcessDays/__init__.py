@@ -24,58 +24,32 @@ def DSProcessDays(tour_id, destination):
         res: resultado de la operación
     """
     try:
-        return True
-        table = "CATALOG_DETAIL"
+        # return True
         schema = "entities"
-        stm = " SELECT DISTINCT "
-        stm += f"    FROM {schema}.{table} EXPE"
-        stm += """
-                         
-        """
+        table = "TOUR_DETAIL"
+        stm = " SELECT * "
+        stm += f"   FROM {schema}.{table} TDTL"
         stm += f"   WHERE TDTL.TOUR_ID = '{tour_id}'"
-        services = nbd.persistence.getQuery(stm, table)
-        index = 0
-        return services
-        if len(services) > 0:
-            days = prepareJsonData(destination.get("days"))
-            index = 0
-            for day in days:
-                last_row_id = DSGetNextVal("DAY", "day_id")
-                last_row_id += 1 + index
-                day_dto = DayDto(day)
-                day_dto.set("tour_detail_id",
-                            destination.get("tour_detail_id"))
-                day_dto.set("day_id", last_row_id)
-                index += 1
-                table = "DAY"
-                res = nbd.persistence.insertDto(day_dto, table)
-                if len(res) > 0:
-                    res["session"].commit()
-                else:
-                    raise Exception(605, "Error de Procesamiento de días")
-                experiences = day.get("experiences")
-                for experience in experiences:
-                    experience_dto = ExperienceDto(experience)
-                    print(experience_dto.__dict__())
-                    experience_id = experience.get("experience_id")
-                    experience_services = [
-                        x
-                        for x in services
-                        if int(x["experience_id"]) == int(experience_id)
-                    ]
-                    for service in experience_services:
-                        day_detail_dto = DayDetailDto(
-                            {**day_dto.__dict__(), **service})
-                        print(day_detail_dto.__dict__())
-                        table = "DAY_DETAIL"
-                        res = nbd.persistence.insertDto(day_detail_dto, table)
-                        if len(res) > 0:
-                            res["session"].commit()
-                            break
-                        else:
-                            raise Exception(
-                                605, "Error de Procesamiento de experiencias"
-                            )
+        tour_detail = nbd.persistence.getQuery(stm, table)
+        if len(tour_detail) > 0:
+            for destination in tour_detail:
+                destData = prepareJsonData(destination.get("detail"))
+                tour_detail_id = destData.get("tour_detail_id")
+                days = prepareJsonData(destData.get("daysData"))
+                index = 0
+                for day in days:
+                    last_row_id = DSGetNextVal("DAY", "day_id")
+                    day_dto = DayDto(day)
+                    day_dto.set("tour_detail_id",
+                                tour_detail_id)
+                    day_dto.set("day_id", last_row_id)
+                    index += 1
+                    table = "DAY"
+                    res = nbd.persistence.insertDto(day_dto, table)
+                    if len(res) > 0:
+                        res["session"].commit()
+                    else:
+                        raise Exception(605, "Error de Procesamiento de días")
             return True
         raise Exception(605, "Error de Procesamiento de servicios")
     except Exception as e:

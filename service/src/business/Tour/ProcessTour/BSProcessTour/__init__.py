@@ -17,14 +17,14 @@ def finalProccess(data, tour_id):
     if len(processed) > 0:
         processed["session"].commit()
         gen_tour_doc(data)
-        tour = BSFindTour(
-            {"data": {"tour_id": tour_id}})[0]
+        # tour = BSFindTour(
+        #     {"data": {"tour_id": tour_id}})[0]
         video = {
             "state": "create",
             "data": {
             "tour_id": tour_id,
-            "title": tour.get("travel_code"),
-            "description": tour.get("name"),
+            "title": tour_id,
+            "description": tour_id,
         }}
         bs = BSEditVideo
         res = bs.BSEditVideo(video)
@@ -74,9 +74,7 @@ def BSProcessTour(tour_id, session, input):
                             last_row_id = (
                                 BSGetNextVal(
                                     "TOUR_DETAIL", "tour_detail_id"
-                                )
-                                - len(res_destinations)
-                                + 1
+                                ) 
                                 + index
                             )
                             if index > 0:

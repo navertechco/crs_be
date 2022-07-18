@@ -29,9 +29,6 @@ def DSGetNextVal(table, field):
     try:
 
         res = nbd.persistence.getNextVal(field, table)
-        res2 = nbd.persistence.getMaxVal(field, table)
-        if res2 is not None:
-            return res2
         return res
 
     except Exception as e:

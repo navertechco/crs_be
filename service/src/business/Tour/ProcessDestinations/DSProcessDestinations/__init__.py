@@ -4,6 +4,7 @@ except ImportError:
     __path__ = __import__("pkgutil").extend_path(__path__, __name__)
 
 import yaml
+from src.business.System.GetNextVal import BSGetNextVal
 from src.business.System.FindCatalog import BSFindCatalog
 from src.business.Dto.tour import TourDto
 from src.business.Dto import DestinationListDto
@@ -31,7 +32,7 @@ def DSProcessDestinations(tour_id, input):
         table = "TOUR"
         schema = "entities"
         next = nbd.persistence.getNextVal("tour_id", table, schema)
-        if int(tour_id) == int(next):
+        if int(tour_id) < int(next):
             stm = " UPDATE " + schema + "." + table
             stm += " SET destinations='{}'".format(destinationsToInsert)
             stm += ", tour_state_id=4"
@@ -40,7 +41,7 @@ def DSProcessDestinations(tour_id, input):
             res = nbd.persistence.setWrite(stm, table)
             if len(res) > 0:
                 reslist.append(res)
-                
+
                 table = "TOUR_DETAIL"
                 destination_catalog = BSFindCatalog({
                     "data": {
@@ -50,19 +51,26 @@ def DSProcessDestinations(tour_id, input):
                     }
                 })
                 destination_catalog = destination_catalog["catalogs"]["destinations"]
+                index = 0
                 for destination in destinations:
                     dest_code = [
                         x for x in destination_catalog if str(x["description"]).lower() == str(destination["destination"]).lower()]
                     dest_code = dest_code[0]["code"]
                     exp_days = destination["explorationDay"]
-                    dest_index = destination["index"]
+
+                    tour_detail_id = BSGetNextVal(
+                        "TOUR_DETAIL", "tour_detail_id"
+                    )+index
+                    destination["tour_detail_id"] = tour_detail_id
+                    dest_index = index
                     stm = f"""
-                                INSERT INTO {schema}.{table}(TOUR_ID, DETAIL, DESTINATION_ID, EXPLORATION_DAYS, DESTINATION_INDEX)
-                                VALUES ({tour_id},\'{str(json.dumps(destination))}\',{dest_code},{exp_days},{dest_index})
+                                INSERT INTO {schema}.{table}(TOUR_DETAIL_ID, TOUR_ID, DETAIL, DESTINATION_ID, EXPLORATION_DAYS, DESTINATION_INDEX)
+                                VALUES ({tour_detail_id},{tour_id},\'{str(json.dumps(destination))}\',{dest_code},{exp_days},{dest_index})
                     """
                     res = nbd.persistence.setWrite(stm, table)
                     if len(res) > 0:
                         reslist.append(res)
+                    index += 1
         return reslist
     except Exception as e:
         raise e

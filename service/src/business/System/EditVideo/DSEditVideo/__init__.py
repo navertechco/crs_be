@@ -41,7 +41,7 @@ def DSEditVideo(input):
             playlist_request = []
             playlist_response = []
             for destination in destinations:
-                destination = destinations[destination]
+                # destination = destinations[destination]
                 dest_name = destination.get('destination')
                 playlist_request.append([dest_name, 37])
                 try:

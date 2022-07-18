@@ -17,7 +17,7 @@ from src.business.System.EditVideo import FSEditVideo
     },
 )
 class EditVideo(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para procesar opciones de inclusión
         Returns:
@@ -147,7 +147,7 @@ from src.business.System.ProcessOptions import FSProcessOptions
     },
 )
 class ProcessOptions(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para procesar opciones de inclusión
         Returns:
@@ -171,7 +171,7 @@ from src.business.System.FindCatalog import FSFindCatalog
     },
 )
 class FindCatalog(Resource):
-    # @secure_method
+    # # @secure_method
     def post(self):
         """Método para mostrar catálogos
         Returns:
@@ -203,7 +203,7 @@ from src.business.User.Forgot import FSForgot
     },
 )
 class Forgot(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para recuperar contraseña Backend
 
@@ -292,7 +292,7 @@ class Connect(Resource):
         return True, 200
 
     # @encrypted
-    # @secure_method
+    # # @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:
@@ -319,7 +319,7 @@ from src.business.User.Logout import FSLogout
     },
 )
 class Logout(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -346,7 +346,7 @@ from src.business.Client.ClientEdit import FSClientEdit
     },
 )
 class ClientEdit(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para Editar un cliente
         Returns:
@@ -399,7 +399,7 @@ from src.business.Tour.FindHotel import FSFindHotel
     },
 )
 class FindHotel(Resource):
-    @secure_method
+    # # @secure_method
     def post(self):
         """_summary_
         Returns:
@@ -421,7 +421,7 @@ from src.business.Tour.FindCruise import FSFindCruise
     },
 )
 class FindCruise(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """_summary_
         Returns:
@@ -444,7 +444,7 @@ from src.business.Tour.FindTour import FSFindTour
     },
 )
 class FindTour(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """_summary_
         Returns:
@@ -466,7 +466,7 @@ from src.business.Tour.GenTour import FSGenTour
     },
 )
 class GenTour(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """_summary_
         Returns:
@@ -488,7 +488,7 @@ from src.business.Tour.CalculateNetRate import FSCalculateNetRate
     },
 )
 class CalculateNetRate(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """_summary_
         Returns:
@@ -510,7 +510,7 @@ from src.business.Tour.TourEdit import FSTourEdit
     },
 )
 class TourEdit(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para Editar un Presupuesto
         Returns:
@@ -533,7 +533,7 @@ from src.business.Tour.NewTour import FSNewTour
     },
 )
 class NewTour(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -555,7 +555,7 @@ from src.business.Tour.NewId import FSNewId
     },
 )
 class NewId(Resource):
-    # @secure_method
+    # # @secure_method
     def post(self):
         # data = request.get_json(force=True)
         res = FSNewId()
@@ -574,7 +574,7 @@ from src.business.Tour.ProcessTour import FSProcessTour
     },
 )
 class ProcessTour(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -596,7 +596,7 @@ from src.business.Tour.PromoteTour import FSPromoteTour
     },
 )
 class PromoteTour(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -618,7 +618,7 @@ from src.business.Tour.UpdateTour import FSUpdateTour
     },
 )
 class UpdateTour(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -642,7 +642,7 @@ from src.business.File.MakeEmail import FSMakeEmail
     },
 )
 class MakeEmail(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -664,7 +664,7 @@ from src.business.File.MakePdf import FSMakePdf
     },
 )
 class MakePdf(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -686,7 +686,7 @@ from src.business.File.MakePlaylist import FSMakePlaylist
     },
 )
 class MakePlaylist(Resource):
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para salir de session
         Returns:
@@ -712,7 +712,7 @@ from src.business.Agent.Start import FSStart
 )
 class Start(Resource):
     # @encrypted
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:
@@ -736,7 +736,7 @@ from src.business.Agent.GetExperience import FSGetExperience
 )
 class GetExperience(Resource):
     # @encrypted
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:
@@ -760,7 +760,7 @@ from src.business.Agent.GetDestination import FSGetDestination
 )
 class GetDestination(Resource):
     # @encrypted
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:
@@ -784,7 +784,7 @@ from src.business.Agent.Query import FSQuery
 )
 class Query(Resource):
     # @encrypted
-    @secure_method
+    # @secure_method
     def post(self):
         """Método para conectar un usuario
         Returns:

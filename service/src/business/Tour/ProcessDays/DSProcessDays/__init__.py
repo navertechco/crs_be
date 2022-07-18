@@ -35,15 +35,14 @@ def DSProcessDays(tour_id, destination):
             for destination in tour_detail:
                 destData = prepareJsonData(destination.get("detail"))
                 tour_detail_id = destData.get("tour_detail_id")
+                key_activities = destData.get("key_activities")
                 days = prepareJsonData(destData.get("daysData"))
-                index = 0
+
                 for day in days:
-                    last_row_id = DSGetNextVal("DAY", "day_id")
-                    day_dto = DayDto(day)
-                    day_dto.set("tour_detail_id",
-                                tour_detail_id)
-                    day_dto.set("day_id", last_row_id)
-                    index += 1
+                    dayData = days[day]
+                    dayData["tour_detail_id"] = tour_detail_id 
+                    dayData["key_activities"] = json.dumps(key_activities)
+                    day_dto = DayDto(dayData)
                     table = "DAY"
                     res = nbd.persistence.insertDto(day_dto, table)
                     if len(res) > 0:
@@ -53,4 +52,5 @@ def DSProcessDays(tour_id, destination):
             return True
         raise Exception(605, "Error de Procesamiento de servicios")
     except Exception as e:
+        print(e)
         raise e

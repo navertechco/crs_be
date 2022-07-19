@@ -45,7 +45,7 @@ def DSFindTour(input):
         if tour_id != 0:
             stm += f" WHERE tour_id='{tour_id}'"
 
-        stm += "  ORDER BY t.created DESC"
+        stm += "  ORDER BY t.tour_id DESC"
         stm += f" LIMIT {limit} OFFSET {offset}"
         res = nbd.persistence.getQuery(stm, table)
         return res

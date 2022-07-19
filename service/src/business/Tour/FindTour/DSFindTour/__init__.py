@@ -32,14 +32,14 @@ def DSFindTour(input):
         limit = getValue(input, "limit") or 10
         table = "TOUR"
         schema = "entities"
-        stm = " SELECT c.contact_name as name, t.description as travel_code , t.tour_id as quote, to_char(t.created, 'DD-MM-YYYY')  as date , t.tour_state_id as state  "
+        stm = " SELECT  t.description as travel_code , t.tour_id as quote, to_char(t.created, 'DD-MM-YYYY')  as date , t.tour_state_id as state  "
         if tour_id == 'null':
             tour_id = 0
         if detail:
-            stm = " SELECT c.*, t.*  "
+            stm = " SELECT  t.*  "
         stm += f" FROM {schema}.{table} t"
-        stm += f" JOIN {schema}.client c  "
-        stm += "  ON t.client_id = c.client_dni"
+        # stm += f" JOIN {schema}.client c  "
+        # stm += "  ON t.client_id = c.client_dni"
         if tour_id == 'null':
             tour_id = 0
         if tour_id != 0:
